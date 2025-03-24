@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pizzería
 
-## Getting Started
+Aplicación para gestionar una Pizzería.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Descripción
+
+La aplicación tiene las siguientes características:
+
+- Es instalable en PC y móvil, es decir es una aplicación web progresiva (PWA)
+- Permite el registro de múltiples usuarios  
+- Existen 2 roles de usuario: ADMIN y USER
+  
+
+La aplicación tiene las siguientes funcionalidades:
+
+- En la página inicial se muestran todos las pizzas disponibles, que son públicas para todo el mundo.
+- Cualquier usuario registrado puede crear pedidos y modificar y eliminar los que ha creado.
+- Sólo el usuario con rol ADMIN puede dar de alta nuevas pizzas, así como modificar y eliminar sus datos.
+- Los ingredientes para las pizzas sólo pueden crearse, modificarse y eliminarse por el usuario con rol ADMIN.
+- Sólo el usuario con rol ADMIN puede dar de alta nuevos repartidores, así como modificar y eliminar sus datos.
+
+  
+
+
+
+## Desarrollo
+
+
+
+1. Crear base de datos `pizzeria`.
+
+2. Clonar repositorio
+
+```
+git  clone  https://github.com/jamj2000/nxapp-pizzeria
+cd   nxapp-pizzeria
+``` 
+
+3. Renombrar .env.example -> .env y revisar DATABASE_URL
+```
+mv  .env.example  .env
+```
+ 
+4. Instalar dependencias
+
+```sh
+npm install
+```
+   
+5. Crear tablas a partir del esquema de prisma
+
+```sh
+npx  prisma  db  push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Sembrar las tablas (seed) con datos iniciales 
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```sh
+npm  run  seed
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+7. Iniciar servidor de desarrollo
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+npm  run dev
+```
