@@ -55,10 +55,12 @@ export default async function Pizzas() {
                                 </>
                             }
                         </div>
+                        <div className="grid place-content-center">
+                            <img src={pizza.foto || '/pwa/icon-192x192.png'} alt='foto' className="py-6" />
+                            <p className="font-bold text-lg ">{pizza.nombre}</p>
+                            <p className="font-bold text-right text-4xl text-white">{pizza.precio} €</p>
+                        </div>
 
-                        <img src={pizza.foto || '/pwa/icon-192x192.png'} alt='foto' className="py-6" />
-                        <p className="font-bold text-lg ">{pizza.nombre}</p>
-                        <p className="font-bold text-right text-slate-300 text-4xl text-white">{pizza.precio} €</p>
                         {/* <Link href={`/pizzas/${pizza.id}`} className="text-sm font-bold cursor-pointer"> */}
                         {/* </Link> */}
 
