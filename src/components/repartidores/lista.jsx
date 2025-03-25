@@ -5,7 +5,7 @@ import RepartidorInsertar from "./insertar";
 import RepartidorModificar from "./modificar";
 import RepartidorEliminar from "./eliminar";
 import { auth } from "@/auth";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { HeadsetIcon, PencilIcon, PhoneIcon, PlusIcon, TrashIcon } from "lucide-react";
 
 
 export default async function Repartidores() {
@@ -27,7 +27,7 @@ export default async function Repartidores() {
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
 
                 {repartidores.map(repartidor =>
-                    <div key={repartidor.id} className="p-4 mb-4 bg-green-50 rounded-lg border border-green-100   ">
+                    <div key={repartidor.id} className="p-4 mb-4 bg-blue-50 rounded-lg border border-blue-100   ">
 
                         <div className='flex justify-end items-center gap-1'>
                             <Modal openElement={
@@ -50,7 +50,9 @@ export default async function Repartidores() {
                         <Link href={`/repartidores/${repartidor.id}`} className="font-bold cursor-pointer">
                             {repartidor.nombre}
                         </Link>
-                        <p>Teléfono: {repartidor.telefono}</p>
+                        <a href={`tel:${repartidor.telefono}`} className="flex gap-2 p-2 bg-blue-100">
+                            <HeadsetIcon /> {repartidor.telefono}
+                        </a>
 
                     </div>
                 )}

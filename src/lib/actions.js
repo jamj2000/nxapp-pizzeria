@@ -103,9 +103,13 @@ async function uploadImage(file) {
     try {
         const result = await cloudinary.uploader.upload(fileUri, {
             invalidate: true,
-            folder: "blog",
+            folder: "pizzeria",
             public_id: file.name.split(".").slice(0, -1).join("."),
-            // width: 600,
+            aspect_ratio: "1.0",
+            width: 800,
+            crop: "fill",
+            gravity: "center",
+            format: 'avif'
         });
         // console.log(result);
         return result.secure_url;
@@ -314,11 +318,20 @@ export async function eliminarPedido(prevState, formData) {
 export async function insertarPizza(prevState, formData) {
     const nombre = formData.get('nombre')
     const precio = Number(formData.get('precio'))
+    const file = formData.get('file')
 
+    // si tenemos nuevo archivo en el input type=file
+    if (file.size > 0) {
+        const foto = await uploadImage(file)
+        await prisma.pizza.create({
+            data: { nombre, precio, foto }
+        })
+    } else {
+        await prisma.pizza.create({
+            data: { nombre, precio }
+        })
+    }
 
-    await prisma.pizza.create({
-        data: { nombre, precio }
-    })
 
     revalidatePath('/pizzas')
     return { success: 'Pizza creada' }
@@ -331,11 +344,21 @@ export async function modificarPizza(prevState, formData) {
     const id = Number(formData.get('id'))
     const nombre = formData.get('nombre')
     const precio = Number(formData.get('precio'))
+    const file = formData.get('file')
 
-    await prisma.pizza.update({
-        where: { id },
-        data: { nombre, precio }
-    })
+    // si tenemos nuevo archivo en el input type=file
+    if (file.size > 0) {
+        const foto = await uploadImage(file)
+        await prisma.pizza.update({
+            where: { id },
+            data: { nombre, precio, foto }
+        })
+    } else {
+        await prisma.pizza.update({
+            where: { id },
+            data: { nombre, precio }
+        })
+    }
 
     revalidatePath('/pizzas')
     return { success: 'Pizza modificada' }

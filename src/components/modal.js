@@ -27,7 +27,7 @@ function Modal({ openElement, children }) {
             </div >
 
             <dialog ref={refModal} onMouseDown={handleClickOutside}
-                className="place-self-center backdrop:bg-black/50 backdrop:backdrop-blur-none w-[90%] lg:w-[60%] py-12 px-2 md:px-8 rounded-md outline-none">
+                className="place-self-center backdrop:bg-black/50 backdrop:backdrop-blur-none w-[90%] lg:w-[60%] py-12 px-8 rounded-md outline-none">
 
                 <div onClick={closeModal} className="absolute top-4 right-4 cursor-pointer" >
                     ❌

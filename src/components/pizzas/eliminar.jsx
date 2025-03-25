@@ -1,6 +1,6 @@
 'use client'
 import { eliminarPizza } from "@/lib/actions";
-import { TrashIcon } from "lucide-react";
+import { RefreshCwIcon, TrashIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
@@ -23,11 +23,11 @@ function PizzaEliminar({ pizza }) {
                 <input type="hidden" name="id" defaultValue={pizza.id} />
 
                 <button type="submit" disabled={pending}
-                    className='self-end mb-4 font-bold bg-red-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-red-700 hover:text-gray-100 disabled:bg-zinc-400'
+                    className='text-md my-4 px-4 py-2 self-end items-center rounded-full bg-red-100 text-red-700  hover:bg-red-600 hover:text-red-200 disabled:bg-zinc-400 disabled:text-zinc-100'
                 >
                     {pending
-                        ? <div><RefreshCwIcon className='inline animate-spin' /> Eliminando...</div>
-                        : <div><TrashIcon className='inline' /> Eliminar </div>
+                        ? <div><RefreshCwIcon className='inline w-4 animate-spin' /> Eliminando...</div>
+                        : <div><TrashIcon className='inline w-4' /> Eliminar </div>
                     }
                 </button>
             </form>

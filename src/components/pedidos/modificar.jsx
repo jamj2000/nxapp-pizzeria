@@ -19,7 +19,7 @@ function PedidoModificar({ pedido, repartidores, pizzas }) {
     const IDs = pedido.pizzas.map(p => p.id)
 
     return (
-        <form className="flex flex-col gap-4" action={action} id={formId}>
+        <form id={formId} action={action} className="flex flex-col gap-4" >
             <input type="hidden" name="id" defaultValue={pedido.id} />
 
             <button type="submit" disabled={pending}

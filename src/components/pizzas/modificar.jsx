@@ -1,8 +1,9 @@
 'use client'
 import { modificarPizza } from "@/lib/actions";
-import { PencilIcon, PenIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
+import { PencilIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
+import InputImage from "../input-image";
 
 
 
@@ -19,19 +20,20 @@ function PizzaModificar({ pizza }) {
     }, [state])
 
     return (
-        <form className="flex flex-col gap-4" action={action}>
+        <form id={formId} className="flex flex-col gap-4" action={action}>
 
             <button type="submit" disabled={pending}
-                className='self-end mb-4 font-bold bg-amber-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-amber-700 hover:text-gray-100 disabled:bg-zinc-400'
+                className='text-md my-4 px-4 py-2 self-end rounded-full  bg-amber-100 text-amber-700  hover:bg-amber-600 hover:text-amber-200 disabled:bg-zinc-400 disabled:text-zinc-100'
             >
                 {pending
-                    ? <div><RefreshCwIcon className='inline animate-spin' /> Actualizando...</div>
-                    : <div><PencilIcon className='inline' /> Actualizar </div>
+                    ? <div><RefreshCwIcon className='inline w-4 animate-spin' /> Actualizando...</div>
+                    : <div><PencilIcon className='inline w-4' /> Actualizar </div>
                 }
             </button>
 
             <input type="hidden" name="id" defaultValue={pizza.id} />
 
+            <InputImage imgUrl={pizza.foto || '/images/default-pizza.avif'} className='size-100 object-cover' />
             <label>Nombre:
                 <input name="nombre" defaultValue={pizza.nombre} />
             </label>

@@ -19,7 +19,7 @@ function RepartidorInsertar() {
 
 
     return (
-        <form className="flex flex-col gap-4" action={action}>
+        <form id={formId} className="flex flex-col gap-4" action={action}>
             <button type="submit" disabled={pending}
                 className='self-end mb-4 font-bold bg-green-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-green-700 hover:text-gray-100 disabled:bg-zinc-400'
             >
@@ -30,7 +30,7 @@ function RepartidorInsertar() {
             </button>
 
             <label>Nombre:
-                <input name='nombre' placeholder="Nombre" />
+                <input name='nombre' placeholder="Nombre" required />
             </label>
 
             <label>Teléfono:

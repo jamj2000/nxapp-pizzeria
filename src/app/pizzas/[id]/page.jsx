@@ -7,7 +7,7 @@ async function PaginaPizza({ params, searchParams }) {
 
     return (
         <div>
-            <h1 className="font-bold text-2xl">DATOS DE PIZZA</h1>
+            {/* <h1 className="font-bold text-2xl">DATOS DE PIZZA</h1> */}
             <Suspense fallback={
                 <p className="text-blue-500 text-2xl font-bold animate-pulse">
                     Obteniendo datos...

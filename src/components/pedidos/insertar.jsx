@@ -19,7 +19,7 @@ function PedidoInsertar({ repartidores, pizzas }) {
     }, [state])
 
     return (
-        <form className="flex flex-col gap-4" action={action} id={formId}>
+        <form id={formId} action={action} className="flex flex-col gap-4">
             <button type="submit" disabled={pending}
                 className='self-end mb-4 font-bold bg-green-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-green-700 hover:text-gray-100 disabled:bg-zinc-400'
             >

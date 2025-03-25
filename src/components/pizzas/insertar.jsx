@@ -3,6 +3,7 @@ import { insertarPizza } from "@/lib/actions";
 import { PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
+import InputImage from "../input-image";
 
 
 function PizzaInsertar() {
@@ -18,24 +19,30 @@ function PizzaInsertar() {
     }, [state])
 
     return (
-        <form className="flex flex-col gap-4" action={action}>
+        <form id={formId} className="@container flex flex-col gap-4" action={action}>
             <button type="submit" disabled={pending}
-                className='self-end mb-4 font-bold bg-green-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-green-700 hover:text-gray-100 disabled:bg-zinc-400'
+                className='text-md my-4 px-4 py-2 self-end rounded-full bg-green-100 text-green-700  hover:bg-green-600 hover:text-green-200 disabled:bg-zinc-400 disabled:text-zinc-100'
             >
                 {pending
-                    ? <div><RefreshCwIcon className='inline animate-spin' /> Guardando...</div>
-                    : <div><PlusIcon className='inline' /> Guardar </div>
+                    ? <div><RefreshCwIcon className='inline w-4 animate-spin' /> Guardando...</div>
+                    : <div><PlusIcon className='inline w-4' /> Guardar </div>
                 }
             </button>
 
-            <label>Nombre:
-                <input name="nombre" placeholder="Nombre" />
-            </label>
+            <div className="flex flex-col items-center @lg:flex-row gap-4">
+                <InputImage imgUrl='/images/default-pizza.avif' className='self-end size-[30%] object-cover' />
 
-            <label>Precio:
-                <input name="precio" type='number' step={0.01} min={0} />
-            </label>
+                <div className="w-full grid sm:grid-cols-[100px_auto] auto-rows-min items-center">
+                    <label htmlFor="nombre" className="font-bold">Nombre</label>
+                    <input id="nombre" name="nombre" placeholder="Nombre" required className="outline-none focus:bg-slate-50" />
 
+                    <label htmlFor="precio" className="font-bold">Precio</label>
+                    <input id="precio" name="precio" type='number' step={0.01} min={0} className="outline-none focus:bg-slate-50" />
+                </div>
+            </div>
+            <div>
+                <p className="font-bold">Ingredientes</p>
+            </div>
         </form>
 
     );
