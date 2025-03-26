@@ -7,9 +7,11 @@ async function PaginaPedido({ params, searchParams }) {
     const { id } = await params
 
     return (
-        <Suspense fallback={<Spinner2 />}>
-            <Pedido id={id} />
-        </Suspense>
+        <div className="mt-10 p-10">
+            <Suspense fallback={<Spinner2 />}>
+                <Pedido id={id} />
+            </Suspense>
+        </div>
     )
 
 }

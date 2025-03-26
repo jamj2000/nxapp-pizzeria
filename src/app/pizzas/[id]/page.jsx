@@ -7,9 +7,11 @@ async function PaginaPizza({ params, searchParams }) {
     const { id } = await params
 
     return (
-        <Suspense fallback={<Spinner2 />}>
-            <Pizza id={id} />
-        </Suspense>
+        <div className="mt-10 p-10">
+            <Suspense fallback={<Spinner2 />}>
+                <Pizza id={id} />
+            </Suspense>
+        </div>
     )
 
 }
