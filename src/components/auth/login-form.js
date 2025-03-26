@@ -2,7 +2,7 @@
 import { useActionState, useEffect } from 'react';
 import { login } from '@/lib/actions'
 import { toast } from 'sonner';
-import Spinner from '@/components/spinner';
+import Spinner1 from '@/components/spinner1';
 
 
 function LoginForm() {
@@ -27,7 +27,7 @@ function LoginForm() {
             <button
                 disabled={pending}
                 className="px-8 py-4 bg-blue-500 text-white cursor-pointer hover:font-bold" >
-                {pending ? <Spinner /> : "Iniciar sesión"}
+                {pending ? <Spinner1 /> : "Iniciar sesión"}
             </button>
         </form>
 

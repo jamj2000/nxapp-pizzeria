@@ -1,7 +1,5 @@
 'use client'
-
 import { useState } from "react";
-// import RingLoader from "react-spinners/RingLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 
 
@@ -10,7 +8,7 @@ const styles = {
     margin: "0 auto",
 };
 
-function Spinner() {
+function Spinner1() {
     let [loading, setLoading] = useState(true);
 
     return (
@@ -19,10 +17,10 @@ function Spinner() {
             size={10}
             loading={loading}
             cssOverride={styles}
-            aria-label="Loading Spinner"
+            aria-label="Loading Spinner1"
             data-testid="loader"
         />
     );
 }
 
-export default Spinner;
+export default Spinner1;

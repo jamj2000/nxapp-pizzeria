@@ -3,7 +3,7 @@ import { logout } from "@/lib/actions";
 import { LockIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import Spinner from "@/components/spinner";
+import Spinner1 from "@/components/spinner1";
 import Users from "@/components/users/lista";
 
 
@@ -15,7 +15,7 @@ async function Dashboard() {
     const { user: { name, email, image, role } } = session
 
     return (
-        <div className="p-10">
+        <div className="mt-10 p-10">
             <div className="flex justify-between">
                 <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
                 <form action={logout}>
@@ -41,7 +41,7 @@ async function Dashboard() {
             {session.user.role === 'ADMIN' &&
                 <>
                     <h1 className="text-xl font-bold mt-15">Lista de usuarios</h1>
-                    <Suspense fallback={<Spinner />}>
+                    <Suspense fallback={<Spinner1 />}>
                         <Users />
                     </Suspense>
                 </>

@@ -1,7 +1,7 @@
 'use client'
 import { useActionState, useEffect } from 'react';
 import { register } from '@/lib/actions'
-import Spinner from '@/components/spinner';
+import Spinner1 from '@/components/spinner1';
 import { toast } from 'sonner';
 
 
@@ -31,7 +31,7 @@ function RegisterForm() {
             <button
                 disabled={pending}
                 className="px-8 py-4 bg-blue-500 text-white cursor-pointer hover:font-bold" >
-                {pending ? <Spinner /> : "Crear cuenta"}
+                {pending ? <Spinner1 /> : "Crear cuenta"}
             </button>
         </form>
 

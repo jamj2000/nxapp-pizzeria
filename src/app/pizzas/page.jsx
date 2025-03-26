@@ -1,16 +1,17 @@
+import { Suspense } from "react";
 import Pizzas from "@/components/pizzas/lista";
 import Link from "next/link";
-import { Suspense } from "react";
+import Spinner2 from "@/components/spinner2";
 
 
 function PaginaPizzas() {
 
     return (
-        <div>
+        <div className="mt-10 p-10">
             <Link href="/home" className="text-5xl">🏡</Link>
             <h1 className="text-3xl font-bold mb-4">LISTA DE PIZZAS</h1>
 
-            <Suspense fallback={"Obteniendo pizzas ..."}>
+            <Suspense fallback={<Spinner2 />}>
                 <Pizzas />
             </Suspense>
         </div>

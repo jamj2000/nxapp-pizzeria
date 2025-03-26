@@ -1,21 +1,15 @@
-import Pedido from "@/components/pedidos/item";
 import { Suspense } from "react";
+import Pedido from "@/components/pedidos/item";
+import Spinner2 from "@/components/spinner2";
 
 
 async function PaginaPedido({ params, searchParams }) {
     const { id } = await params
 
     return (
-        <div>
-            <h1 className="font-bold text-2xl">DATOS DE PEDIDO</h1>
-            <Suspense fallback={
-                <p className="text-blue-500 text-2xl font-bold animate-pulse">
-                    Obteniendo datos...
-                </p>
-            }>
-                <Pedido id={id} />
-            </Suspense>
-        </div>
+        <Suspense fallback={<Spinner2 />}>
+            <Pedido id={id} />
+        </Suspense>
     )
 
 }
