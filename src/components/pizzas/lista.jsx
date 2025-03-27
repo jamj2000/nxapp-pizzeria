@@ -26,14 +26,23 @@ export default async function Pizzas() {
                 </Modal>
             }
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
                 {pizzas
                     .sort((a, b) => a.nombre.localeCompare(b.nombre))
                     .map(pizza =>
                         <div key={pizza.id} className="p-4 mb-4 bg-[#dafb6f]/20 rounded-lg border border-lime-200">
 
+                            <Modal openElement={
+                                <div className="grid place-content-center cursor-pointer">
+                                    <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="py-6" />
+                                    <p className="font-bold text-lg ">{pizza.nombre}</p>
+                                    <p className="font-bold text-4xl text-stone-400">{pizza.precio} €</p>
+                                </div>}>
 
-                            <div className='flex justify-end items-center gap-1'>
+                                <PizzaVer pizza={pizza} />
+                            </Modal>
+
+                            <div className='flex justify-end items-center gap-1 pt-4'>
                                 {session?.user.role === 'ADMIN' &&
                                     <>
                                         <Modal openElement={
@@ -57,19 +66,6 @@ export default async function Pizzas() {
                                     </div>
                                 </Link>
                             </div>
-
-                            <Modal openElement={
-                                <div className="grid place-content-center cursor-pointer">
-                                    <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="py-6" />
-                                    <p className="font-bold text-lg ">{pizza.nombre}</p>
-                                    <p className="font-bold text-right text-4xl text-stone-400">{pizza.precio} €</p>
-                                </div>}>
-
-                                <PizzaVer pizza={pizza} />
-                            </Modal>
-
-
-
 
                         </div>
 

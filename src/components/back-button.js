@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"; // IMPORTANTE: No importar desde ne
 function BackButton() {
     const { back } = useRouter()
     return (
-        <div onClick={back} className="w-fit bg-indigo-400 p-2 rounded-full ">
-            <ArrowLeftIcon className="size-4 text-white" />
+        <div onClick={back} className='w-fit p-2 rounded-full border border-blue-500 bg-blue-200 text-blue-700 hover:bg-blue-500 hover:text-white hover:cursor-pointer'>
+            <ArrowLeftIcon className="size-4" />
         </div>
     );
 }
