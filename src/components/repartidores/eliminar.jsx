@@ -23,7 +23,7 @@ function RepartidorEliminar({ repartidor }) {
                 <input type="hidden" name="id" defaultValue={repartidor.id} />
 
                 <button type="submit" disabled={pending}
-                    className='self-end mb-4 font-bold bg-red-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-red-700 hover:text-gray-100 disabled:bg-zinc-400'
+                    className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-red-500 text-red-700 bg-red-200 hover:bg-red-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
                 >
                     {pending
                         ? <div><RefreshCwIcon className='inline animate-spin' /> Eliminando...</div>

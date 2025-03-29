@@ -23,7 +23,7 @@ function PizzaModificar({ pizza }) {
         <form id={formId} className="flex flex-col gap-4" action={action}>
 
             <button type="submit" disabled={pending}
-                className='text-md my-4 px-4 py-2 self-end rounded-full  bg-amber-100 text-amber-700  hover:bg-amber-600 hover:text-amber-200 disabled:bg-zinc-400 disabled:text-zinc-100'
+                className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
             >
                 {pending
                     ? <div><RefreshCwIcon className='inline w-4 animate-spin' /> Actualizando...</div>

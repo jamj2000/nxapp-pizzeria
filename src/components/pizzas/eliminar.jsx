@@ -23,7 +23,7 @@ function PizzaEliminar({ pizza }) {
                 <input type="hidden" name="id" defaultValue={pizza.id} />
 
                 <button type="submit" disabled={pending}
-                    className='text-md my-4 px-4 py-2 self-end items-center rounded-full bg-red-100 text-red-700  hover:bg-red-600 hover:text-red-200 disabled:bg-zinc-400 disabled:text-zinc-100'
+                    className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-red-500 text-red-700 bg-red-200 hover:bg-red-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
                 >
                     {pending
                         ? <div><RefreshCwIcon className='inline w-4 animate-spin' /> Eliminando...</div>
