@@ -9,7 +9,7 @@ import prisma from "@/lib/prisma"
 
 export async function getUsers() {
     const users = await prisma.user.findMany({
-        // include: { posts: true }
+        include: { pedidos: true }
     });
     return users
 }
@@ -57,6 +57,7 @@ async function obtenerRepartidor(id) {
 async function obtenerPedidos() {
     const pedidos = await prisma.pedido.findMany({
         include: {
+            cliente: true,
             repartidor: true,
             pizzas: true,
         }
@@ -69,6 +70,7 @@ async function obtenerPedido(id) {
     const pedido = await prisma.pedido.findUnique({
         where: { id: +id },
         include: {
+            cliente: true,
             repartidor: true,
             pizzas: true,
         }

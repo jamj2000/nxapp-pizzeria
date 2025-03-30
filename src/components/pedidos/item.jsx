@@ -10,8 +10,8 @@ export default async function Pedido({ id }) {
             <div>
                 {new Date(pedido.fecha_hora).toLocaleString()}
             </div>
-            <div>Nombre del cliente: {pedido.nombre_cliente}</div>
-            <div>Dirección del cliente: {pedido.direccion_cliente}</div>
+            <div>Nombre del cliente: {pedido.cliente.name}</div>
+            <div>Dirección del cliente: {pedido.cliente.address}</div>
 
             <div>
                 <p className="font-bold text-xl">Repartidor</p>

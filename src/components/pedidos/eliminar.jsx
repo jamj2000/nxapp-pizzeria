@@ -35,8 +35,8 @@ function PedidoEliminar({ pedido }) {
             </form>
 
             <p>FECHA Y HORA: {new Date(pedido.fecha_hora).toLocaleString()}</p>
-            <p>NOMBRE CLIENTE: {pedido.nombre_cliente}</p>
-            <p>DIRECCIÓN CLIENTE: {pedido.direccion_cliente}</p>
+            <p>Nombre del cliente: {pedido.cliente?.name}</p>
+            <p>Dirección del cliente: {pedido.cliente?.address}</p>
 
         </div>
     );

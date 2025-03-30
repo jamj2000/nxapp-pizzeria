@@ -16,6 +16,8 @@ model User {
   image         String?
   role          String?   @default("USER")
   address       String? // domicilio
+  phone         String?
+  active        Boolean   @default(true)
   accounts      Account[]
   pedidos       Pedido[]
 }
@@ -48,15 +50,13 @@ model Repartidor {
 }
 
 model Pedido {
-  id                Int         @id @default(autoincrement())
-  fecha_hora        DateTime
-  nombre_cliente    String
-  direccion_cliente String
-  repartidorId      Int?
-  repartidor        Repartidor? @relation(fields: [repartidorId], references: [id])
-  pizzas            Pizza[]
-  cliente           User?       @relation(fields: [clienteId], references: [id])
-  clienteId         String?
+  id           Int         @id @default(autoincrement())
+  fecha_hora   DateTime
+  repartidorId Int?
+  repartidor   Repartidor? @relation(fields: [repartidorId], references: [id])
+  clienteId    String?
+  cliente      User?       @relation(fields: [clienteId], references: [id])
+  pizzas       Pizza[]
 
   @@map("pedidos")
 }

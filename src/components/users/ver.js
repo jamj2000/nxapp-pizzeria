@@ -16,9 +16,9 @@ function UserVer({ user }) {
                 </div>
             </div>
 
-            <p className="font-bold my-4">Post realizados</p>
+            <p className="font-bold my-4">Pedidos realizados</p>
             <p className="flex flex-col gap-1">
-                {user.posts
+                {user.pedidos
                     ?.sort((a, b) => a.slug.localeCompare(b.slug))
                     .map(post =>
                         <span key={post.id} className="">

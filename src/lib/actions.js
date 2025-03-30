@@ -236,8 +236,8 @@ export async function eliminarRepartidor(prevState, formData) {
 
 export async function insertarPedido(prevState, formData) {
     const fecha_hora = new Date(formData.get('fecha_hora'))
-    const nombre_cliente = formData.get('nombre_cliente')
-    const direccion_cliente = formData.get('direccion_cliente')
+    const clienteId = formData.get('clienteId')
+
 
     const repartidorId = Number(formData.get('repartidorId')) || null
 
@@ -251,8 +251,7 @@ export async function insertarPedido(prevState, formData) {
     await prisma.pedido.create({
         data: {
             fecha_hora: fecha_hora,
-            nombre_cliente: nombre_cliente,
-            direccion_cliente: direccion_cliente,
+            clienteId: clienteId,
             repartidorId: repartidorId,
             pizzas: { connect }
         }
@@ -268,8 +267,7 @@ export async function insertarPedido(prevState, formData) {
 export async function modificarPedido(prevState, formData) {
     const id = Number(formData.get('id'))
     const fecha_hora = new Date(formData.get('fecha_hora'))
-    const nombre_cliente = formData.get('nombre_cliente')
-    const direccion_cliente = formData.get('direccion_cliente')
+    const clienteId = formData.get('clienteId')
 
     const repartidorId = Number(formData.get('repartidorId')) || null
 
@@ -285,8 +283,7 @@ export async function modificarPedido(prevState, formData) {
         where: { id },
         data: {
             fecha_hora: fecha_hora,
-            nombre_cliente: nombre_cliente,
-            direccion_cliente: direccion_cliente,
+            clienteId: clienteId,
             repartidorId: repartidorId,
             pizzas: { connect, disconnect }
         }

@@ -5,7 +5,7 @@ import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
 
-function PedidoInsertar({ repartidores, pizzas }) {
+function PedidoInsertar({ clientes, repartidores, pizzas }) {
 
     const formId = useId()
 
@@ -33,13 +33,24 @@ function PedidoInsertar({ repartidores, pizzas }) {
                 <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('Z')[0]} />
             </label>
 
-            <label> Nombre del cliente:
+            {/* <label> Nombre del cliente:
                 <input name="nombre_cliente" placeholder="Nombre cliente" />
             </label>
 
             <label> Dirección del cliente:
                 <input name="direccion_cliente" placeholder="Dirección cliente" />
-            </label>
+            </label> */}
+
+            <p className="font-bold">Cliente</p>
+            <select name="clienteId">
+                {
+                    clientes.map(cliente =>
+                        <option key={cliente.id} value={cliente.id}>
+                            {cliente.name}
+                        </option>
+                    )
+                }
+            </select>
 
             <p className="font-bold">Repartidor</p>
             <select name="repartidorId">

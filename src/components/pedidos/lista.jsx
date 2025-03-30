@@ -1,4 +1,4 @@
-import { obtenerPedidos, obtenerPizzas, obtenerRepartidores } from "@/lib/data";
+import { getUsers, obtenerPedidos, obtenerPizzas, obtenerRepartidores } from "@/lib/data";
 import Link from "next/link";
 import Modal from "@/components/modal";
 import PedidoInsertar from "./insertar";
@@ -13,6 +13,7 @@ export default async function Pedidos() {
     const pedidos = await obtenerPedidos()
     const repartidores = await obtenerRepartidores()
     const pizzas = await obtenerPizzas()
+    const clientes = await getUsers()
 
     return (
         <div className="flex flex-col gap-4">
@@ -21,7 +22,7 @@ export default async function Pedidos() {
                     <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
                         <PlusIcon className='size-4' />
                     </div>}>
-                    <PedidoInsertar repartidores={repartidores} pizzas={pizzas} />
+                    <PedidoInsertar clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
                 </Modal>
             }
 
@@ -35,7 +36,7 @@ export default async function Pedidos() {
                                 <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
                                     <PencilIcon className='size-4' />
                                 </div>}>
-                                <PedidoModificar pedido={pedido} repartidores={repartidores} pizzas={pizzas} />
+                                <PedidoModificar pedido={pedido} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
                             </Modal>
 
 
@@ -50,8 +51,8 @@ export default async function Pedidos() {
                         <Link href={`/pedidos/${pedido.id}`} className="font-bold cursor-pointer">
                             {new Date(pedido.fecha_hora).toLocaleString()}
                         </Link>
-                        <p>Nombre del cliente: {pedido.nombre_cliente}</p>
-                        <p>Dirección del cliente: {pedido.direccion_cliente}</p>
+                        <p>Nombre del cliente: {pedido.cliente?.name}</p>
+                        <p>Dirección del cliente: {pedido.cliente?.address}</p>
 
                     </div>
                 )}

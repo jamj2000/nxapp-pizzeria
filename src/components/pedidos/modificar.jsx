@@ -4,7 +4,7 @@ import { PencilIcon, PenIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
-function PedidoModificar({ pedido, repartidores, pizzas }) {
+function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
     const formId = useId()
 
     const [state, action, pending] = useActionState(modificarPedido, {})
@@ -34,14 +34,26 @@ function PedidoModificar({ pedido, repartidores, pizzas }) {
             <label> Fecha y hora:
                 <input name="fecha_hora" type="datetime-local" defaultValue={new Date(pedido.fecha_hora).toISOString().split('Z')[0]} />
             </label>
-
+            {/* 
             <label> Nombre del cliente:
                 <input name="nombre_cliente" placeholder="Nombre cliente" defaultValue={pedido.nombre_cliente} />
             </label>
 
             <label> Nombre del cliente:
                 <input name="direccion_cliente" placeholder="Dirección cliente" defaultValue={pedido.direccion_cliente} />
-            </label>
+            </label> */}
+
+
+            <p className="font-bold">Cliente</p>
+            <select key={pedido.clienteId} name="clienteId" defaultValue={pedido.clienteId}>
+                {
+                    clientes.map(cliente =>
+                        <option key={cliente.id} value={cliente.id}>
+                            {cliente.name}
+                        </option>
+                    )
+                }
+            </select>
 
             <p className="font-bold">Repartidor</p>
             <select name="repartidorId" defaultValue={pedido.repartidorId} key={pedido.repartidorId}>
