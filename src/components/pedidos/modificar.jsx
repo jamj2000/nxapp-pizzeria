@@ -32,7 +32,7 @@ function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
             </button>
 
             <label> Fecha y hora:
-                <input name="fecha_hora" type="datetime-local" defaultValue={new Date(pedido.fecha_hora).toISOString().split('Z')[0]} />
+                <input name="fecha_hora" type="datetime-local" defaultValue={new Date(pedido.fecha_hora - pedido.fecha_hora.getTimezoneOffset() * 60000).toISOString().split('Z')[0]} />
             </label>
             {/* 
             <label> Nombre del cliente:

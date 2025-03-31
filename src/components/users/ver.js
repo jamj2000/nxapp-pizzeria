@@ -23,10 +23,19 @@ function UserVer({ user }) {
             <p className="font-bold my-4">Pedidos realizados</p>
             <p className="flex flex-col gap-1">
                 {user.pedidos
-                    ?.sort((a, b) => a.slug.localeCompare(b.slug))
-                    .map(post =>
-                        <span key={post.id} className="">
-                            {post.title}
+                    .map(pedido =>
+                        <span key={pedido.id} className="">
+                            {/* {new Intl.DateTimeFormat("es-ES", {
+                                dateStyle: "full",
+                                timeStyle: "long",
+                                timeZone: "Europe/Madrid",
+                            }).format(pedido.fecha_hora),
+                            } */}
+                            {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
+                                dateStyle: "full",
+                                timeStyle: "long",
+                                timeZone: "Europe/Madrid",
+                            }))}
                         </span>
                     )}
             </p>

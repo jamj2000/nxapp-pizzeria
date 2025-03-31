@@ -1,12 +1,12 @@
 import { TrashIcon, PencilIcon, PlusIcon } from "lucide-react";
 import { auth } from "@/auth"
+import { getUsers } from "@/lib/data";
 import Modal from '@/components/modal';
 import UserVer from '@/components/users/ver'
 import UserModificar from '@/components/users/modificar';
 import UserEliminar from '@/components/users/eliminar';
-import { getUsers } from "@/lib/data";
-import UserInsertar from "./insertar";
-import ActiveButton from "../active-button";
+import UserInsertar from "@/components/users/insertar";
+import ActiveButton from "@/components/active-button";
 import { activeUser } from "@/lib/actions";
 
 async function Users() {
