@@ -53,6 +53,12 @@ export async function login(prevState, formData) {
     if (!user) {
         return { error: 'Usuario no registrado.' }
     }
+
+    // Comprobamos si el usuario está activo 
+    if (!user.active) {
+        return { error: 'Usuario deshabilitado. Consulte al administrador de esta app.' }
+    }
+
     // Comparamos password 
     let matchPassword = false
 
@@ -60,6 +66,8 @@ export async function login(prevState, formData) {
         matchPassword = true
     else
         matchPassword = await bcrypt.compare(password, user.password)
+
+
 
     if (user && matchPassword)  // && user.emailVerified
     {
@@ -175,7 +183,16 @@ export async function deleteUser(prevState, formData) {
 
 }
 
+export async function activeUser(user) {
+    if (user) {
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { active: !user.active },
+        })
 
+        revalidatePath("/dashboard");
+    }
+}
 
 
 //  ------------------------ REPARTIDORES ------------------------
