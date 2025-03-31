@@ -1,4 +1,4 @@
-import { BikeIcon, HomeIcon, KeyRoundIcon, LockIcon, MenuIcon, PizzaIcon, ScrollTextIcon, UserIcon, XIcon } from 'lucide-react'
+import { BikeIcon, HomeIcon, KeyRoundIcon, LockIcon, MenuIcon, PizzaIcon, ScrollTextIcon, UserRoundIcon, XIcon } from 'lucide-react'
 import { logout } from '@/lib/actions';
 import { auth } from '@/auth';
 import MenuLink from '@/components/menu-link';
@@ -43,7 +43,7 @@ export default async function Header() {
               < Link
                 href="/dashboard"
                 className="w-full rounded-full hover:outline hover:outline-slate-600 cursor-pointer" >
-                {session.user.image ? <img src={session.user.image} className='size-10 rounded-full' /> : <UserIcon className='size-10 p-2' />}
+                {session.user.image ? <img src={session.user.image} className='size-10 rounded-full' /> : <UserRoundIcon className='size-10 p-2' />}
               </Link >
 
               <form className="flex gap-2 items-center">

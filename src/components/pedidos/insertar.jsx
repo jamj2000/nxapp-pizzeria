@@ -33,14 +33,6 @@ function PedidoInsertar({ clientes, repartidores, pizzas }) {
                 <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('Z')[0]} />
             </label>
 
-            {/* <label> Nombre del cliente:
-                <input name="nombre_cliente" placeholder="Nombre cliente" />
-            </label>
-
-            <label> Dirección del cliente:
-                <input name="direccion_cliente" placeholder="Dirección cliente" />
-            </label> */}
-
             <p className="font-bold">Cliente</p>
             <select name="clienteId">
                 {

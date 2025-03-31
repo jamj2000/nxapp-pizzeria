@@ -1,6 +1,6 @@
 'use client'
 import { deleteUser } from "@/lib/actions";
-import { RefreshCwIcon, TrashIcon, UserIcon } from "lucide-react";
+import { RefreshCwIcon, TrashIcon, UserRoundIcon } from "lucide-react";
 import { useRouter } from "next/navigation";   // IMPORTANTE: No importar desde next/router
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ function UserEliminar({ user }) {
             <div className="grid md:grid-cols-[80px_auto]">
                 {user.image
                     ? <img src={user.image} alt="Imagen de usuario" width={64} />
-                    : <UserIcon className="size-16" />
+                    : <UserRoundIcon className="size-16" />
                 }
 
                 <div>
