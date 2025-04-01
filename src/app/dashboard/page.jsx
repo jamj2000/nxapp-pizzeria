@@ -1,11 +1,13 @@
 import { auth } from "@/auth";
 import { logout } from "@/lib/actions";
-import { LockIcon } from "lucide-react";
+import { LockIcon, PencilIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import Spinner1 from "@/components/spinner1";
 import Users from "@/components/users/lista";
 import Pedidos from "@/components/pedidos/lista";
+import Modal from "@/components/modal";
+import UserModificar from "@/components/users/modificar";
 
 
 async function Dashboard() {
