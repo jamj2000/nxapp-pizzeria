@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import Spinner1 from "@/components/spinner1";
 import Users from "@/components/users/lista";
+import Pedidos from "@/components/pedidos/lista";
 
 
 async function Dashboard() {
@@ -12,7 +13,9 @@ async function Dashboard() {
 
     if (!session) redirect('/auth/login')
 
-    const { user: { name, email, image, role } } = session
+    // desestructuramos    
+    const { user } = session
+    const { name, email, image, role } = user
 
     return (
         <div>
@@ -25,6 +28,12 @@ async function Dashboard() {
                 </form>
             </div>
 
+            <Modal openElement={
+                <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
+                    <PencilIcon className='size-4' />
+                </div>}>
+                <UserModificar user={user} />
+            </Modal>
 
             <div className="grid md:grid-cols-[150px_auto]">
                 {image
@@ -46,6 +55,16 @@ async function Dashboard() {
                     </Suspense>
                 </>
             }
+
+            {session.user.role === 'USER' &&
+                <>
+                    <h1 className="text-xl font-bold mt-15">Pedidos realizados</h1>
+                    <Suspense fallback={<Spinner1 />}>
+                        <Pedidos />
+                    </Suspense>
+                </>
+            }
+
 
         </div >
     );

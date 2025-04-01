@@ -6,23 +6,23 @@ import RepartidorModificar from "./modificar";
 import RepartidorEliminar from "./eliminar";
 import { auth } from "@/auth";
 import { HeadsetIcon, PencilIcon, PhoneIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { redirect, } from "next/navigation";
 
 
 export default async function Repartidores() {
     const session = await auth()
-    const repartidores = await obtenerRepartidores()
+    if (session?.user.role !== 'ADMIN') redirect('/dashboard')
 
+    const repartidores = await obtenerRepartidores()
 
     return (
         <div className="flex flex-col gap-4">
-            {session?.user.role === 'ADMIN' &&
-                <Modal openElement={
-                    <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
-                        <PlusIcon className='size-4' />
-                    </div>}>
-                    <RepartidorInsertar />
-                </Modal>
-            }
+            <Modal openElement={
+                <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
+                    <PlusIcon className='size-4' />
+                </div>}>
+                <RepartidorInsertar />
+            </Modal>
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
 

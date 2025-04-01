@@ -54,8 +54,11 @@ async function obtenerRepartidor(id) {
 
 // ---------------------   PEDIDOS -----------------------
 
-async function obtenerPedidos() {
+async function obtenerPedidos(clienteId) {
     const pedidos = await prisma.pedido.findMany({
+        where: {
+            clienteId // dentro de where, valores undefined equivalen a desactivar filtro 
+        },
         include: {
             cliente: true,
             repartidor: true,

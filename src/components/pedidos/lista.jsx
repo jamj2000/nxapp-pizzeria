@@ -10,7 +10,7 @@ import { auth } from "@/auth";
 
 export default async function Pedidos() {
     const session = await auth()
-    const pedidos = await obtenerPedidos()
+    const pedidos = await obtenerPedidos(session?.user.id)
     const repartidores = await obtenerRepartidores()
     const pizzas = await obtenerPizzas()
     const clientes = await getUsers()

@@ -40,12 +40,14 @@ export default function UserModificar({ user }) {
                 ? <img src={user.image} alt="Imagen de usuario" width={64} />
                 : <UserRoundIcon className="size-16" />
             }
-            <Check
-                id={'active'}
-                label=''
-                defaultChecked={user.active == true}
-                className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
 
+            {user?.role === 'ADMIN' &&
+                <Check
+                    id={'active'}
+                    label=''
+                    defaultChecked={user.active == true}
+                    className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+            }
 
             <div className='flex flex-col md:flex-row md:gap-10'>
 
@@ -63,6 +65,22 @@ export default function UserModificar({ user }) {
                         <label htmlFor='email' className="font-bold w-full md:w-1/4">email</label>
                         <input type='text' id='email' name='email'
                             defaultValue={user.email}
+                            className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='address' className="font-bold w-full md:w-1/4">Domicilio</label>
+                        <input type='text' id='address' name='address'
+                            defaultValue={user.address}
+                            className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='phone' className="font-bold w-full md:w-1/4">Teléfono</label>
+                        <input type='text' id='phone' name='phone'
+                            defaultValue={user.phone}
                             className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
                         />
                     </div>
