@@ -256,10 +256,8 @@ export async function eliminarRepartidor(prevState, formData) {
 
 
 export async function insertarPedido(prevState, formData) {
-    const fecha_hora = new Date(formData.get('fecha_hora'))
+    const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
     const clienteId = formData.get('clienteId')
-
-
     const repartidorId = Number(formData.get('repartidorId')) || null
 
     const pizzasIDs = await prisma.pizza.findMany({
@@ -287,7 +285,7 @@ export async function insertarPedido(prevState, formData) {
 
 export async function modificarPedido(prevState, formData) {
     const id = Number(formData.get('id'))
-    const fecha_hora = new Date(formData.get('fecha_hora'))
+    const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
     const clienteId = formData.get('clienteId')
 
     const repartidorId = Number(formData.get('repartidorId')) || null

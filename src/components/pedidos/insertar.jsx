@@ -29,16 +29,16 @@ function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
                 }
             </button>
 
-            <label> Fecha y hora:
-                <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('.')[0]} />
-            </label>
-
             {/* <label> Fecha y hora:
+                <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('.')[0]} />
+            </label> */}
+
+            <label> Fecha y hora:
                 <input
                     name="fecha_hora"
                     type="datetime-local"
-                    defaultValue={(Date.now() - Date.now().getTimezoneOffset() * 60000).toISOString().split('Z')[0]} />
-            </label> */}
+                    defaultValue={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split('.')[0]} />
+            </label>
 
             {/* <p className="font-bold">Cliente</p> */}
             <input type='hidden' name="clienteId" defaultValue={user.id} />
