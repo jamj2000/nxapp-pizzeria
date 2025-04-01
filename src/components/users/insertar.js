@@ -3,6 +3,7 @@ import { newUser, newuser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import Check from '@/components/check';
 
 
 
@@ -22,10 +23,10 @@ export default function UserInsertar() {
 
 
     return (
-        <form id={formId} action={action} className="w-full flex flex-col px-4">
+        <form id={formId} action={action} className="w-full flex flex-col gap-4">
 
             <button type="submit" disabled={pending}
-                className='self-end mb-4 font-bold bg-green-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-green-700 hover:text-gray-100 disabled:bg-zinc-400'
+                className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
             >
                 {pending
                     ? <div><RefreshCwIcon className='inline animate-spin' /> Guardando...</div>
@@ -35,6 +36,13 @@ export default function UserInsertar() {
 
             <div className='flex flex-col md:flex-row md:gap-10'>
                 <div className='w-full md:w-2/3 flex flex-col gap-2'>
+
+                    <Check
+                        id={'active'}
+                        label=''
+                        defaultChecked={true}
+                        className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+
 
                     <div className="flex flex-col md:flex-row items-center md:space-x-4">
                         <label htmlFor='name' className="font-bold w-full md:w-1/4">Nombre</label>

@@ -20,25 +20,22 @@ function UserVer({ user }) {
                 </div>
             </div>
 
-            <p className="font-bold my-4">Pedidos realizados</p>
-            <p className="flex flex-col gap-1">
+            <h2 className="font-bold my-4">Pedidos realizados</h2>
+            <div className="flex flex-col gap-1">
                 {user.pedidos
                     .map(pedido =>
-                        <span key={pedido.id} className="">
-                            {/* {new Intl.DateTimeFormat("es-ES", {
-                                dateStyle: "full",
-                                timeStyle: "long",
-                                timeZone: "Europe/Madrid",
-                            }).format(pedido.fecha_hora),
-                            } */}
-                            {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
-                                dateStyle: "full",
-                                timeStyle: "long",
-                                timeZone: "Europe/Madrid",
-                            }))}
-                        </span>
+                        <p key={pedido.id} className="flex gap-4">
+                            <span>Nº {pedido.id}</span>
+                            <span>
+                                {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
+                                    dateStyle: "full",
+                                    timeStyle: "long",
+                                    timeZone: "Europe/Madrid",
+                                }))}
+                            </span>
+                        </p>
                     )}
-            </p>
+            </div>
         </div>
     );
 }

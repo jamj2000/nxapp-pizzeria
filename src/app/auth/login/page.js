@@ -24,7 +24,7 @@ async function page({ searchParams }) {
 
   return (
     <>
-      <div className="mx-auto mt-10 w-80 p-8 border border-slate-300 rounded-md bg-slate-50">
+      <div className="mx-auto w-80 p-8 border border-slate-300 rounded-md bg-slate-50">
         {error && <h3>{errors.get(error)}</h3>}
         <h1 className='text-3xl font-bold py-4'>Iniciar sesión</h1>
         <LoginForm />

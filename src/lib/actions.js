@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
 import { signIn, signOut } from '@/auth'
 import { getUserByEmail } from '@/lib/data'
-import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
 
@@ -132,12 +131,13 @@ async function uploadImage(file) {
 
 
 export async function newUser(prevState, formData) {
-    try {
-        const name = formData.get('name');
-        const email = formData.get('email');
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const active = Boolean(formData.get('active'))
 
+    try {
         await prisma.user.create({
-            data: { name, email },
+            data: { name, email, active },
         })
 
         revalidatePath('/dashboard')
@@ -153,12 +153,12 @@ export async function editUser(prevState, formData) {
     const id = formData.get('id')
     const name = formData.get('name');
     const email = formData.get('email');
-
+    const active = Boolean(formData.get('active'))
 
     try {
         await prisma.user.update({
             where: { id },
-            data: { name, email },
+            data: { name, email, active },
         })
         revalidatePath('/dashboard')
         return { success: 'Usuario modificado' }

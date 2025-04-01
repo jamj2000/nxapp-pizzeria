@@ -3,7 +3,7 @@ import { editUser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon, UserRoundIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import Check from '../check';
+import Check from '@/components/check';
 
 
 
@@ -24,11 +24,11 @@ export default function UserModificar({ user }) {
 
 
     return (
-        <form id={formId} action={action} className="w-full flex flex-col px-4">
+        <form id={formId} action={action} className="w-full flex flex-col gap-4">
             <input type="hidden" name="id" defaultValue={user.id} />
 
             <button type="submit" disabled={pending}
-                className='self-end mb-4 font-bold bg-amber-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-amber-700 hover:text-gray-100 disabled:bg-zinc-400'
+                className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
             >
                 {pending
                     ? <div><RefreshCwIcon className='inline animate-spin' /> Actualizando...</div>
@@ -40,6 +40,12 @@ export default function UserModificar({ user }) {
                 ? <img src={user.image} alt="Imagen de usuario" width={64} />
                 : <UserRoundIcon className="size-16" />
             }
+            <Check
+                id={'active'}
+                label=''
+                defaultChecked={user.active == true}
+                className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+
 
             <div className='flex flex-col md:flex-row md:gap-10'>
 

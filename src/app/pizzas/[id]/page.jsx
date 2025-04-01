@@ -8,7 +8,7 @@ async function PaginaPizza({ params, searchParams }) {
     const { id } = await params
 
     return (
-        <div className="my-10 p-10">
+        <div>
             <BackButton />
             <div className="h-20">{/* Hueco de separación */}</div>
 

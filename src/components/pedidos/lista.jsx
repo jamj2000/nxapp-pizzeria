@@ -48,8 +48,17 @@ export default async function Pedidos() {
                             </Modal>
                         </div>
 
-                        <Link href={`/pedidos/${pedido.id}`} className="font-bold cursor-pointer">
-                            {new Date(pedido.fecha_hora).toLocaleString()}
+                        <Link href={`/pedidos/${pedido.id}`} className="flex gap-4 font-bold cursor-pointer">
+                            <span>Nº {pedido.id}</span>
+                            <span>
+                                {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
+                                    dateStyle: "full",
+                                    timeStyle: "long",
+                                    timeZone: "Europe/Madrid",
+                                }))}
+                            </span>
+
+                            {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
                         </Link>
                         <p>Nombre del cliente: {pedido.cliente?.name}</p>
                         <p>Dirección del cliente: {pedido.cliente?.address}</p>

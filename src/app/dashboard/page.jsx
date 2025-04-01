@@ -15,7 +15,7 @@ async function Dashboard() {
     const { user: { name, email, image, role } } = session
 
     return (
-        <div className="my-10 p-10">
+        <div>
             <div className="flex justify-between">
                 <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
                 <form action={logout}>

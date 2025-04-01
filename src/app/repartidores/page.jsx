@@ -7,7 +7,7 @@ import Spinner2 from "@/components/spinner2";
 function PaginaRepartidores() {
 
     return (
-        <div className="my-10 p-10">
+        <div>
             <Link href="/home" className="text-5xl">🏡</Link>
             <h1 className="text-3xl font-bold mb-4">LISTA DE REPARTIDORES</h1>
 
