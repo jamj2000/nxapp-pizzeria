@@ -1,11 +1,11 @@
 {
+  "name": "Pizzería",
+  "short_name": "pizzería",
   "theme_color": "#ffffff",
   "background_color": "#dafb6f",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Pizzería",
-  "short_name": "pizzería",
   "description": "Pizzería con las mejores pizzas del mundo",
   "icons": [
     {
