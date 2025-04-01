@@ -5,7 +5,7 @@ import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
 
-function PedidoInsertar({ clientes, repartidores, pizzas }) {
+function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
 
     const formId = useId()
 
@@ -30,11 +30,19 @@ function PedidoInsertar({ clientes, repartidores, pizzas }) {
             </button>
 
             <label> Fecha y hora:
-                <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('Z')[0]} />
+                <input name="fecha_hora" type="datetime-local" defaultValue={new Date().toISOString().split('.')[0]} />
             </label>
 
-            <p className="font-bold">Cliente</p>
-            <select name="clienteId">
+            {/* <label> Fecha y hora:
+                <input
+                    name="fecha_hora"
+                    type="datetime-local"
+                    defaultValue={(Date.now() - Date.now().getTimezoneOffset() * 60000).toISOString().split('Z')[0]} />
+            </label> */}
+
+            {/* <p className="font-bold">Cliente</p> */}
+            <input type='hidden' name="clienteId" defaultValue={user.id} />
+            {/* <select name="clienteId">
                 {
                     clientes.map(cliente =>
                         <option key={cliente.id} value={cliente.id}>
@@ -42,10 +50,11 @@ function PedidoInsertar({ clientes, repartidores, pizzas }) {
                         </option>
                     )
                 }
-            </select>
+            </select> */}
 
-            <p className="font-bold">Repartidor</p>
-            <select name="repartidorId">
+            {/* <p className="font-bold">Repartidor</p> */}
+            <input type='hidden' name="repartidorId" />
+            {/* <select name="repartidorId">
                 {
                     repartidores.map(repartidor =>
                         <option key={repartidor.id} value={repartidor.id}>
@@ -53,18 +62,14 @@ function PedidoInsertar({ clientes, repartidores, pizzas }) {
                         </option>
                     )
                 }
-            </select>
+            </select> */}
 
             <p className="font-bold">Pizzas</p>
             {
                 pizzas.map(pizza =>
                     <label key={pizza.id}>
-                        <input
-                            type="checkbox"
-                            name={`pizza${pizza.id}`} />
-
+                        <input type="checkbox" name={`pizza${pizza.id}`} />
                         {pizza.nombre}
-
                     </label>
                 )
             }

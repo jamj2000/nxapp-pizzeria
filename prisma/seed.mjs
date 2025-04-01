@@ -60,21 +60,30 @@ const usuarios = [
         email: "pepe@pepe.com",
         address: "C/ Nueva, 99",
         image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/128/28.jpg',
-        role: 'USER'
+        role: 'USER',
+        pedidos: {
+            connect: [{ id: 1 }]
+        }
     },
     {
         name: "Ana Alferez",
         email: "ana@ana.com",
         address: "C/ Ancha, 100",
         image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/128/28.jpg',
-        role: 'USER'
+        role: 'USER',
+        pedidos: {
+            connect: [{ id: 2 }, { id: 3 }]
+        }
     },
     {
         name: "Jose López",
         email: "jose@jose.com",
         address: "Avda. Constitución, 1",
         image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/128/14.jpg',
-        role: 'ADMIN'
+        role: 'ADMIN',
+        pedidos: {
+            connect: [{ id: 4 }]
+        }
     }
 ];
 
@@ -91,9 +100,9 @@ const resetDatabase = async () => {
     await prisma.user.deleteMany();
 
     // Reiniciar el contador de ID en las tablas repartidores, pizzas y pedidos
-    // await prisma.$executeRaw`ALTER SEQUENCE "Repartidor_id_seq" RESTART WITH 1;`;
-    // await prisma.$executeRaw`ALTER SEQUENCE "Pizzas_id_seq" RESTART WITH 1;`;
-    // await prisma.$executeRaw`ALTER SEQUENCE "Pedido_id_seq" RESTART WITH 1;`;
+    // await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 1;`;
+    // await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 1;`;
+    // await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 1;`;
 };
 
 
@@ -101,8 +110,6 @@ const load = async () => {
     try {
         // reset database
         await resetDatabase();
-
-
 
         await prisma.repartidor.createMany({ data: repartidores });
         console.log(`Repartidores insertados`);
@@ -115,14 +122,13 @@ const load = async () => {
         })
         console.log(`Pedidos insertados`);
 
-        await prisma.user.createMany({ data: usuarios });
-        console.log(`Usuarios insertados`);
-
-
-        // usuarios.forEach(async user => {
-        //     await prisma.user.create({ data: user });
-        // })
+        // await prisma.user.createMany({ data: usuarios });
         // console.log(`Usuarios insertados`);
+
+        usuarios.forEach(async user => {
+            await prisma.user.create({ data: user });
+        })
+        console.log(`Usuarios insertados`);
 
 
     } catch (error) {

@@ -8,6 +8,7 @@ import Users from "@/components/users/lista";
 import Pedidos from "@/components/pedidos/lista";
 import Modal from "@/components/modal";
 import UserModificar from "@/components/users/modificar";
+import { getUserById } from "@/lib/data";
 
 
 async function Dashboard() {
@@ -15,9 +16,12 @@ async function Dashboard() {
 
     if (!session) redirect('/auth/login')
 
-    // desestructuramos    
+    // desestructuramos información de sesión   
     const { user } = session
-    const { name, email, image, role } = user
+    const { id, name, email, image, role } = user
+
+    // obtenemos toda la información del usuario
+    const usuario = await getUserById(id)
 
     return (
         <div>
@@ -30,21 +34,26 @@ async function Dashboard() {
                 </form>
             </div>
 
-            <Modal openElement={
-                <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
-                    <PencilIcon className='size-4' />
-                </div>}>
-                <UserModificar user={user} />
-            </Modal>
 
-            <div className="grid md:grid-cols-[150px_auto]">
+
+            <div className="grid md:grid-cols-[160px_auto]">
                 {image
-                    ? <img src={image} className="size-30" />
+                    ? <img src={image} className="size-36" />
                     : <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/User-avatar.svg" className="size-30" />
                 }
-                <div className="my-2 flex flex-col gap-2">
-                    <p className="font-bold">{name}</p>
+                <div className="flex flex-col gap-1">
+                    <div className="flex gap-2 items-center">
+                        <p className="font-bold">{name}</p>
+                        <Modal openElement={
+                            <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
+                                <PencilIcon className='size-4' />
+                            </div>}>
+                            <UserModificar user={usuario} />
+                        </Modal>
+                    </div>
                     <p>{email}</p>
+                    <p>{usuario.address}</p>
+                    <p>{usuario.phone}</p>
                     <p>{role}</p>
                 </div>
             </div>
@@ -66,7 +75,6 @@ async function Dashboard() {
                     </Suspense>
                 </>
             }
-
 
         </div >
     );

@@ -27,7 +27,7 @@ export default function UserModificar({ user }) {
         <form id={formId} action={action} className="w-full flex flex-col gap-4">
             <input type="hidden" name="id" defaultValue={user.id} />
 
-            <button type="submit" disabled={pending}
+            <button disabled={pending} title={'Actualizar información de usuario'}
                 className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
             >
                 {pending
@@ -37,16 +37,19 @@ export default function UserModificar({ user }) {
             </button>
 
             {user.image
-                ? <img src={user.image} alt="Imagen de usuario" width={64} />
-                : <UserRoundIcon className="size-16" />
+                ? <img src={user.image} alt="Imagen de usuario" width={144} />
+                : <UserRoundIcon className="size-36" />
             }
 
-            {user?.role === 'ADMIN' &&
+            {user?.role === 'ADMIN'
+                ?
                 <Check
                     id={'active'}
                     label=''
                     defaultChecked={user.active == true}
                     className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+                :
+                <input type="hidden" name="active" defaultValue={user.active} />
             }
 
             <div className='flex flex-col md:flex-row md:gap-10'>
@@ -88,6 +91,6 @@ export default function UserModificar({ user }) {
                 </div>
             </div>
 
-        </form>
+        </form >
     )
 }

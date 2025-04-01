@@ -4,7 +4,7 @@ import Modal from "@/components/modal";
 import PedidoInsertar from "./insertar";
 import PedidoModificar from "./modificar";
 import PedidoEliminar from "./eliminar";
-import { EyeIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { auth } from "@/auth";
 
 
@@ -17,14 +17,14 @@ export default async function Pedidos() {
 
     return (
         <div className="flex flex-col gap-4">
-            {session?.user.role === 'ADMIN' &&
-                <Modal openElement={
-                    <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
-                        <PlusIcon className='size-4' />
-                    </div>}>
-                    <PedidoInsertar clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
-                </Modal>
-            }
+            {/* {session?.user.role === 'ADMIN' && */}
+            <Modal openElement={
+                <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
+                    <PlusIcon className='size-4' />
+                </div>}>
+                <PedidoInsertar user={session?.user} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
+            </Modal>
+            {/* } */}
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
                 {pedidos.map(pedido =>
@@ -36,7 +36,7 @@ export default async function Pedidos() {
                                 <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
                                     <PencilIcon className='size-4' />
                                 </div>}>
-                                <PedidoModificar pedido={pedido} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
+                                <PedidoModificar user={session?.user} pedido={pedido} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
                             </Modal>
 
 

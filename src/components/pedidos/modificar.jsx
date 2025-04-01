@@ -4,7 +4,7 @@ import { PencilIcon, PenIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
-function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
+function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
     const formId = useId()
 
     const [state, action, pending] = useActionState(modificarPedido, {})
@@ -39,8 +39,9 @@ function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
             </label>
 
 
-            <p className="font-bold">Cliente</p>
-            <select key={pedido.clienteId} name="clienteId" defaultValue={pedido.clienteId}>
+            {/* <p className="font-bold">Cliente</p> */}
+            <input type='hidden' name="clienteId" defaultValue={user.id} />
+            {/* <select key={pedido.clienteId} name="clienteId" defaultValue={pedido.clienteId}>
                 {
                     clientes.map(cliente =>
                         <option key={cliente.id} value={cliente.id}>
@@ -48,10 +49,11 @@ function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
                         </option>
                     )
                 }
-            </select>
+            </select> */}
 
-            <p className="font-bold">Repartidor</p>
-            <select name="repartidorId" defaultValue={pedido.repartidorId} key={pedido.repartidorId}>
+            {/* <p className="font-bold">Repartidor</p> */}
+            <input type='hidden' name="repartidorId" />
+            {/* <select name="repartidorId" defaultValue={pedido.repartidorId} key={pedido.repartidorId}>
                 {
                     repartidores.map(repartidor =>
                         <option key={repartidor.id} value={repartidor.id}>
@@ -59,7 +61,7 @@ function PedidoModificar({ pedido, clientes, repartidores, pizzas }) {
                         </option>
                     )
                 }
-            </select>
+            </select> */}
 
 
             <p className="font-bold">Pizzas</p>
