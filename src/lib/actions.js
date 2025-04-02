@@ -136,10 +136,11 @@ export async function newUser(prevState, formData) {
     const active = Boolean(formData.get('active'))
     const address = formData.get('address');
     const phone = formData.get('phone');
+    const image = formData.get('image');
 
     try {
         await prisma.user.create({
-            data: { name, email, active, address, phone },
+            data: { name, email, active, address, phone, image },
         })
 
         revalidatePath('/dashboard')
@@ -158,11 +159,12 @@ export async function editUser(prevState, formData) {
     const active = Boolean(formData.get('active'))
     const address = formData.get('address');
     const phone = formData.get('phone');
+    const image = formData.get('image');
 
     try {
         await prisma.user.update({
             where: { id },
-            data: { name, email, active, address, phone },
+            data: { name, email, active, address, phone, image },
         })
         revalidatePath('/dashboard')
         return { success: 'Usuario modificado' }

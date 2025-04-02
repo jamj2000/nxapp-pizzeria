@@ -3,7 +3,8 @@ import { newUser, newuser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import Check from '@/components/check';
+import CheckBox from '@/components/check-box';
+import CheckRadio from '@/components/check-radio';
 
 
 
@@ -34,14 +35,41 @@ export default function UserInsertar() {
                 }
             </button>
 
+
+            <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
+                {/* Avatares 00 .. 79 */}
+                {[...Array(80)].map((_, index) => (
+                    <CheckRadio key={index}
+                        name='image'
+                        defaultValue={`/images/avatar-${String(index).padStart(2, '0')}.png`}
+                        className="size-14 has-checked:col-span-5 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
+                    >
+                        <img src={`/images/avatar-${String(index).padStart(2, '0')}.png`} alt="Imagen de usuario" />
+                    </CheckRadio>
+                ))}
+                {/* Avatar 80, por defecto */}
+                <CheckRadio key={80}
+                    name='image'
+                    defaultValue={`/images/avatar-80.png`}
+                    defaultChecked={true}
+                    className="size-14 has-checked:col-span-5 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
+                >
+                    <img src={`/images/avatar-80.png`} alt="Imagen de usuario" />
+                </CheckRadio>
+            </div>
+
+
+
+
             <div className='flex flex-col md:flex-row md:gap-10'>
                 <div className='w-full md:w-2/3 flex flex-col gap-2'>
 
-                    <Check
-                        id={'active'}
-                        label=''
+                    <CheckBox
+                        name={'active'}
                         defaultChecked={true}
-                        className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+                        className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
+                    >
+                    </CheckBox>
 
 
                     <div className="flex flex-col md:flex-row items-center md:space-x-4">
@@ -58,9 +86,22 @@ export default function UserInsertar() {
                         />
                     </div>
 
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='address' className="font-bold w-full md:w-1/4">Domicilio</label>
+                        <input type='text' id='address' name='address'
+                            className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='phone' className="font-bold w-full md:w-1/4">Teléfono</label>
+                        <input type='text' id='phone' name='phone'
+                            className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        />
+                    </div>
 
                 </div>
             </div>
-        </form>
+        </form >
     )
 }

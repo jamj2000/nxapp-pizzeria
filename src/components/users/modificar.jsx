@@ -3,8 +3,8 @@ import { editUser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon, UserRoundIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import Check from '@/components/check';
-
+import CheckBox from '@/components/check-box';
+import CheckRadio from '@/components/check-radio';
 
 
 
@@ -36,18 +36,36 @@ export default function UserModificar({ session, user }) {
                 }
             </button>
 
-            {user.image
-                ? <img src={user.image} alt="Imagen de usuario" width={144} />
-                : <UserRoundIcon className="size-36" />
-            }
+            <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
+                {/* Avatares 00 .. 80 */}
+                {[...Array(81)].map((_, index) => (
+                    <CheckRadio key={index}
+                        name='image'
+                        defaultValue={`/images/avatar-${String(index).padStart(2, '0')}.png`}
+                        className="size-14 has-checked:col-span-4 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
+                    >
+                        <img src={`/images/avatar-${String(index).padStart(2, '0')}.png`} alt="Imagen de usuario" />
+                    </CheckRadio>
+                ))}
+                {/* por defecto */}
+                <CheckRadio key={81}
+                    name='image'
+                    defaultValue={user.image || '/images/avatar-80.png'}
+                    defaultChecked={true}
+                    className="size-14 has-checked:col-span-4 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
+                >
+                    <img src={user.image || '/images/avatar-80.png'} alt="Imagen de usuario" />
+                </CheckRadio>
+            </div>
 
             {session.user.role === 'ADMIN'
                 ?
-                <Check
-                    id={'active'}
-                    label=''
+                <CheckBox
+                    name={'active'}
                     defaultChecked={user.active == true}
-                    className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"} />
+                    className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
+                >
+                </CheckBox>
                 :
                 <input type="hidden" name="active" defaultValue={user.active} />
             }

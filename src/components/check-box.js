@@ -1,16 +1,14 @@
-function Check({ id, label, defaultChecked, className }) {
+function CheckBox({ name, defaultChecked = false, className, children }) {
     return (
         <label className={className} >
             <input
                 type="checkbox"
-                id={id}
-                name={id}
-                value={id}
+                name={name}
                 defaultChecked={defaultChecked}
                 className='hidden' />
-            {label}
+            {children}
         </label >
     );
 }
 
-export default Check;
+export default CheckBox;
