@@ -47,7 +47,7 @@ async function Users() {
                                     <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
                                         <PencilIcon className='size-4' />
                                     </div>}>
-                                    <UserModificar user={user} />
+                                    <UserModificar session={session} user={user} />
                                 </Modal>
                                 <Modal openElement={
                                     <div className='size-8 grid place-content-center rounded-full border border-red-500 text-red-700 bg-red-200 hover:bg-red-500 hover:text-white hover:cursor-pointer'>

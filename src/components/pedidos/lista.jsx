@@ -10,7 +10,14 @@ import { auth } from "@/auth";
 
 export default async function Pedidos() {
     const session = await auth()
-    const pedidos = await obtenerPedidos(session?.user.id)
+
+    let pedidos
+    if (session?.user.role === 'ADMIN')
+        pedidos = await obtenerPedidos()   // todos los pedidos
+    else
+        pedidos = await obtenerPedidos(session?.user.id)  // pedidos del usuario
+
+
     const repartidores = await obtenerRepartidores()
     const pizzas = await obtenerPizzas()
     const clientes = await getUsers()
@@ -60,8 +67,27 @@ export default async function Pedidos() {
 
                             {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
                         </Link>
-                        <p>Nombre del cliente: {pedido.cliente?.name}</p>
-                        <p>Dirección del cliente: {pedido.cliente?.address}</p>
+                        {session?.user.role === 'ADMIN' &&
+                            <details>
+                                <summary>Cliente: {pedido.cliente.name}</summary>
+                                {/* <p>Nombre del cliente: {pedido.cliente?.name}</p> */}
+                                <p>Dirección: {pedido.cliente?.address}</p>
+                                <p>Teléfono: {pedido.cliente?.phone}</p>
+                            </details>
+                        }
+                        <div className="pt-5">
+                            <h2 className="font-bold text-lg">Pizzas</h2>
+                            {pedido.pizzas.map(pizza =>
+                                <p key={pizza.id} className="flex justify-between shrink-0">
+                                    <span>{pizza.nombre}</span> <span>{pizza.precio}</span>
+                                </p>
+                            )}
+                            <h3 className="flex justify-between shrink-0 font-bold">
+                                <span>TOTAL (€)</span>
+                                <span>{pedido.pizzas.reduce((acc, p) => acc + p.precio, 0).toFixed(2)}</span>
+                            </h3>
+                        </div>
+
 
                     </div>
                 )}

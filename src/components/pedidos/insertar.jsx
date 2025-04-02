@@ -40,8 +40,9 @@ function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
                     defaultValue={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split('.')[0]} />
             </label>
 
-            {/* <p className="font-bold">Cliente</p> */}
+
             <input type='hidden' name="clienteId" defaultValue={user.id} />
+            {/* <p className="font-bold">Cliente</p> */}
             {/* <select name="clienteId">
                 {
                     clientes.map(cliente =>
@@ -52,8 +53,9 @@ function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
                 }
             </select> */}
 
-            {/* <p className="font-bold">Repartidor</p> */}
+
             <input type='hidden' name="repartidorId" />
+            {/* <p className="font-bold">Repartidor</p> */}
             {/* <select name="repartidorId">
                 {
                     repartidores.map(repartidor =>

@@ -39,8 +39,8 @@ function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
             </label>
 
 
-            {/* <p className="font-bold">Cliente</p> */}
             <input type='hidden' name="clienteId" defaultValue={user.id} />
+            {/* <p className="font-bold">Cliente</p> */}
             {/* <select key={pedido.clienteId} name="clienteId" defaultValue={pedido.clienteId}>
                 {
                     clientes.map(cliente =>
@@ -51,8 +51,8 @@ function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
                 }
             </select> */}
 
-            {/* <p className="font-bold">Repartidor</p> */}
             <input type='hidden' name="repartidorId" />
+            {/* <p className="font-bold">Repartidor</p> */}
             {/* <select name="repartidorId" defaultValue={pedido.repartidorId} key={pedido.repartidorId}>
                 {
                     repartidores.map(repartidor =>

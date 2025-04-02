@@ -48,7 +48,7 @@ async function Dashboard() {
                             <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
                                 <PencilIcon className='size-4' />
                             </div>}>
-                            <UserModificar user={usuario} />
+                            <UserModificar session={session} user={usuario} />
                         </Modal>
                     </div>
                     <p>{email}</p>

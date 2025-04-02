@@ -38,13 +38,17 @@ export async function getUserByEmail(email) {
 
 // ---------------------   REPARTIDORES -----------------------
 
-async function obtenerRepartidores() {
+export async function obtenerRepartidores() {
     const repartidores = await prisma.repartidor.findMany()
     return repartidores
 }
 
 
-async function obtenerRepartidor(id) {
+
+export async function obtenerRepartidor(id) {
+
+    if (Number.isInteger(parseInt(id)) == false) return null
+
     const repartidor = await prisma.repartidor.findUnique({
         where: { id: +id }
     })
@@ -54,7 +58,7 @@ async function obtenerRepartidor(id) {
 
 // ---------------------   PEDIDOS -----------------------
 
-async function obtenerPedidos(clienteId) {
+export async function obtenerPedidos(clienteId) {
     const pedidos = await prisma.pedido.findMany({
         where: {
             clienteId // dentro de where, valores undefined equivalen a desactivar filtro 
@@ -69,7 +73,10 @@ async function obtenerPedidos(clienteId) {
 }
 
 
-async function obtenerPedido(id) {
+export async function obtenerPedido(id) {
+
+    if (Number.isInteger(parseInt(id)) == false) return null
+
     const pedido = await prisma.pedido.findUnique({
         where: { id: +id },
         include: {
@@ -83,25 +90,19 @@ async function obtenerPedido(id) {
 
 // ---------------------   PIZZAS -----------------------
 
-async function obtenerPizzas() {
+export async function obtenerPizzas() {
     const pizzas = await prisma.pizza.findMany()
     return pizzas
 }
 
 
-async function obtenerPizza(id) {
+export async function obtenerPizza(id) {
+
+    if (Number.isInteger(parseInt(id)) == false) return null
+
     const pizza = await prisma.pizza.findUnique({
         where: { id: +id }
     })
     return pizza
 }
 
-
-export {
-    obtenerRepartidores,
-    obtenerRepartidor,
-    obtenerPedidos,
-    obtenerPedido,
-    obtenerPizzas,
-    obtenerPizza
-}

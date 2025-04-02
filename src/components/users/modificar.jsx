@@ -9,7 +9,7 @@ import Check from '@/components/check';
 
 
 
-export default function UserModificar({ user }) {
+export default function UserModificar({ session, user }) {
     const formId = useId()
     const [state, action, pending] = useActionState(editUser, {})
 
@@ -41,7 +41,7 @@ export default function UserModificar({ user }) {
                 : <UserRoundIcon className="size-36" />
             }
 
-            {user?.role === 'ADMIN'
+            {session.user.role === 'ADMIN'
                 ?
                 <Check
                     id={'active'}

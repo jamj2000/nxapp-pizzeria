@@ -2,10 +2,14 @@ import { Suspense } from "react";
 import Pedido from "@/components/pedidos/item";
 import Spinner2 from "@/components/spinner2";
 import BackButton from "@/components/back-button";
+import { notFound } from "next/navigation";
 
 
 async function PaginaPedido({ params, searchParams }) {
     const { id } = await params
+
+    // if (!Number.isInteger(parseInt(id))) return notFound()
+
 
     return (
         <div>
