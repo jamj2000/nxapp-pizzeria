@@ -107,6 +107,27 @@ export default function UserModificar({ session, user }) {
                         />
                     </div>
 
+                    {session.user.role === 'ADMIN' &&
+                        // <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        //     <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
+                        //     <input type='text' id='role' name='role'
+                        //         defaultValue={user.role}
+                        //         className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        //     />
+                        // </div>
+                        <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                            <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
+                            <select
+                                key={user.role}
+                                id="role"
+                                name="role"
+                                defaultValue={user.role} >
+                                <option value='USER'> USER </option>
+                                <option value='ADMIN'> ADMIN </option>
+                            </select>
+                        </div>
+                    }
+
                 </div>
             </div>
 

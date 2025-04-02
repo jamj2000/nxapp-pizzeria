@@ -1,5 +1,5 @@
 "use client"
-import { newUser, newuser } from '@/lib/actions'
+import { newUser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -99,6 +99,20 @@ export default function UserInsertar() {
                             className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
                         />
                     </div>
+
+                    {/* {session.user.role === 'ADMIN' && */}
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
+                        <select
+                            id="role"
+                            name="role"
+                            defaultValue='USER' >
+                            <option value='USER'> USER </option>
+                            <option value='ADMIN'> ADMIN </option>
+                        </select>
+                    </div>
+                    {/* } */}
+
 
                 </div>
             </div>

@@ -22,11 +22,11 @@ export const options = {
         }
     },
     callbacks: {
-
         async session({ session, token }) {
             // console.log(session, user);
             session.user.id = token?.sub;     // Para incluir ID de usuario
             session.user.role = token?.role
+
             // Obtener la información actualizada del usuario en cada petición
             const updatedUser = await getUserById(session.user.id)
 
