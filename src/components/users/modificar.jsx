@@ -13,6 +13,7 @@ export default function UserModificar({ session, user }) {
     const formId = useId()
     const [state, action, pending] = useActionState(editUser, {})
 
+
     useEffect(() => {
         if (state?.success) {
             toast.success(state.success)

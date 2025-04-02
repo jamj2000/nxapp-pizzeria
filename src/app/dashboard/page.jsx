@@ -37,10 +37,9 @@ async function Dashboard() {
 
 
             <div className="grid md:grid-cols-[160px_auto]">
-                {image
-                    ? <img src={image} className="size-36" />
-                    : <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/User-avatar.svg" className="size-30" />
-                }
+
+                <img src={image || '/images/avatar-80.png'} className="size-36" alt="Imagen de usuario" />
+
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-2 items-center">
                         <p className="font-bold">{name}</p>
