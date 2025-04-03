@@ -8,7 +8,7 @@ import CheckRadio from '@/components/check-radio';
 
 
 
-export default function UserInsertar() {
+export default function UserInsertar({ session }) {
     const formId = useId()
     const [state, action, pending] = useActionState(newUser, {})
 
