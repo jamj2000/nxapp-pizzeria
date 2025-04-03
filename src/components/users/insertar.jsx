@@ -107,18 +107,18 @@ export default function UserInsertar() {
                         />
                     </div>
 
-                    {/* {session.user.role === 'ADMIN' && */}
-                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
-                        <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
-                        <select
-                            id="role"
-                            name="role"
-                            defaultValue='USER' >
-                            <option value='USER'> USER </option>
-                            <option value='ADMIN'> ADMIN </option>
-                        </select>
-                    </div>
-                    {/* } */}
+                    {session.user.role === 'ADMIN' &&
+                        <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                            <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
+                            <select
+                                id="role"
+                                name="role"
+                                defaultValue='USER' >
+                                <option value='USER'> USER </option>
+                                <option value='ADMIN'> ADMIN </option>
+                            </select>
+                        </div>
+                    }
 
 
                 </div>
