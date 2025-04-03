@@ -10,12 +10,31 @@ const repartidores = [
     { id: 3, nombre: 'Luis', telefono: '666111444' }
 ]
 
+const ingredientes = [
+    { id: 1, nombre: 'Masa', descripcion: '' },
+    { id: 2, nombre: 'Tomate', descripcion: '' },
+    { id: 3, nombre: 'Mozzarella', descripcion: '' },
+    { id: 4, nombre: 'Queso Roquefort', descripcion: '' },
+    { id: 5, nombre: 'Queso Parmesano', descripcion: '' },
+    { id: 6, nombre: 'Pepperoni', descripcion: '' },
+    { id: 7, nombre: 'Salami', descripcion: '' },
+    { id: 8, nombre: 'Jamón', descripcion: '' },
+    { id: 9, nombre: 'Bacón', descripcion: '' },
+    { id: 10, nombre: 'Aceitunas', descripcion: '' },
+    { id: 11, nombre: 'Champiñones', descripcion: '' },
+    { id: 12, nombre: 'Pimientos', descripcion: '' },
+    { id: 13, nombre: 'Atún', descripcion: '' },
+    { id: 14, nombre: 'Piña', descripcion: '' },
+    { id: 15, nombre: 'Albahaca fresca', descripcion: '' },
+]
+
 const pizzas = [
     { id: 1, nombre: 'Mediterránea', precio: 10.01 },
     { id: 2, nombre: 'Carbonara', precio: 11.02 },
     { id: 3, nombre: 'Peperoni', precio: 12.03 },
     { id: 4, nombre: 'Romana', precio: 13.04 },
 ]
+
 
 const pedidos = [
     {

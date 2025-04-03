@@ -62,11 +62,21 @@ model Pedido {
 }
 
 model Pizza {
-  id      Int      @id @default(autoincrement())
-  nombre  String
-  foto    String?
-  precio  Float
-  pedidos Pedido[]
+  id           Int           @id @default(autoincrement())
+  nombre       String
+  foto         String?
+  precio       Float
+  pedidos      Pedido[]
+  ingredientes Ingrediente[]
 
   @@map("pizzas")
+}
+
+model Ingrediente {
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  pizzas      Pizza[]
+
+  @@map("ingredientes")
 }
