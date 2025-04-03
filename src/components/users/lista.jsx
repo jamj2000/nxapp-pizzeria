@@ -20,7 +20,7 @@ async function Users() {
                 <div className='justify-self-end mb-2 mr-1 size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
                     <PlusIcon className='size-4' />
                 </div>}>
-                <UserInsertar />
+                <UserInsertar session={session} />
             </Modal>
 
             {users
