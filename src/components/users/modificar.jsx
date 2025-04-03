@@ -91,7 +91,6 @@ export default function UserModificar({ session, user }) {
                         />
                     </div>
 
-
                     <div className="flex flex-col md:flex-row items-center md:space-x-4">
                         <label htmlFor='password' className="font-bold w-full md:w-1/4">Contraseña</label>
                         <input type='text' id='password' name='password'
