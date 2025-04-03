@@ -80,8 +80,15 @@ export default function UserInsertar() {
                     </div>
 
                     <div className="flex flex-col md:flex-row items-center md:space-x-4">
-                        <label htmlFor='email' className="font-bold w-full md:w-1/4">email</label>
+                        <label htmlFor='email' className="font-bold w-full md:w-1/4">Email</label>
                         <input type='email' id='email' name='email'
+                            className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row items-center md:space-x-4">
+                        <label htmlFor='password' className="font-bold w-full md:w-1/4">Contraseña</label>
+                        <input type='text' id='password' name='password'
                             className="w-full md:w-3/4 px-3 py-2 rounded-lg focus:outline-none focus:border-blue-400 bg-gray-100"
                         />
                     </div>

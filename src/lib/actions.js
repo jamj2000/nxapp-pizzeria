@@ -133,15 +133,27 @@ async function uploadImage(file) {
 export async function newUser(prevState, formData) {
     const name = formData.get('name');
     const email = formData.get('email');
+    const password = formData.get('password')
     const active = Boolean(formData.get('active'))
     const address = formData.get('address');
     const phone = formData.get('phone');
     const image = formData.get('image');
     const role = formData.get('role');
 
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     try {
         await prisma.user.create({
-            data: { name, email, active, address, phone, image, role },
+            data: {
+                name,
+                email,
+                password: hashedPassword,
+                active,
+                address,
+                phone,
+                image,
+                role
+            }
         })
 
         revalidatePath('/dashboard')
@@ -157,16 +169,30 @@ export async function editUser(prevState, formData) {
     const id = formData.get('id')
     const name = formData.get('name');
     const email = formData.get('email');
+    const password = formData.get('password')
     const active = Boolean(formData.get('active'))
     const address = formData.get('address');
     const phone = formData.get('phone');
     const image = formData.get('image');
     const role = formData.get('role');
 
+    let hashedPassword
+    if (password)
+        hashedPassword = await bcrypt.hash(password, 10)
+
     try {
         await prisma.user.update({
             where: { id },
-            data: { name, email, active, address, phone, image, role },
+            data: {
+                name,
+                email,
+                ...(password && { password: hashedPassword }),
+                active,
+                address,
+                phone,
+                image,
+                role
+            }
         })
         revalidatePath('/dashboard')
         return { success: 'Usuario modificado' }
