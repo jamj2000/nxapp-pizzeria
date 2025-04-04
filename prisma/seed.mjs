@@ -78,7 +78,7 @@ const usuarios = [
         name: "Pepe Viyuela",
         email: "pepe@pepe.com",
         address: "C/ Nueva, 99",
-        image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/128/28.jpg',
+        image: '/images/avatar-77.png',
         role: 'USER',
         pedidos: {
             connect: [{ id: 1 }]
@@ -88,7 +88,7 @@ const usuarios = [
         name: "Ana Alferez",
         email: "ana@ana.com",
         address: "C/ Ancha, 100",
-        image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/128/28.jpg',
+        image: '/images/avatar-78.png',
         role: 'USER',
         pedidos: {
             connect: [{ id: 2 }, { id: 3 }]
@@ -98,7 +98,7 @@ const usuarios = [
         name: "Jose López",
         email: "jose@jose.com",
         address: "Avda. Constitución, 1",
-        image: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/128/14.jpg',
+        image: '/images/avatar-79.png',
         role: 'ADMIN',
         pedidos: {
             connect: [{ id: 4 }]
