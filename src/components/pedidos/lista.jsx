@@ -35,7 +35,7 @@ export default async function Pedidos() {
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
                 {pedidos.map(pedido =>
-                    <div key={pedido.id} className="p-4 mb-4 bg-indigo-50 rounded-lg border border-indigo-100   ">
+                    <div key={pedido.id} className="max-w-96 p-4 mb-4 bg-indigo-50 rounded-lg border border-indigo-100   ">
 
 
                         <div className='flex justify-end items-center gap-1'>
