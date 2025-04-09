@@ -1,6 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
+// NOTA:
+// Si introducimos id, no dejamos que la BD de datos haga uso de la secuencia correspondiente 
+// y esto provocará un error cuando la aplicación intente insertar un registro: Unique constraint failed on the fields: (`id`) 
+
 
 const users = [
     {
@@ -28,9 +32,21 @@ const users = [
 
 
 const repartidores = [
-    { id: 1, nombre: 'Juan', telefono: '666111222' },
-    { id: 2, nombre: 'Pepe', telefono: '666111333' },
-    { id: 3, nombre: 'Luis', telefono: '666111444' }
+    {
+        // id: 1, 
+        nombre: 'Juan',
+        telefono: '666111222'
+    },
+    {
+        // id: 2,
+        nombre: 'Pepe',
+        telefono: '666111333'
+    },
+    {
+        // id: 3,
+        nombre: 'Luis',
+        telefono: '666111444'
+    }
 ]
 
 const ingredientes = [
@@ -55,25 +71,33 @@ const ingredientes = [
 // pizzas ---- n:m ---- ingredientes
 const pizzas = [
     {
-        id: 1, nombre: 'Mediterránea', precio: 10.01,
+        // id: 1,
+        nombre: 'Mediterránea',
+        precio: 10.01,
         ingredientes: {
             connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
         }
     },
     {
-        id: 2, nombre: 'Carbonara', precio: 11.02,
+        // id: 2,
+        nombre: 'Carbonara',
+        precio: 11.02,
         ingredientes: {
             connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 5 }, { id: 12 }]
         }
     },
     {
-        id: 3, nombre: 'Peperoni', precio: 12.03,
+        // id: 3,
+        nombre: 'Peperoni',
+        precio: 12.03,
         ingredientes: {
             connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 6 }, { id: 15 }]
         }
     },
     {
-        id: 4, nombre: 'Romana', precio: 13.04,
+        // id: 4,
+        nombre: 'Romana',
+        precio: 13.04,
         ingredientes: {
             connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
         }
