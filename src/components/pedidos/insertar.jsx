@@ -3,6 +3,7 @@ import { insertarPedido } from "@/lib/actions";
 import { PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
+import CheckBox from "../check-box";
 
 
 function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
@@ -42,16 +43,6 @@ function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
 
 
             <input type='hidden' name="clienteId" defaultValue={user.id} />
-            {/* <p className="font-bold">Cliente</p> */}
-            {/* <select name="clienteId">
-                {
-                    clientes.map(cliente =>
-                        <option key={cliente.id} value={cliente.id}>
-                            {cliente.name}
-                        </option>
-                    )
-                }
-            </select> */}
 
 
             <input type='hidden' name="repartidorId" />
@@ -67,14 +58,19 @@ function PedidoInsertar({ user, clientes, repartidores, pizzas }) {
             </select> */}
 
             <p className="font-bold">Pizzas</p>
-            {
-                pizzas.map(pizza =>
-                    <label key={pizza.id}>
-                        <input type="checkbox" name={`pizza${pizza.id}`} />
-                        {pizza.nombre}
-                    </label>
-                )
-            }
+            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(140px,1fr))]">
+                {
+                    pizzas.map(pizza =>
+                        <CheckBox
+                            key={pizza.id}
+                            name={`pizza${pizza.id}`}
+                            className="place-items-center has-checked:bg-green-200 has-checked:border has-checked:border-green-500  p-4  rounded-md" >
+                            <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' />
+                            <span>{pizza.nombre}</span>
+                        </CheckBox>
+                    )
+                }
+            </div>
 
         </form>
 

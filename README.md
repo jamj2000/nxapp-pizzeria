@@ -20,12 +20,14 @@ La aplicación tiene las siguientes funcionalidades:
 - Los ingredientes para las pizzas sólo pueden crearse, modificarse y eliminarse por el usuario con rol ADMIN.
 - Sólo el usuario con rol ADMIN puede dar de alta nuevos repartidores, así como modificar y eliminar sus datos.
 
-  
+
+## Diagrama E-R
+
+![Diagrama E-R](public/diagrama-er-pizzeria.png)
 
 
 
 ## Desarrollo
-
 
 
 1. Crear base de datos `pizzeria`.

@@ -2,6 +2,29 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
+const users = [
+    {
+        name: "Pepe Viyuela",
+        email: "pepe@pepe.es",
+        address: "C/ Nueva, 99",
+        image: '/images/avatar-77.png',
+        role: 'USER',
+    },
+    {
+        name: "Ana Alferez",
+        email: "ana@ana.es",
+        address: "C/ Ancha, 100",
+        image: '/images/avatar-78.png',
+        role: 'USER',
+    },
+    {
+        name: "Jose López",
+        email: "jose@jose.es",
+        address: "Avda. Constitución, 1",
+        image: '/images/avatar-79.png',
+        role: 'ADMIN',
+    }
+];
 
 
 const repartidores = [
@@ -28,100 +51,90 @@ const ingredientes = [
     { id: 15, nombre: 'Albahaca fresca', descripcion: '' },
 ]
 
+
+// pizzas ---- n:m ---- ingredientes
 const pizzas = [
-    { id: 1, nombre: 'Mediterránea', precio: 10.01 },
-    { id: 2, nombre: 'Carbonara', precio: 11.02 },
-    { id: 3, nombre: 'Peperoni', precio: 12.03 },
-    { id: 4, nombre: 'Romana', precio: 13.04 },
-]
-
-
-const pedidos = [
     {
-        id: 1,
-        fecha_hora: '2024-06-01T20:00:05.000Z',
-        repartidorId: 2,
-        pizzas: {
-            connect: [{ id: 1 }, { id: 3 }, { id: 4 }]
+        id: 1, nombre: 'Mediterránea', precio: 10.01,
+        ingredientes: {
+            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
         }
     },
     {
-        id: 2,
-        fecha_hora: '2024-06-01T20:12:05.000Z',
-        repartidorId: 3,
+        id: 2, nombre: 'Carbonara', precio: 11.02,
+        ingredientes: {
+            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 5 }, { id: 12 }]
+        }
+    },
+    {
+        id: 3, nombre: 'Peperoni', precio: 12.03,
+        ingredientes: {
+            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 6 }, { id: 15 }]
+        }
+    },
+    {
+        id: 4, nombre: 'Romana', precio: 13.04,
+        ingredientes: {
+            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
+        }
+    },
+]
+
+
+// pedidos ---- n:m ---- pizzas
+const pedidos = [
+    {
+        fecha_hora: '2024-06-01T20:00:05.000Z',
+        pizzas: {
+            connect: [{ id: 1 }]
+        }
+    },
+    {
+        fecha_hora: '2024-07-01T21:12:05.000Z',
+        pizzas: {
+            connect: [{ id: 1 }, { id: 2 }]
+        }
+    },
+    {
+        fecha_hora: '2024-08-01T22:12:05.000Z',
         pizzas: {
             connect: [{ id: 2 }, { id: 4 }]
         }
     },
     {
-        id: 3,
-        fecha_hora: '2024-06-01T20:12:05.000Z',
-        repartidorId: 1,
+        fecha_hora: '2024-09-01T23:12:05.000Z',
         pizzas: {
-            connect: [{ id: 2 }, { id: 3 }]
-        }
-    },
-    {
-        id: 4,
-        fecha_hora: '2024-06-01T20:12:05.000Z',
-        repartidorId: 2,
-        pizzas: {
-            connect: [{ id: 1 }, { id: 4 }]
+            connect: [{ id: 2 }, { id: 3 }, { id: 4 }]
         }
     },
 ]
 
 
-
-const usuarios = [
-    {
-        name: "Pepe Viyuela",
-        email: "pepe@pepe.com",
-        address: "C/ Nueva, 99",
-        image: '/images/avatar-77.png',
-        role: 'USER',
-        pedidos: {
-            connect: [{ id: 1 }]
-        }
-    },
-    {
-        name: "Ana Alferez",
-        email: "ana@ana.com",
-        address: "C/ Ancha, 100",
-        image: '/images/avatar-78.png',
-        role: 'USER',
-        pedidos: {
-            connect: [{ id: 2 }, { id: 3 }]
-        }
-    },
-    {
-        name: "Jose López",
-        email: "jose@jose.com",
-        address: "Avda. Constitución, 1",
-        image: '/images/avatar-79.png',
-        role: 'ADMIN',
-        pedidos: {
-            connect: [{ id: 4 }]
-        }
+const pickOne = (array, key) => {
+    const index = Math.floor(Math.random() * array.length)
+    return {
+        where: { [key]: array[index][key] },
+        create: array[index]
     }
-];
-
-
+}
 
 
 
 // Eliminar contenido de las tablas
 const resetDatabase = async () => {
-    // Eliminar repartidores, pizzas, pedidos y users
+    // Eliminar ingredientes, repartidores, pizzas, pedidos y users
+    await prisma.ingrediente.deleteMany();
     await prisma.repartidor.deleteMany();
     await prisma.pizza.deleteMany();
     await prisma.pedido.deleteMany();
     await prisma.user.deleteMany();
 
-    // Reiniciar el contador de ID en las tablas repartidores, pizzas y pedidos
-    // await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 1;`;
-    // await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 1;`;
-    // await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 1;`;
+
+    // Reiniciar el contador de ID en las tablas ingredientes, repartidores, pizzas y pedidos
+    await prisma.$executeRaw`ALTER SEQUENCE "ingredientes_id_seq" RESTART WITH 1;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 1;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 1;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 1;`;
 };
 
 
@@ -130,25 +143,28 @@ const load = async () => {
         // reset database
         await resetDatabase();
 
-        await prisma.repartidor.createMany({ data: repartidores });
-        console.log(`Repartidores insertados`);
+        await prisma.ingrediente.createMany({ data: ingredientes });
+        console.log(`Ingredientes insertados`);
 
-        await prisma.pizza.createMany({ data: pizzas });
+        pizzas.forEach(async pizza => {
+            await prisma.pizza.create({ data: pizza });
+        })
         console.log(`Pizzas insertadas`);
 
-        pedidos.forEach(async pedido => {
-            await prisma.pedido.create({ data: pedido });
-        })
-        console.log(`Pedidos insertados`);
+        for (const pedido of pedidos) {
+            const cliente = pickOne(users, "email")
+            const repartidor = pickOne(repartidores, "id")
 
-        // await prisma.user.createMany({ data: usuarios });
-        // console.log(`Usuarios insertados`);
-
-        usuarios.forEach(async user => {
-            await prisma.user.create({ data: user });
-        })
-        console.log(`Usuarios insertados`);
-
+            await prisma.pedido.create({
+                data: {
+                    fecha_hora: pedido.fecha_hora,
+                    pizzas: pedido.pizzas,
+                    cliente: { connectOrCreate: cliente },        // cliente --- 1:n ---- pedido
+                    repartidor: { connectOrCreate: repartidor },  // repartidor --- 1:n ---- pedido
+                }
+            })
+        }
+        console.log(`Pedidos insertados, junto con repartidores y usuarios`);
 
     } catch (error) {
         console.error("Error al insertar datos:", error);

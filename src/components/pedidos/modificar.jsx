@@ -3,6 +3,7 @@ import { modificarPedido } from "@/lib/actions";
 import { PencilIcon, PenIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
+import CheckBox from "../check-box";
 
 function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
     const formId = useId()
@@ -65,21 +66,20 @@ function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
 
 
             <p className="font-bold">Pizzas</p>
-            {
-                pizzas.map(pizza =>
-                    <label key={pizza.id}>
-                        <input
-                            type="checkbox"
+            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(140px,1fr))]">
+                {
+                    pizzas.map(pizza =>
+                        <CheckBox
+                            key={pizza.id}
                             name={`pizza${pizza.id}`}
-                            value={pizza.id}
                             defaultChecked={IDs.includes(pizza.id)}
-                        />
-
-                        {pizza.nombre}
-
-                    </label>
-                )
-            }
+                            className="place-items-center has-checked:bg-green-200 has-checked:border has-checked:border-green-500  p-4  rounded-md" >
+                            <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' />
+                            <span>{pizza.nombre}</span>
+                        </CheckBox>
+                    )
+                }
+            </div>
 
         </form>
     );
