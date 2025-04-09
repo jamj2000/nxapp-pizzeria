@@ -33,4 +33,5 @@ body {
 input,
 select {
   padding: 10px;
+  background-color: whitesmoke;
 }

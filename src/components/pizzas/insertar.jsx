@@ -3,10 +3,11 @@ import { insertarPizza } from "@/lib/actions";
 import { PlusIcon, RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
-import InputImage from "../input-image";
+import InputImage from "@/components/input-image";
+import CheckBox from "@/components/check-box";
 
 
-function PizzaInsertar() {
+function PizzaInsertar({ ingredientes }) {
     const formId = useId()
 
     const [state, action, pending] = useActionState(insertarPizza, {})
@@ -17,6 +18,7 @@ function PizzaInsertar() {
             document.getElementById(formId)?.closest('dialog')?.close()
         }
     }, [state])
+
 
     return (
         <form id={formId} className="@container flex flex-col gap-4" action={action}>
@@ -42,6 +44,17 @@ function PizzaInsertar() {
             </div>
             <div>
                 <p className="font-bold">Ingredientes</p>
+                <div className="text-xs flex flex-wrap gap-3">
+                    {ingredientes?.map(ingrediente =>
+                        <div key={ingrediente.id}>
+                            <CheckBox
+                                name={ingrediente.id}
+                                className={"has-checked:bg-green-200 has-checked:text-green-800 px-2 py-1 text-gray-500 rounded-full"}>
+                                {ingrediente.nombre}
+                            </CheckBox>
+                        </div>
+                    )}
+                </div>
             </div>
         </form>
 

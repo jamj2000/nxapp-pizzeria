@@ -13,7 +13,13 @@ export default async function Pizza({ id }) {
             </div>
             <div className="flex flex-col gap-4 md:flex-row md:gap-10">
                 <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="sm:w-[50%]" />
-                <p className="font-bold">Ingredientes</p>
+                <div>
+                    <p className="font-bold">Ingredientes</p>
+                    {pizza.ingredientes.map(ingrediente =>
+                        <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                    )
+                    }
+                </div>
             </div>
         </>
     );

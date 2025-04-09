@@ -366,15 +366,22 @@ export async function insertarPizza(prevState, formData) {
     const precio = Number(formData.get('precio'))
     const file = formData.get('file')
 
+    const ingredientesIDs = await prisma.ingrediente.findMany({
+        select: { id: true }
+    })
+    // console.log(ingredientesIDs);
+    const connect = ingredientesIDs.filter(i => formData.get(i.id) !== null)
+
+
     // si tenemos nuevo archivo en el input type=file
     if (file.size > 0) {
         const foto = await uploadImage(file)
         await prisma.pizza.create({
-            data: { nombre, precio, foto }
+            data: { nombre, precio, foto, ingredientes: { connect } }
         })
     } else {
         await prisma.pizza.create({
-            data: { nombre, precio }
+            data: { nombre, precio, ingredientes: { connect } }
         })
     }
 
@@ -392,17 +399,24 @@ export async function modificarPizza(prevState, formData) {
     const precio = Number(formData.get('precio'))
     const file = formData.get('file')
 
+    const ingredientesIDs = await prisma.ingrediente.findMany({
+        select: { id: true }
+    })
+    // console.log(ingredientesIDs);
+    const connect = ingredientesIDs.filter(i => formData.get(i.id) !== null)
+    const disconnect = ingredientesIDs.filter(i => formData.get(i.id) === null)
+
     // si tenemos nuevo archivo en el input type=file
     if (file.size > 0) {
         const foto = await uploadImage(file)
         await prisma.pizza.update({
             where: { id },
-            data: { nombre, precio, foto }
+            data: { nombre, precio, foto, ingredientes: { connect, disconnect } }
         })
     } else {
         await prisma.pizza.update({
             where: { id },
-            data: { nombre, precio }
+            data: { nombre, precio, ingredientes: { connect, disconnect } }
         })
     }
 

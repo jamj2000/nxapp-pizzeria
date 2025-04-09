@@ -32,10 +32,21 @@ function PizzaEliminar({ pizza }) {
                 </button>
             </form>
 
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
+                    <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' width={400} />
 
-            <p>PIZZA: {pizza.nombre}</p>
-            <p>PRECIO: {pizza.precio}</p>
-
+                    <div className="flex flex-col justify-center w-full">
+                        <p className="text-4xl">{pizza.nombre}</p>
+                        <p className="text-4xl font-bold text-slate-300">{pizza.precio} €</p>
+                        <p className="font-bold">Ingredientes</p>
+                        {pizza.ingredientes.map(ingrediente =>
+                            <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                        )
+                        }
+                    </div>
+                </div>
+            </div>
 
         </div>
     );
