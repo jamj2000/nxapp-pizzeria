@@ -31,7 +31,7 @@ export default async function Pizzas() {
                 {pizzas
                     .sort((a, b) => a.nombre.localeCompare(b.nombre))
                     .map(pizza =>
-                        <div key={pizza.id} className="p-4 mb-4 bg-[#dafb6f]/20 rounded-lg border border-lime-200">
+                        <div key={pizza.id} className="p-4 mb-4 bg-lime-100 rounded-lg border border-lime-200">
 
                             <Modal openElement={
                                 <div className="grid place-content-center cursor-pointer">

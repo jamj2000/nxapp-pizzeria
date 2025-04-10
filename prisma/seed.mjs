@@ -1,10 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-// NOTA:
-// Si introducimos id, no dejamos que la BD de datos haga uso de la secuencia correspondiente 
-// y esto provocará un error cuando la aplicación intente insertar un registro: Unique constraint failed on the fields: (`id`) 
-
 
 const users = [
     {
@@ -33,45 +29,90 @@ const users = [
 
 const repartidores = [
     {
-        // id: 1, 
+        id: 1,
         nombre: 'Juan',
         telefono: '666111222'
     },
     {
-        // id: 2,
+        id: 2,
         nombre: 'Pepe',
         telefono: '666111333'
     },
     {
-        // id: 3,
+        id: 3,
         nombre: 'Luis',
         telefono: '666111444'
     }
 ]
 
 const ingredientes = [
-    { id: 1, nombre: 'Masa', descripcion: '' },
-    { id: 2, nombre: 'Tomate', descripcion: '' },
-    { id: 3, nombre: 'Mozzarella', descripcion: '' },
-    { id: 4, nombre: 'Queso Roquefort', descripcion: '' },
-    { id: 5, nombre: 'Queso Parmesano', descripcion: '' },
-    { id: 6, nombre: 'Pepperoni', descripcion: '' },
-    { id: 7, nombre: 'Salami', descripcion: '' },
-    { id: 8, nombre: 'Jamón', descripcion: '' },
-    { id: 9, nombre: 'Bacón', descripcion: '' },
-    { id: 10, nombre: 'Aceitunas', descripcion: '' },
-    { id: 11, nombre: 'Champiñones', descripcion: '' },
-    { id: 12, nombre: 'Pimientos', descripcion: '' },
-    { id: 13, nombre: 'Atún', descripcion: '' },
-    { id: 14, nombre: 'Piña', descripcion: '' },
-    { id: 15, nombre: 'Albahaca fresca', descripcion: '' },
+    {
+        id: 1,
+        nombre: 'Masa', descripcion: ''
+    },
+    {
+        id: 2,
+        nombre: 'Tomate', descripcion: ''
+    },
+    {
+        id: 3,
+        nombre: 'Mozzarella', descripcion: ''
+    },
+    {
+        id: 4,
+        nombre: 'Queso Roquefort', descripcion: ''
+    },
+    {
+        id: 5,
+        nombre: 'Queso Parmesano', descripcion: ''
+    },
+    {
+        id: 6,
+        nombre: 'Pepperoni', descripcion: ''
+    },
+    {
+        id: 7,
+        nombre: 'Salami', descripcion: ''
+    },
+    {
+        id: 8,
+        nombre: 'Jamón', descripcion: ''
+    },
+    {
+        id: 9,
+        nombre: 'Bacón', descripcion: ''
+    },
+    {
+        id: 10,
+        nombre: 'Aceitunas', descripcion: ''
+    },
+    {
+        id: 11,
+        nombre: 'Champiñones', descripcion: ''
+    },
+    {
+        id: 12,
+        nombre: 'Pimientos', descripcion: ''
+    },
+    {
+        id: 13,
+        nombre: 'Atún', descripcion: ''
+    },
+    {
+        id: 14,
+        nombre: 'Piña', descripcion: ''
+    },
+    {
+        id: 15,
+        nombre: 'Albahaca fresca', descripcion: ''
+    },
 ]
 
 
 // pizzas ---- n:m ---- ingredientes
 const pizzas = [
     {
-        // id: 1,
+        id: 1,
         nombre: 'Mediterránea',
         precio: 10.01,
         ingredientes: {
@@ -79,7 +120,7 @@ const pizzas = [
         }
     },
     {
-        // id: 2,
+        id: 2,
         nombre: 'Carbonara',
         precio: 11.02,
         ingredientes: {
@@ -87,7 +128,7 @@ const pizzas = [
         }
     },
     {
-        // id: 3,
+        id: 3,
         nombre: 'Peperoni',
         precio: 12.03,
         ingredientes: {
@@ -95,7 +136,7 @@ const pizzas = [
         }
     },
     {
-        // id: 4,
+        id: 4,
         nombre: 'Romana',
         precio: 13.04,
         ingredientes: {
@@ -152,29 +193,41 @@ const resetDatabase = async () => {
     await prisma.pizza.deleteMany();
     await prisma.pedido.deleteMany();
     await prisma.user.deleteMany();
-
-
-    // Reiniciar el contador de ID en las tablas ingredientes, repartidores, pizzas y pedidos
-    await prisma.$executeRaw`ALTER SEQUENCE "ingredientes_id_seq" RESTART WITH 1;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 1;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 1;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 1;`;
 };
 
+
+const setSequences = async () => {
+    // Las secuencias continuarán en 20
+    await prisma.$executeRaw`ALTER SEQUENCE "ingredientes_id_seq" RESTART WITH 20;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 20;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 20;`;
+    await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 20;`;
+}
 
 const load = async () => {
     try {
         // reset database
         await resetDatabase();
 
+        // Users
+        await prisma.user.createMany({ data: users });
+        console.log(`Usuarios insertados`);
+
+        // Repartidores
+        await prisma.repartidor.createMany({ data: repartidores });
+        console.log(`Repartidores insertados`);
+
+        // Ingredientes
         await prisma.ingrediente.createMany({ data: ingredientes });
         console.log(`Ingredientes insertados`);
 
+        // Pizzas
         pizzas.forEach(async pizza => {
             await prisma.pizza.create({ data: pizza });
         })
         console.log(`Pizzas insertadas`);
 
+        // Pedidos, Repartidores, Users
         for (const pedido of pedidos) {
             const cliente = pickOne(users, "email")
             const repartidor = pickOne(repartidores, "id")
@@ -189,6 +242,9 @@ const load = async () => {
             })
         }
         console.log(`Pedidos insertados, junto con repartidores y usuarios`);
+
+        // Iniciar próximas secuencias    
+        await setSequences()
 
     } catch (error) {
         console.error("Error al insertar datos:", error);

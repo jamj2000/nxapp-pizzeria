@@ -73,7 +73,7 @@ function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
                             key={pizza.id}
                             name={`pizza${pizza.id}`}
                             defaultChecked={IDs.includes(pizza.id)}
-                            className="place-items-center has-checked:bg-green-200 has-checked:border has-checked:border-green-500  p-4  rounded-md" >
+                            className="place-items-center has-checked:bg-lime-100 has-checked:border has-checked:border-green-500  p-4  rounded-md" >
                             <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' />
                             <span>{pizza.nombre}</span>
                         </CheckBox>
