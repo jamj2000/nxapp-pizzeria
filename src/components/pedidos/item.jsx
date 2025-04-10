@@ -9,7 +9,15 @@ export default async function Pedido({ id }) {
         <>
             <div className="flex gap-4 text-2xl font-bold">
                 <span>Nº {pedido.id}</span>
-                {new Date(pedido.fecha_hora).toLocaleString()}
+                {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
+                {
+                    new Intl.DateTimeFormat("es-ES", {
+                        dateStyle: "full",
+                        timeStyle: "long",
+                        timeZone: "Europe/Madrid",
+                    }).format(pedido.fecha_hora)
+                }
+
             </div>
             <div>Nombre del cliente: {pedido.cliente?.name}</div>
             <div>Dirección del cliente: {pedido.cliente?.address}</div>
