@@ -60,11 +60,18 @@ export default async function Pedidos() {
                             <Link href={`/pedidos/${pedido.id}`} className="flex gap-4 font-bold cursor-pointer">
                                 <span>Nº {pedido.id}</span>
                                 <span>
-                                    {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
+                                    {/* {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
                                         dateStyle: "full",
                                         timeStyle: "long",
                                         timeZone: "Europe/Madrid",
-                                    }))}
+                                    }))} */}
+                                    {
+                                        new Intl.DateTimeFormat("es-ES", {
+                                            dateStyle: "full",
+                                            timeStyle: "long",
+                                            timeZone: "Europe/Madrid",
+                                        }).format(pedido.fecha_hora)
+                                    }
                                 </span>
 
                                 {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
