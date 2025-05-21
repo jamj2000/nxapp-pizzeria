@@ -6,9 +6,8 @@ import { Suspense } from "react";
 import Spinner1 from "@/components/spinner1";
 import Users from "@/components/users/lista";
 import Pedidos from "@/components/pedidos/lista";
-import Modal from "@/components/modal";
-import UserModificar from "@/components/users/modificar";
-import { getUserById } from "@/lib/data";
+import Spinner2 from "@/components/spinner2";
+import UserInfo from "@/components/users/info";
 
 
 async function Dashboard() {
@@ -17,11 +16,11 @@ async function Dashboard() {
     if (!session) redirect('/auth/login')
 
     // desestructuramos información de sesión   
-    const { user } = session
-    const { id, name, email, image, role } = user
+    // const { user } = session
+    // const { id, name, email, image, role } = user
 
     // obtenemos toda la información del usuario
-    const usuario = await getUserById(id)
+    // const usuario = await getUserById(id)
 
     return (
         <div>
@@ -34,28 +33,11 @@ async function Dashboard() {
                 </form>
             </div>
 
+            <Suspense fallback={<Spinner2 />}>
+                <UserInfo />
+            </Suspense>
 
 
-            <div className="grid md:grid-cols-[160px_auto]">
-
-                <img src={image || '/images/avatar-80.png'} className="size-36" alt="Imagen de usuario" />
-
-                <div className="flex flex-col gap-1">
-                    <div className="flex gap-2 items-center">
-                        <p className="font-bold">{name}</p>
-                        <Modal openElement={
-                            <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
-                                <PencilIcon className='size-4' />
-                            </div>}>
-                            <UserModificar session={session} user={usuario} />
-                        </Modal>
-                    </div>
-                    <p>{email}</p>
-                    <p>{usuario.address}</p>
-                    <p>{usuario.phone}</p>
-                    <p>{role}</p>
-                </div>
-            </div>
 
             {session.user.role === 'ADMIN' &&
                 <>

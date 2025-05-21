@@ -17,7 +17,7 @@ function Spinner2() {
             size={10}
             loading={loading}
             // cssOverride={styles}
-            aria-label="Loading Spinner1"
+            aria-label="Loading Spinner2"
             data-testid="loader"
         />
     );
