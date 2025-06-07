@@ -14,12 +14,10 @@ export default function UserInsertar({ session }) {
 
 
     useEffect(() => {
-        if (state?.success) {
-            toast.success(state.success)
-            document.getElementById(formId).closest('dialog')?.close() // Si el padre es un dialog, lo cerramos
-        }
+        if (state?.success) toast.success(state.success)
         if (state?.error) toast.error(state.error)
 
+        document.getElementById(formId).closest('dialog')?.close() // Si el padre es un dialog, lo cerramos
     }, [formId, state])
 
 
@@ -35,6 +33,12 @@ export default function UserInsertar({ session }) {
                 }
             </button>
 
+            <CheckBox
+                name={'active'}
+                defaultChecked={true}
+                className={"self-end mb-4 text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
+            >
+            </CheckBox>
 
             <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
                 {/* Avatares 00 .. 79 */}
@@ -63,14 +67,6 @@ export default function UserInsertar({ session }) {
 
             <div className='flex flex-col md:flex-row md:gap-10'>
                 <div className='w-full md:w-2/3 flex flex-col gap-2'>
-
-                    <CheckBox
-                        name={'active'}
-                        defaultChecked={true}
-                        className={"text-xs w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
-                    >
-                    </CheckBox>
-
 
                     <div className="flex flex-col md:flex-row items-center md:space-x-4">
                         <label htmlFor='name' className="font-bold w-full md:w-1/4">Nombre</label>
