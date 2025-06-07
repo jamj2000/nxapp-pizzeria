@@ -95,7 +95,17 @@ export async function logout() {
 
 
 
-// ------------------------  UPLOAD IMAGE --------------------------------
+// ------------------------  IMAGES --------------------------------
+
+export async function getImages() {
+
+    const result = await cloudinary.api.resources_by_asset_folder('pizzería', {
+        max_results: 500
+    });
+
+    return result.resources.map(img => img.secure_url);
+}
+
 
 async function uploadImage(file) {
     // console.log(file);
@@ -446,5 +456,4 @@ export async function eliminarPizza(prevState, formData) {
     return { success: 'Pizza eliminada' }
 
 }
-
 

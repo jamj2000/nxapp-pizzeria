@@ -1,6 +1,21 @@
 'use server'
 
 import prisma from "@/lib/prisma"
+// import cloudinary from "@/lib/cloudinary"  // DA ERROR: Cannot read properties of undefined (reading 'node')
+
+// ---------------------   IMAGES -----------------------
+
+// const FOLDER = 'pizzería'
+
+// export async function getImages() {
+
+//     const result = await cloudinary.api.resources_by_asset_folder('pizzería', {
+//         max_results: 500
+//     });
+
+//     return result.resources.map(img => img.secure_url);
+// }
+
 
 
 
@@ -128,3 +143,5 @@ export async function obtenerIngrediente(id) {
     })
     return ingrediente
 }
+
+
