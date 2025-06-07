@@ -140,6 +140,10 @@ export async function newUser(prevState, formData) {
     const image = formData.get('image');
     const role = formData.get('role');
 
+    const user = await getUserByEmail(email)
+    if (user)
+        return { error: 'Este email ya está registrado.' }
+
     const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
@@ -175,6 +179,11 @@ export async function editUser(prevState, formData) {
     const phone = formData.get('phone');
     const image = formData.get('image');
     const role = formData.get('role');
+
+    const user = await getUserByEmail(email)
+    if (user && user.id != id)
+        return { error: 'Este email ya está registrado.' }
+
 
     let hashedPassword
     if (password)
