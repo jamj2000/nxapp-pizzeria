@@ -38,7 +38,7 @@ export default function UserInsertar({ session }) {
 
             <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
                 {/* Avatares 00 .. 79 */}
-                {[...Array(80)].map((_, index) => (
+                {Array(80).fill().map((_, index) => (
                     <CheckRadio key={index}
                         name='image'
                         defaultValue={`/images/avatar-${String(index).padStart(2, '0')}.png`}
