@@ -45,7 +45,7 @@ export default function Modal({ openElement, children }) {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div
                         ref={modalRef}
-                        className="absolute bg-white w-[90%] lg:w-[60%] rounded-md shadow-lg py-8 px-4 md:px-10"
+                        className="absolute bg-white w-[90%] lg:w-[60%] max-h-[90vh] overflow-y-auto rounded-md shadow-lg py-8 px-4 md:px-10"
                     >
                         <button
                             onClick={closeModal}
