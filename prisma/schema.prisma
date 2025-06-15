@@ -14,7 +14,7 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
-  role          Role?     @default(USER)
+  role          String?   @default("USER") // "ADMIN"
   address       String? // domicilio
   phone         String?
   active        Boolean   @default(true)
@@ -79,9 +79,4 @@ model Ingrediente {
   pizzas      Pizza[]
 
   @@map("ingredientes")
-}
-
-enum Role {
-  USER
-  ADMIN
 }
