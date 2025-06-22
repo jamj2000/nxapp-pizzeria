@@ -1,10 +1,10 @@
 'use client'
 import { editUser } from '@/lib/actions'
 import { useActionState, useEffect, useId } from 'react'
-import { PlusIcon, RefreshCwIcon, UserRoundIcon } from 'lucide-react';
+import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import CheckBox from '@/components/check-box';
-import CheckRadio from '@/components/check-radio';
+import InputAvatar from '@/components/input-avatar';
 
 
 
@@ -23,7 +23,7 @@ export default function UserModificar({ session, user }) {
 
 
     return (
-        <form id={formId} action={action} className="w-full flex flex-col gap-4">
+        <form id={formId} action={action} className="w-full flex flex-col gap-4 @container">
             <input type="hidden" name="id" defaultValue={user.id} />
 
             <button disabled={pending} title={'Actualizar información de usuario'}
@@ -48,27 +48,7 @@ export default function UserModificar({ session, user }) {
                 <input type="hidden" name="active" defaultValue={user.active} />
             }
 
-            <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
-                {/* Avatares 00 .. 79 */}
-                {Array(80).fill().map((_, index) => (
-                    <CheckRadio key={index}
-                        name='image'
-                        defaultValue={`/images/avatar-${String(index).padStart(2, '0')}.png`}
-                        className="size-14 has-checked:col-span-4 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
-                    >
-                        <img src={`/images/avatar-${String(index).padStart(2, '0')}.png`} alt="Imagen de usuario" />
-                    </CheckRadio>
-                ))}
-                {/* por defecto */}
-                <CheckRadio key={80}
-                    name='image'
-                    defaultValue={user.image || '/images/avatar-80.png'}
-                    defaultChecked={true}
-                    className="size-14 has-checked:col-span-4 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
-                >
-                    <img src={user.image || '/images/avatar-80.png'} alt="Imagen de usuario" />
-                </CheckRadio>
-            </div>
+            <InputAvatar name='image' user={user} />
 
 
             <div className='flex flex-col md:flex-row md:gap-10'>

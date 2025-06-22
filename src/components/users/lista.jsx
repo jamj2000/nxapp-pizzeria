@@ -1,7 +1,7 @@
 import { TrashIcon, PencilIcon, PlusIcon } from "lucide-react";
 import { auth } from "@/auth"
 import { getUsers } from "@/lib/data";
-import Modal from '@/components/modal';
+import Modal from '@/components/modal.old';
 import UserVer from '@/components/users/ver'
 import UserModificar from '@/components/users/modificar';
 import UserEliminar from '@/components/users/eliminar';

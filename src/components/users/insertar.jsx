@@ -4,7 +4,7 @@ import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import CheckBox from '@/components/check-box';
-import CheckRadio from '@/components/check-radio';
+import InputAvatar from '@/components/input-avatar';
 
 
 
@@ -22,7 +22,7 @@ export default function UserInsertar({ session }) {
 
 
     return (
-        <form id={formId} action={action} className="w-full flex flex-col gap-4">
+        <form id={formId} action={action} className="w-full flex flex-col gap-4 @container">
 
             <button type="submit" disabled={pending}
                 className='my-4 px-4 py-2 w-fit rounded-full self-end outline-none border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer disabled:bg-zinc-400 disabled:text-zinc-100 disabled:cursor-default'
@@ -40,28 +40,7 @@ export default function UserInsertar({ session }) {
             >
             </CheckBox>
 
-            <div className='grid place-items-center grid-cols-[repeat(auto-fill,minmax(40px,1fr))]'>
-                {/* Avatares 00 .. 79 */}
-                {Array(80).fill().map((_, index) => (
-                    <CheckRadio key={index}
-                        name='image'
-                        defaultValue={`/images/avatar-${String(index).padStart(2, '0')}.png`}
-                        className="size-14 has-checked:col-span-5 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
-                    >
-                        <img src={`/images/avatar-${String(index).padStart(2, '0')}.png`} alt="Imagen de usuario" />
-                    </CheckRadio>
-                ))}
-                {/* Avatar 80, por defecto */}
-                <CheckRadio key={80}
-                    name='image'
-                    defaultValue={`/images/avatar-80.png`}
-                    defaultChecked={true}
-                    className="size-14 has-checked:col-span-5 has-checked:row-span-3 has-checked:-order-1 has-checked:size-36 has-checked:bg-green-200 px-2 py-1 rounded-md"
-                >
-                    <img src={`/images/avatar-80.png`} alt="Imagen de usuario" />
-                </CheckRadio>
-            </div>
-
+            <InputAvatar name='image' />
 
 
 
