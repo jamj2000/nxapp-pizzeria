@@ -19,8 +19,19 @@
   }
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+input,
+select {
+  padding: 10px;
+  background-color: whitesmoke;
 }
