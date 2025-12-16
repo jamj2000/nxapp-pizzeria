@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma"
 
 
 
-export async function getPizzas(offset, limit = 5) {
+export async function obtenerLotePizzas(offset, limit = 5) {
     const pizzas = await prisma.pizza.findMany({
         skip: offset,
         take: limit,

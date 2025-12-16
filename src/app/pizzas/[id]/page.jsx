@@ -6,7 +6,6 @@ import { obtenerPizza } from "@/lib/data/pizzas";
 
 export default async function PaginaPizza({ params, searchParams }) {
     const { id } = await params
-    const data = obtenerPizza(id)
 
     return (
         <div>
@@ -14,7 +13,9 @@ export default async function PaginaPizza({ params, searchParams }) {
             <div className="h-20">{/* Hueco de separación */}</div>
 
             <Suspense fallback={<Spinner2 />}>
-                <Pizza data={data} />
+                <Pizza
+                    promesaPizza={obtenerPizza(id)}
+                />
             </Suspense>
         </div>
     )

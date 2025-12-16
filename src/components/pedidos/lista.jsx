@@ -1,33 +1,33 @@
-import { getUsers } from "@/lib/data/users";
-import { obtenerPedidos } from "@/lib/data/pedidos";
-import { obtenerPizzas } from "@/lib/data/pizzas";
-import { obtenerRepartidores } from "@/lib/data/repartidores";
+'use client'
 import Link from "next/link";
 import Modal from "@/components/ui/modal";
 import PedidoInsertar from "./insertar";
 import PedidoModificar from "./modificar";
 import PedidoEliminar from "./eliminar";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { auth } from "@/auth";
+import { use } from "react";
 
 
-export default async function Pedidos() {
-    const session = await auth()
 
-    let pedidos
-    if (session?.user.role === 'ADMIN')
-        pedidos = await obtenerPedidos()   // todos los pedidos
-    else
-        pedidos = await obtenerPedidos(session?.user.id)  // pedidos del usuario
+export default function Pedidos({
+    promesaPedidos,
+    promesaRepartidores,
+    promesaPizzas,
+    promesaClientes,
+    promesaSession
+}) {
+    const pedidos = use(promesaPedidos)
+    const repartidores = use(promesaRepartidores)
+    const pizzas = use(promesaPizzas)
+    const clientes = use(promesaClientes)
+    const session = use(promesaSession)
 
+    const admin = session?.user.role
 
-    const repartidores = await obtenerRepartidores()
-    const pizzas = await obtenerPizzas()
-    const clientes = await getUsers()
 
     return (
         <div className="flex flex-col gap-4">
-            {/* {session?.user.role === 'ADMIN' && */}
+            {/* {admin && */}
             <Modal openElement={
                 <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
                     <PlusIcon className='size-4' />
@@ -79,7 +79,7 @@ export default async function Pedidos() {
 
                                 {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
                             </Link>
-                            {session?.user.role === 'ADMIN' &&
+                            {admin &&
                                 <details>
                                     <summary>Cliente: {pedido.cliente?.name}</summary>
                                     {/* <p>Nombre del cliente: {pedido.cliente?.name}</p> */}

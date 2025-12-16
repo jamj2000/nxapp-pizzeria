@@ -24,7 +24,7 @@ export default async function PaginaRepartidor({ params, searchParams }) {
             <div className="h-20">{/* Hueco de separación */}</div>
 
             <Suspense fallback={<Spinner2 />}>
-                <Repartidor data={obtenerRepartidor(id)} />
+                <Repartidor promesaRepartidor={obtenerRepartidor(id)} />
             </Suspense>
         </div>
     )

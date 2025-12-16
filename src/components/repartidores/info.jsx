@@ -24,9 +24,9 @@ import { use, useState, useTransition } from "react"
 import { obtenerPizzas } from "@/lib/data/pizzas"
 
 
-export default function Repartidor({ data }) {
+export default function Repartidor({ promesaRepartidor }) {
 
-    const repartidor = use(data)
+    const repartidor = use(promesaRepartidor)
 
     if (!repartidor) notFound()
 
@@ -34,23 +34,19 @@ export default function Repartidor({ data }) {
     const [pizzas, setPizzas] = useState([])
     const [isPending, startTransition] = useTransition()
 
-    const loadPizzas = () => {
-        startTransition(async () => {
-            const data = await obtenerPizzas()
-            setPizzas(data)
-        })
-    }
+    const loadPizzas = () => startTransition(async () => {
+        const data = await obtenerPizzas()
+        setPizzas(data)
+    })
+
 
     return (
         <div>
             <div>Nombre: {repartidor.nombre}</div>
             <div>Teléfono: {repartidor.telefono}</div>
 
-            <button
-                onClick={loadPizzas}
-                disabled={isPending}
-            >
-                {isPending ? "Cargando..." : "Ver comentarios"}
+            <button onClick={loadPizzas} disabled={isPending}>
+                {isPending ? "Cargando..." : "Ver pizzas"}
             </button>
 
             <ul>

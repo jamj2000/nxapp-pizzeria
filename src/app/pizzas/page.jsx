@@ -1,25 +1,15 @@
-import { Suspense } from "react";
 import Pizzas from "@/components/pizzas/lista";
 import Link from "next/link";
 import Spinner2 from "@/components/ui/spinner2";
+import { Suspense } from "react";
 import { obtenerPizzas } from "@/lib/data/pizzas";
 import { obtenerIngredientes } from "@/lib/data/ingredientes";
 import { auth } from "@/auth";
-import PizzaInsertar from "@/components/pizzas/insertar";
-import Modal from "@/components/ui/modal";
-import { PlusIcon } from "lucide-react";
-
 
 
 
 
 export default async function PaginaPizzas() {
-    const session = await auth()
-    const data = Promise.allSettled([
-        obtenerPizzas(),
-        obtenerIngredientes()
-    ]);
-
 
     return (
         <div>
@@ -28,7 +18,11 @@ export default async function PaginaPizzas() {
 
 
             <Suspense fallback={<Spinner2 />}>
-                <Pizzas data={data} admin={session?.user.role === 'ADMIN'} />
+                <Pizzas
+                    promesaPizzas={obtenerPizzas()}
+                    promesaIngredientes={obtenerIngredientes()}
+                    promesaSession={auth()}
+                />
             </Suspense>
         </div>
 

@@ -2,8 +2,8 @@
 import { use } from "react";
 import { notFound } from "next/navigation";
 
-export default function Pizza({ data }) {
-    const pizza = use(data)
+export default function Pizza({ promesaPizza }) {
+    const pizza = use(promesaPizza)
     if (!pizza) notFound()
 
     return (

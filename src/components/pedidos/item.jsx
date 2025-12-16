@@ -1,8 +1,9 @@
-import { obtenerPedido } from "@/lib/data/pedidos";
+'use client'
 import { notFound } from "next/navigation";
+import { use } from "react";
 
-export default async function Pedido({ id }) {
-    const pedido = await obtenerPedido(id)
+export default function Pedido({ promesaPedido }) {
+    const pedido = use(promesaPedido)
     if (!pedido) notFound()
 
     return (

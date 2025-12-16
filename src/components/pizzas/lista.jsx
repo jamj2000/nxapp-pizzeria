@@ -4,31 +4,17 @@ import PizzaVer from "@/components/pizzas/ver";
 import PizzaModificar from "@/components/pizzas/modificar";
 import PizzaEliminar from "@/components/pizzas/eliminar";
 import PizzaInsertar from "@/components/pizzas/insertar";
-import { ArrowUpRightIcon, EyeIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { ArrowUpRightIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { use, useState } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { obtenerPizzas } from "@/lib/data/pizzas";
-import { obtenerIngredientes } from "@/lib/data/ingredientes";
 
 
+export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSession }) {
+    const pizzas = use(promesaPizzas)
+    const ingredientes = use(promesaIngredientes)
+    const session = use(promesaSession)
 
-export default function Pizzas({ admin = false }) {
-
-    const [pizzas, setPizzas] = useState([])                      // lista completa
-    const [ingredientes, setIngredientes] = useState([])          // lista completa
-
-    useEffect(() => {
-        const load = async () => {
-            const newPizzas = await obtenerPizzas()   // Consulta a BD
-            setPizzas(prev => [...prev, ...newPizzas])
-
-            const newIngredientes = await obtenerIngredientes()   // Consulta a BD
-            setIngredientes(prev => [...prev, ...newIngredientes])
-        }
-        load()
-    }, []
-    )
-
+    const admin = session?.user.role === 'ADMIN'
 
     const [sortBy, setSortBy] = useState('nombre')
 
@@ -44,6 +30,9 @@ export default function Pizzas({ admin = false }) {
 
     return (
         <div className="flex flex-col gap-4">
+            <div>
+                {JSON.stringify(session, null, 2)}
+            </div>
             {admin &&
                 <Modal openElement={
                     <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
@@ -63,7 +52,7 @@ export default function Pizzas({ admin = false }) {
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
                 {pizzas
-                    .sort(sortPizzas)
+                    .toSorted(sortPizzas)
                     .map(pizza =>
                         <Item
                             key={pizza.id}

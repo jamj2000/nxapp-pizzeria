@@ -1,15 +1,17 @@
+'use client'
 import Link from "next/link";
 import Modal from "@/components/ui/modal";
 import RepartidorInsertar from "./insertar";
 import RepartidorModificar from "./modificar";
 import RepartidorEliminar from "./eliminar";
 import { HeadsetIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { obtenerRepartidores } from "@/lib/data/repartidores";
+import { use } from "react";
 
 
 
-export default async function Repartidores() {
-    const repartidores = await obtenerRepartidores()
+export default function Repartidores({ promesaRepartidores }) {
+    const repartidores = use(promesaRepartidores)
+
 
     return (
         <div className="flex flex-col gap-4">
