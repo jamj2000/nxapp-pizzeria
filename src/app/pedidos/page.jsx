@@ -6,13 +6,13 @@ import { auth } from "@/auth";
 import { obtenerPedidos } from "@/lib/data/pedidos";
 import { obtenerRepartidores } from "@/lib/data/repartidores";
 import { obtenerPizzas } from "@/lib/data/pizzas";
-import { getUsers } from "@/lib/data/users";
+import { obtenerUsuarios } from "@/lib/data/users";
 
 
 export default async function PaginaPedidos() {
     const session = await auth()
 
-    const admin = session?.user.role === 'ADMIN'
+    const admin = session.user?.role === 'ADMIN'
 
 
     return (
@@ -25,7 +25,7 @@ export default async function PaginaPedidos() {
                     promesaPedidos={obtenerPedidos(!admin ? session?.user.id : undefined)}
                     promesaRepartidores={obtenerRepartidores()}
                     promesaPizzas={obtenerPizzas()}
-                    promesaClientes={getUsers()}
+                    promesaClientes={obtenerUsuarios()}
                     promesaSession={auth()}
                 />
             </Suspense>

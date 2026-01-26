@@ -1,11 +1,11 @@
 // import CarouselControlsInside from "@/components/carousel.old";
 import Carousel from "@/components/ui/carousel";
 import Link from "next/link";
-import { getImages } from '@/lib/data/images';
+import { obtenerImagenes } from '@/lib/data/images';
 
 export default async function Home() {
 
-    const images = await getImages()
+    const images = await obtenerImagenes()
 
     // const images = [
     //     'https://picsum.photos/id/1018/1000/600/',

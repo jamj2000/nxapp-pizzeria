@@ -2,7 +2,7 @@
 import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
 import { signIn, signOut } from '@/auth'
-import { getUserByEmail } from '@/lib/data/users'
+import { obtenerUsuarioPorEmail } from '@/lib/data/users'
 
 
 
@@ -16,7 +16,7 @@ async function register(prevState, formData) {
     const password = formData.get('password')
 
     // Comprobamos si el usuario ya está registrado
-    const user = await getUserByEmail(email);
+    const user = await obtenerUsuarioPorEmail(email);
 
     if (user) {
         return { error: 'El email ya está registrado' }
@@ -48,7 +48,7 @@ async function login(prevState, formData) {
     const password = formData.get('password')
 
     // Comprobamos si el usuario está registrado
-    const user = await getUserByEmail(email);
+    const user = await obtenerUsuarioPorEmail(email);
 
     if (!user) {
         return { error: 'Usuario no registrado.' }

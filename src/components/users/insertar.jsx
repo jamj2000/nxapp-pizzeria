@@ -8,7 +8,7 @@ import InputAvatar from '@/components/ui/input-avatar';
 
 
 
-export default function UserInsertar({ session }) {
+export default function UserInsertar({ isAdminSession }) {
     const formId = useId()
     const [state, action, pending] = useActionState(newUser, {})
 
@@ -82,7 +82,7 @@ export default function UserInsertar({ session }) {
                         />
                     </div>
 
-                    {session.user.role === 'ADMIN' &&
+                    {isAdminSession &&
                         <div className="flex flex-col md:flex-row items-center md:space-x-4">
                             <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
                             <select

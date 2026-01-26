@@ -10,56 +10,91 @@ import Link from "next/link";
 
 
 export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSession }) {
-    const pizzas = use(promesaPizzas)
     const ingredientes = use(promesaIngredientes)
     const session = use(promesaSession)
+    const dataPizzas = use(promesaPizzas)
+
+    const isAdminSession = session.user?.role === 'ADMIN'
+
+    const [propiedad, setPropiedad] = useState('nombre')
+    const [orden, setOrden] = useState('')
+    const [buscar, setBuscar] = useState('')
+
+    let pizzas = dataPizzas
+    if (propiedad === 'precio') {
+        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad] - b[propiedad])
+        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad] - a[propiedad])
+    }
+    else {
+        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad].localeCompare(b[propiedad]))
+        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad].localeCompare(a[propiedad]))
+    }
+
+    if (buscar) pizzas = pizzas.filter((pizza) =>
+        pizza.nombre.toLowerCase().includes(buscar.toLowerCase())
+    )
+
 
     const admin = session?.user.role === 'ADMIN'
 
-    const [sortBy, setSortBy] = useState('nombre')
 
-    const sortPizzas = (a, b) => {
-        if (sortBy === 'precio') {
-            return a.precio - b.precio
-        }
-        return a.nombre.localeCompare(b.nombre)
-    }
-
-
-    if (pizzas.length === 0) return <p>Obteniendo datos ...</p>
 
     return (
         <div className="flex flex-col gap-4">
-            <div>
-                {JSON.stringify(session, null, 2)}
-            </div>
-            {admin &&
-                <Modal openElement={
-                    <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
-                        <PlusIcon className='size-4' />
-                    </div>}>
-                    <PizzaInsertar ingredientes={ingredientes} />
-                </Modal>
-            }
-            <div className="flex justify-end">
-                <button
-                    onClick={() => setSortBy(prev => prev === 'nombre' ? 'precio' : 'nombre')}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                >
-                    {sortBy === 'nombre' ? 'Ordenar por precio' : 'Ordenar por nombre'}
-                </button>
+
+            <div className="flex flex-wrap gap-2 mb-2">
+
+                <fieldset className="flex flex-wrap gap-2 mb-2">
+                    <legend className='font-bold'>Filtrar</legend>
+                    <input type="search" placeholder="Buscar"
+                        value={buscar}
+                        onChange={(e) => setBuscar(e.target.value)}
+                        className="p-2 border rounded-md w-fit"
+                    />
+                </fieldset>
+                <fieldset className="flex flex-wrap gap-2 mb-2">
+                    <legend className='font-bold'>Ordenar</legend>
+                    <select
+                        value={orden}
+                        onChange={(e) => setOrden(e.target.value)}
+                        className="p-2 border rounded-md w-fit"
+                    >
+                        <option value="">Orden por defecto</option>
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                    <select
+                        value={propiedad}
+                        onChange={(e) => setPropiedad(e.target.value)}
+                        className="p-2 border rounded-md w-fit"
+                    >
+                        <option value="nombre">Nombre</option>
+                        <option value="precio">Precio</option>
+                    </select>
+                </fieldset>
+
             </div>
 
+            {isAdminSession &&
+                <div className='flex justify-end items-center gap-4 pb-4'>
+                    <Modal openElement={
+                        <PlusIcon size={32}
+                            className='text-green-500 border border-green-500 rounded-full bg-green-200 p-2 cursor-pointer hover:text-white hover:bg-green-500'
+                        />}>
+                        <PizzaInsertar ingredientes={ingredientes} />
+                    </Modal>
+                </div>
+            }
+
+
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-                {pizzas
-                    .toSorted(sortPizzas)
-                    .map(pizza =>
-                        <Item
-                            key={pizza.id}
-                            pizza={pizza}
-                            ingredientes={ingredientes}
-                            admin={admin}
-                        />)}
+                {pizzas.map(pizza =>
+                    <Pizza
+                        key={pizza.id}
+                        pizza={pizza}
+                        ingredientes={ingredientes}
+                        isAdminSession={isAdminSession}
+                    />)}
             </div>
         </div>
 
@@ -68,7 +103,7 @@ export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSess
 
 
 
-function Item({ pizza, ingredientes, admin = false }) {
+function Pizza({ pizza, ingredientes, isAdminSession = false }) {
     return (
         <div className="p-4 mb-4 bg-lime-100 rounded-lg border border-lime-200">
 
@@ -84,7 +119,7 @@ function Item({ pizza, ingredientes, admin = false }) {
             </Modal>
 
             <div className='flex justify-end items-center gap-1 pt-4'>
-                {admin &&
+                {isAdminSession &&
                     <>
                         <Modal openElement={
                             <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>

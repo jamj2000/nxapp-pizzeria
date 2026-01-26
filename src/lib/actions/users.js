@@ -1,7 +1,7 @@
 'use server'
 import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
-import { getUserByEmail } from '@/lib/data/users'
+import { obtenerUsuarioPorEmail } from '@/lib/data/users'
 import { revalidatePath } from 'next/cache'
 
 
@@ -17,7 +17,7 @@ async function newUser(prevState, formData) {
     const image = formData.get('image');
     const role = formData.get('role');
 
-    const user = await getUserByEmail(email)
+    const user = await obtenerUsuarioPorEmail(email)
     if (user)
         return { error: 'Este email ya está registrado.' }
 
@@ -57,7 +57,7 @@ async function editUser(prevState, formData) {
     const image = formData.get('image');
     const role = formData.get('role');
 
-    const user = await getUserByEmail(email)
+    const user = await obtenerUsuarioPorEmail(email)
     if (user && user.id != id)
         return { error: 'Este email ya está registrado.' }
 
@@ -115,11 +115,21 @@ async function activeUser(user) {
 }
 
 
+async function updateActiveUser(id, isActive) {
+    await prisma.user.update({
+        where: { id },
+        data: { active: isActive },
+    })
+
+    revalidatePath("/dashboard");
+}
+
 
 
 export {
     newUser,
     editUser,
     deleteUser,
-    activeUser
+    activeUser,
+    updateActiveUser
 }

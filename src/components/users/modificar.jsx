@@ -1,4 +1,5 @@
 'use client'
+
 import { editUser } from '@/lib/actions/users'
 import { useActionState, useEffect, useId } from 'react'
 import { PlusIcon, RefreshCwIcon } from 'lucide-react';
@@ -9,7 +10,7 @@ import InputAvatar from '@/components/ui/input-avatar';
 
 
 
-export default function UserModificar({ session, user }) {
+export default function UserModificar({ isAdminSession, user }) {
     const formId = useId()
     const [state, action, pending] = useActionState(editUser, {})
 
@@ -35,7 +36,7 @@ export default function UserModificar({ session, user }) {
                 }
             </button>
 
-            {session.user.role === 'ADMIN'
+            {isAdminSession
                 ?
                 <CheckBox
                     key={`active-${user.active}`}  // Para actualizar VDOM al detectar cambio
@@ -95,7 +96,7 @@ export default function UserModificar({ session, user }) {
                         />
                     </div>
 
-                    {session.user.role === 'ADMIN' &&
+                    {isAdminSession &&
                         <div className="flex flex-col md:flex-row items-center md:space-x-4">
                             <label htmlFor='role' className="font-bold w-full md:w-1/4">Rol</label>
                             <select

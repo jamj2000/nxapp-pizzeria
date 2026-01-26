@@ -17,7 +17,7 @@ function PedidoModificar({ user, pedido, clientes, repartidores, pizzas }) {
         }
     }, [state])
 
-    const IDs = pedido.pizzas.map(p => p.id)
+    const IDs = pedido.pedidoPizzas.map(pp => pp.pizzaId)
 
     return (
         <form id={formId} action={action} className="flex flex-col gap-4" >

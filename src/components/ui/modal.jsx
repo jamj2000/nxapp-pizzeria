@@ -27,7 +27,7 @@ const Modal = ({ children, openElement }) => {
 
     return (
         <>
-            <div onClick={openDialog} className=''>
+            <div onClick={openDialog} className='inline-block w-fit'>
                 {openElement}
             </div>
 

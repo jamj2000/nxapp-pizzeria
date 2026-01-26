@@ -1,9 +1,9 @@
 'use server'
+
 import prisma from "@/lib/prisma"
 
 
-
-export async function getUsers() {
+export async function obtenerUsuarios() {
     const users = await prisma.user.findMany({
         include: { pedidos: true }
     });
@@ -12,7 +12,7 @@ export async function getUsers() {
 
 
 
-export async function getUserById(id) {
+export async function obtenerUsuarioPorId(id) {
     const user = await prisma.user.findUnique({
         where: { id }
     });
@@ -22,7 +22,7 @@ export async function getUserById(id) {
 
 
 
-export async function getUserByEmail(email) {
+export async function obtenerUsuarioPorEmail(email) {
     const user = await prisma.user.findUnique({
         where: { email }
     });

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import prisma from "@/lib/prisma"
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { getUserById } from "@/lib/data/users"
+import { obtenerUsuarioPorId } from "@/lib/data/users"
 import authConfig from "@/auth.config"
 
 
@@ -28,7 +28,7 @@ export const options = {
             session.user.role = token?.role
 
             // Obtener la información actualizada del usuario en cada petición
-            const updatedUser = await getUserById(session.user.id)
+            const updatedUser = await obtenerUsuarioPorId(session.user.id)
 
             if (updatedUser) {
                 session.user.name = updatedUser.name; // Actualizar el nombre en la sesión
@@ -41,7 +41,7 @@ export const options = {
         async jwt({ token }) {
             if (!token.sub) return token;
 
-            const user = await getUserById(token.sub)
+            const user = await obtenerUsuarioPorId(token.sub)
             if (!user) return token;
 
             token.role = user?.role

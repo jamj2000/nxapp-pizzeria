@@ -1,11 +1,13 @@
 'use client'
+
 import { useActionState, useEffect } from 'react';
 import { login } from '@/lib/actions/auth'
 import { toast } from 'sonner';
 import Spinner1 from '@/components/ui/spinner1';
 
 
-function LoginForm() {
+export default () => {
+
     const [state, action, pending] = useActionState(login, {})
 
     useEffect(() => {
@@ -34,4 +36,3 @@ function LoginForm() {
     );
 };
 
-export default LoginForm;

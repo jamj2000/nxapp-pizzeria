@@ -1,4 +1,4 @@
-import { getUserById } from "@/lib/data/users";
+import { obtenerUsuarioPorId } from "@/lib/data/users";
 import Modal from "@/components/ui/modal";
 import UserModificar from "@/components/users/modificar";
 import { auth } from "@/auth";
@@ -7,7 +7,7 @@ import { PencilIcon } from "lucide-react";
 async function UserInfo() {
 
     const session = await auth()
-    const usuario = await getUserById(session.user.id)
+    const usuario = await obtenerUsuarioPorId(session.user.id)
 
     return (
         <div className="grid md:grid-cols-[160px_auto]">

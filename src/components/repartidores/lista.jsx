@@ -15,12 +15,15 @@ export default function Repartidores({ promesaRepartidores }) {
 
     return (
         <div className="flex flex-col gap-4">
-            <Modal openElement={
-                <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
-                    <PlusIcon className='size-4' />
-                </div>}>
-                <RepartidorInsertar />
-            </Modal>
+
+            <div className='flex justify-end items-center gap-4 pb-4'>
+                <Modal openElement={
+                    <PlusIcon size={32}
+                        className='text-green-500 border border-green-500 rounded-full bg-green-200 p-2 cursor-pointer hover:text-white hover:bg-green-500'
+                    />}>
+                    <RepartidorInsertar />
+                </Modal>
+            </div>
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
                 {repartidores.map(repartidor =>

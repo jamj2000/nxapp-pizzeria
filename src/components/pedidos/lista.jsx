@@ -5,35 +5,60 @@ import PedidoInsertar from "./insertar";
 import PedidoModificar from "./modificar";
 import PedidoEliminar from "./eliminar";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { use } from "react";
+import { use, useState } from "react";
 
 
 
-export default function Pedidos({
+export default ({
     promesaPedidos,
     promesaRepartidores,
     promesaPizzas,
     promesaClientes,
     promesaSession
-}) {
+}) => {
+
     const pedidos = use(promesaPedidos)
     const repartidores = use(promesaRepartidores)
-    const pizzas = use(promesaPizzas)
     const clientes = use(promesaClientes)
     const session = use(promesaSession)
+    const dataPizzas = use(promesaPizzas)
 
-    const admin = session?.user.role
+
+    const isAdminSession = session.user?.role === 'ADMIN'
+
+
+    const [propiedad, setPropiedad] = useState('nombre')
+    const [orden, setOrden] = useState('')
+    const [buscar, setBuscar] = useState('')
+
+    let pizzas = dataPizzas
+    if (propiedad === 'precio') {
+        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad] - b[propiedad])
+        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad] - a[propiedad])
+    }
+    else {
+        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad].localeCompare(b[propiedad]))
+        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad].localeCompare(a[propiedad]))
+    }
+
+    if (buscar) pizzas = pizzas.filter((pizza) =>
+        pizza.nombre.toLowerCase().includes(buscar.toLowerCase())
+    )
+
+
 
 
     return (
         <div className="flex flex-col gap-4">
-            {/* {admin && */}
-            <Modal openElement={
-                <div className='justify-self-end size-8 grid place-content-center rounded-full border border-green-500 text-green-700 bg-green-200 hover:bg-green-500 hover:text-white hover:cursor-pointer'>
-                    <PlusIcon className='size-4' />
-                </div>}>
-                <PedidoInsertar user={session?.user} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
-            </Modal>
+            {/* {isAdminSession && */}
+            <div className='flex justify-end items-center gap-4 pb-4'>
+                <Modal openElement={
+                    <PlusIcon size={32}
+                        className='text-green-500 border border-green-500 rounded-full bg-green-200 p-2 cursor-pointer hover:text-white hover:bg-green-500'
+                    />}>
+                    <PedidoInsertar user={session?.user} clientes={clientes} repartidores={repartidores} pizzas={pizzas} />
+                </Modal>
+            </div>
             {/* } */}
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
@@ -79,7 +104,7 @@ export default function Pedidos({
 
                                 {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
                             </Link>
-                            {admin &&
+                            {isAdminSession &&
                                 <details>
                                     <summary>Cliente: {pedido.cliente?.name}</summary>
                                     {/* <p>Nombre del cliente: {pedido.cliente?.name}</p> */}
@@ -89,14 +114,14 @@ export default function Pedidos({
                             }
                             <div className="pt-5">
                                 <h2 className="font-bold text-lg">Pizzas</h2>
-                                {pedido.pizzas.map(pizza =>
-                                    <p key={pizza.id} className="flex justify-between shrink-0">
-                                        <span>{pizza.nombre}</span> <span>{pizza.precio}</span>
+                                {pedido.pedidoPizzas.map(pp =>
+                                    <p key={pp.pizza.id} className="flex justify-between shrink-0">
+                                        <span>{pp.pizza.nombre}</span> <span>{pp.pizza.precio}</span>
                                     </p>
                                 )}
                                 <h3 className="flex justify-between shrink-0 font-bold">
                                     <span>TOTAL (€)</span>
-                                    <span>{pedido.pizzas.reduce((acc, p) => acc + p.precio, 0).toFixed(2)}</span>
+                                    <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.pizza.precio, 0).toFixed(2)}</span>
                                 </h3>
                             </div>
 

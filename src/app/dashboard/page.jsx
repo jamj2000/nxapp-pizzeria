@@ -4,10 +4,11 @@ import { LockIcon, PencilIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import Spinner1 from "@/components/ui/spinner1";
-import Users from "@/components/users/lista";
+import ListaUsuarios from "@/components/users/lista";
 import Pedidos from "@/components/pedidos/lista";
 import Spinner2 from "@/components/ui/spinner2";
 import UserInfo from "@/components/users/info";
+import { obtenerUsuarios } from "@/lib/data/users";
 
 
 async function Dashboard() {
@@ -15,12 +16,6 @@ async function Dashboard() {
 
     if (!session) redirect('/auth/login')
 
-    // desestructuramos información de sesión   
-    // const { user } = session
-    // const { id, name, email, image, role } = user
-
-    // obtenemos toda la información del usuario
-    // const usuario = await getUserById(id)
 
     return (
         <div>
@@ -43,7 +38,7 @@ async function Dashboard() {
                 <>
                     <h1 className="text-xl font-bold mt-15">Lista de usuarios</h1>
                     <Suspense fallback={<Spinner1 />}>
-                        <Users />
+                        <ListaUsuarios session={session} promesaUsuarios={obtenerUsuarios()} />
                     </Suspense>
                 </>
             }

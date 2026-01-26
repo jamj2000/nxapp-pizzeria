@@ -1,4 +1,5 @@
 'use server'
+
 import prisma from "@/lib/prisma"
 
 
@@ -11,7 +12,9 @@ export async function obtenerPedidos(clienteId) {
         include: {
             cliente: true,
             repartidor: true,
-            pizzas: true,
+            pedidoPizzas: {
+                include: { pizza: true }
+            }
         }
     })
     return pedidos
@@ -28,7 +31,9 @@ export async function obtenerPedido(id) {
         include: {
             cliente: true,
             repartidor: true,
-            pizzas: true,
+            pedidoPizzas: {
+                include: { pizza: true }
+            }
         }
     })
     return pedido

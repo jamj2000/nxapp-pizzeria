@@ -150,26 +150,26 @@ const pizzas = [
 const pedidos = [
     {
         fecha_hora: '2024-06-01T20:00:05.000Z',
-        pizzas: {
-            connect: [{ id: 1 }]
+        pedidoPizzas: {
+            create: [{ pizzaId: 1, cantidad: 1 }]
         }
     },
     {
         fecha_hora: '2024-07-01T21:12:05.000Z',
-        pizzas: {
-            connect: [{ id: 1 }, { id: 2 }]
+        pedidoPizzas: {
+            create: [{ pizzaId: 1, cantidad: 1 }, { pizzaId: 2, cantidad: 2 }]
         }
     },
     {
         fecha_hora: '2024-08-01T22:12:05.000Z',
-        pizzas: {
-            connect: [{ id: 2 }, { id: 4 }]
+        pedidoPizzas: {
+            create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
         }
     },
     {
         fecha_hora: '2024-09-01T23:12:05.000Z',
-        pizzas: {
-            connect: [{ id: 2 }, { id: 3 }, { id: 4 }]
+        pedidoPizzas: {
+            create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 3, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
         }
     },
 ]
@@ -188,6 +188,7 @@ const pickOne = (array, key) => {
 // Eliminar contenido de las tablas
 const resetDatabase = async () => {
     // Eliminar ingredientes, repartidores, pizzas, pedidos y users
+    await prisma.pedidoPizza.deleteMany();
     await prisma.ingrediente.deleteMany();
     await prisma.repartidor.deleteMany();
     await prisma.pizza.deleteMany();
@@ -235,7 +236,7 @@ const load = async () => {
             await prisma.pedido.create({
                 data: {
                     fecha_hora: pedido.fecha_hora,
-                    pizzas: pedido.pizzas,
+                    pedidoPizzas: pedido.pedidoPizzas,
                     cliente: { connectOrCreate: cliente },        // cliente --- 1:n ---- pedido
                     repartidor: { connectOrCreate: repartidor },  // repartidor --- 1:n ---- pedido
                 }

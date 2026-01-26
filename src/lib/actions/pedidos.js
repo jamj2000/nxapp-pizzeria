@@ -14,7 +14,7 @@ async function insertarPedido(prevState, formData) {
         select: { id: true }
     })
     // console.log(pizzasIDs);
-    const connect = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null)
+    const pizzasIds = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null).map(p => p.id)
     // console.log(connect);
 
     await prisma.pedido.create({
@@ -22,7 +22,12 @@ async function insertarPedido(prevState, formData) {
             fecha_hora: fecha_hora,
             clienteId: clienteId,
             repartidorId: repartidorId,
-            pizzas: { connect }
+            pedidoPizzas: {
+                create: pizzasIds.map(id => ({
+                    pizzaId: id,
+                    cantidad: 1
+                }))
+            }
         }
     })
 
@@ -46,8 +51,8 @@ async function modificarPedido(prevState, formData) {
         select: { id: true }
     })
     // console.log(pizzasIDs);
-    const connect = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null)
-    const disconnect = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) === null)
+    // console.log(pizzasIDs);
+    const pizzasIds = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null).map(p => p.id)
     // console.log(connect);
 
     await prisma.pedido.update({
@@ -56,7 +61,13 @@ async function modificarPedido(prevState, formData) {
             fecha_hora: fecha_hora,
             clienteId: clienteId,
             repartidorId: repartidorId,
-            pizzas: { connect, disconnect }
+            pedidoPizzas: {
+                deleteMany: {},
+                create: pizzasIds.map(id => ({
+                    pizzaId: id,
+                    cantidad: 1
+                }))
+            }
         }
     })
 

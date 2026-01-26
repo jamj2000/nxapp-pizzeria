@@ -1,11 +1,14 @@
 'use client'
+
 import { useActionState, useEffect } from 'react';
 import { register } from '@/lib/actions/auth'
 import Spinner1 from '@/components/ui/spinner1';
 import { toast } from 'sonner';
 
 
-function RegisterForm() {
+
+export default () => {
+
     const [state, action, pending] = useActionState(register, {})
 
     useEffect(() => {
@@ -36,7 +39,5 @@ function RegisterForm() {
         </form>
 
 
-    );
-};
-
-export default RegisterForm;
+    )
+}
