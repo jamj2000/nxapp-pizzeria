@@ -81,7 +81,7 @@ export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSess
             }
 
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+            <div className="w-full mx-auto grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
                 {pizzas.map(pizza =>
                     <Pizza
                         key={pizza.id}
@@ -99,7 +99,7 @@ export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSess
 
 function Pizza({ pizza, ingredientes, isAdminSession = false }) {
     return (
-        <div className="p-4 mb-4 bg-lime-100 rounded-lg border border-lime-200">
+        <div className="max-w-[250px] p-4 mb-4 bg-blue-100 rounded-lg border border-blue-200">
 
 
 
@@ -131,7 +131,7 @@ function Pizza({ pizza, ingredientes, isAdminSession = false }) {
 function PizzaCard({ pizza }) {
     return (
         <div className="grid place-content-center cursor-pointer">
-            <p className="font-bold text-4xl ">{pizza.nombre}</p>
+            <p className="font-bold text-2xl ">{pizza.nombre}</p>
             <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="py-6" />
             <p className="font-bold text-2xl text-stone-400 text-right">{pizza.precio} €</p>
         </div>
