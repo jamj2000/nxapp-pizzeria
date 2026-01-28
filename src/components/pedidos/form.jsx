@@ -1,132 +1,92 @@
 
 'use client'
-import { RefreshCwIcon } from "lucide-react"
-import { useActionState, useId, useEffect } from "react"
-import { toast } from "sonner"
+import { labelDefault } from "../ui/labels"
+import { RefreshCwIcon } from "lucide-react";
+import { useActionState, useEffect, useId, useState } from "react";
+import { toast } from "sonner";
+import CheckPizza from "./check-pizza";
 
 
-
-export default function Form({ action, estudiante, gruposIdNombre, asignaturasIdNombre, disabled = false, textSubmit = "Enviar" }) {
+export default function Form({ action, user, pedido, pizzas, disabled = false, labelSubmit = labelDefault }) {
     const formId = useId()
     const [state, faction, isPending] = useActionState(action, {})
+
 
     useEffect(() => {
         if (state.success) {
             toast.success(state.success)
-            document.getElementById(formId).closest('dialog').close()
+            document.getElementById(formId)?.closest('dialog')?.close()
         }
         if (state.error) {
             toast.error(state.error)
         }
     }, [state])
 
+    const [fechaActual] = useState(() => {
+        const ahora = new Date()
+        const local = new Date(ahora.getTime() - ahora.getTimezoneOffset() * 60000)
+        return local.toISOString().slice(0, 16) // YYYY-MM-DDTHH:MM
+    })
+
+    const fechaPedido = pedido?.fecha_hora
+        ? new Date(pedido?.fecha_hora - pedido?.fecha_hora.getTimezoneOffset() * 60000).toISOString().split('Z')[0]
+        : fechaActual
+
+    // const IDs = pedido?.pedidoPizzas.map(pp => pp.pizzaId)
+    const pedidoPizzas = pedido?.pedidoPizzas
+
+
     return (
-        <form id={formId} action={faction} className="flex flex-col gap-2 border p-4 border-blue-400" >
-            <input type="hidden" name="id" value={estudiante?.id} />
-            <input
-                type="text"
-                name="nombre"
-                placeholder="Nombre"
-                defaultValue={estudiante?.nombre}
-                disabled={disabled}
-            />
-            <input
-                type="text"
-                name="foto"
-                placeholder="Foto"
-                defaultValue={estudiante?.foto}
-                disabled={disabled}
-            />
-            <input
-                type="text"
-                name="tutor_legal"
-                placeholder="Tutor legal"
-                defaultValue={estudiante?.tutor_legal}
-                disabled={disabled}
-            />
-            <input
-                type="date"
-                name="fecha_nacimiento"
-                placeholder="Fecha de nacimiento"
-                defaultValue={estudiante?.fecha_nacimiento?.toISOString().split('T')[0] || '2000-01-01'}
-                disabled={disabled}
-            />
-
-
-            {/* Select */}
-            {disabled
-                ? <p>Grupo: {estudiante?.grupo?.nombre}</p>
-                : <details>
-                    <summary>Grupo ({estudiante?.grupo?.nombre})</summary>
-                    <select className="w-full p-2 border border-blue-400 rounded-md"
-                        name="grupoId"
-                        key={estudiante?.grupoId}
-                        defaultValue={estudiante?.grupoId}
-                        size={4}
-                        disabled={disabled}
-                    >
-                        <option value="">Seleccionar grupo</option>
-                        {gruposIdNombre.map((grupo) => (
-                            <option value={grupo.id} key={grupo.id}>
-                                {grupo.nombre}
-                            </option>
-                        ))}
-                    </select>
-                </details>
-            }
-
-
-            {/* Radio */}
-            {/* {disabled
-                ? <p>Grupo: {estudiante?.grupo?.nombre}</p>
-                : <details>
-                    <summary>Grupo ({estudiante?.grupo?.nombre})</summary>
-                    {gruposIdNombre?.map((grupo) => <div key={grupo.id}>
-                        {estudiante?.grupo?.id == grupo.id
-                            ? <input key={`radio-${grupo.id}`} type='radio' name='grupoId' value={grupo.id} defaultChecked />
-                            : <input type='radio' name='grupoId' value={grupo.id} />
-                        }
-                        {grupo.nombre}
-                    </div>)}
-                </details>
-            } */}
-
-
-            {/* Checkbox */}
-            {disabled
-                ? <p>Asignaturas: {estudiante?.asignaturas?.map(a => a.nombre).join(', ')}</p>
-                : <details>
-                    <summary>Asignaturas ({estudiante?.asignaturas?.map(a => a.nombre).join(', ')})</summary>
-
-                    {asignaturasIdNombre?.map((asignatura) => (
-                        <label key={asignatura.id} className='block'>
-                            <input
-                                type='checkbox'
-                                name={asignatura.id}
-                                value={asignatura.id}
-                                defaultChecked={estudiante?.asignaturas?.some(a => a.id == asignatura.id)}
-                            />
-
-                            {asignatura.nombre}
-                        </label>
-                    ))}
-                </details>
-            }
-
+        <form id={formId} action={faction} className="flex flex-col gap-4" >
+            <input type="hidden" name="id" defaultValue={pedido?.id} />
+            <input type='hidden' name="clienteId" defaultValue={user.id} />
+            {/* <input type='hidden' name="repartidorId" /> */}
 
             <button
                 type="submit"
-                className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:cursor-pointer disabled:bg-blue-300 disabled:cursor-not-allowed"
+                className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed"
                 disabled={isPending}
             >
                 {isPending
                     ? <RefreshCwIcon size={20} className="animate-spin" />
-                    : textSubmit
+                    : labelSubmit
                 }
             </button>
-        </form >
+
+            <p className="font-bold">Pedido {pedido?.id}</p>
+
+            <label> Fecha y hora:
+                <input
+                    name="fecha_hora"
+                    type="datetime-local"
+                    defaultValue={fechaPedido}
+                    disabled={disabled}
+                />
+            </label>
+
+            <p className="font-bold">Pizzas</p>
+            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+                {
+                    pizzas.map(pizza =>
+                        <CheckPizza
+                            key={pizza.id}
+                            pizza={pizza}
+                            disabled={disabled}
+                            cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
+                        />
+                    )
+                }
+            </div>
+        </form>
     )
 }
+
+
+
+
+
+
+
 
 
 

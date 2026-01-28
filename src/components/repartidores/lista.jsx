@@ -1,33 +1,30 @@
 'use client'
+import { use } from "react";
 import Link from "next/link";
 import Modal from "@/components/ui/modal";
-import RepartidorInsertar from "./insertar";
-import RepartidorModificar from "./modificar";
-import RepartidorEliminar from "./eliminar";
-import { HeadsetIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { use } from "react";
+import Form from "@/components/repartidores/form";
+import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
+import { labelEliminar, labelInsertar, labelModificar } from "@/components/ui/labels";
+import { HeadsetIcon } from "lucide-react";
+import { eliminarRepartidor, insertarRepartidor, modificarRepartidor } from "@/lib/actions/repartidores";
 
 
 
 export default function Repartidores({ promesaRepartidores }) {
     const repartidores = use(promesaRepartidores)
 
-
     return (
         <div className="flex flex-col gap-4">
 
             <div className='flex justify-end items-center gap-4 pb-4'>
-                <Modal openElement={
-                    <PlusIcon size={32}
-                        className='text-green-500 border border-green-500 rounded-full bg-green-200 p-2 cursor-pointer hover:text-white hover:bg-green-500'
-                    />}>
-                    <RepartidorInsertar />
+                <Modal openElement={<IconoInsertar />}>
+                    <Form action={insertarRepartidor} labelSubmit={labelInsertar} />
                 </Modal>
             </div>
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
                 {repartidores.map(repartidor =>
-                    <Item key={repartidor.id} repartidor={repartidor} />
+                    <Repartidor key={repartidor.id} repartidor={repartidor} />
                 )}
             </div>
         </div>
@@ -38,24 +35,18 @@ export default function Repartidores({ promesaRepartidores }) {
 
 
 
-function Item({ repartidor }) {
+function Repartidor({ repartidor }) {
     return (
         <div key={repartidor.id} className="p-4 mb-4 bg-blue-50 rounded-lg border border-blue-100   ">
 
             <div className='flex justify-end items-center gap-1'>
-                <Modal openElement={
-                    <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
-                        <PencilIcon className='size-4' />
-                    </div>}>
-                    <RepartidorModificar repartidor={repartidor} />
+                <Modal openElement={<IconoModificar />}>
+                    <Form action={modificarRepartidor} repartidor={repartidor} labelSubmit={labelModificar} />
                 </Modal>
 
 
-                <Modal openElement={
-                    <div className='size-8 grid place-content-center rounded-full border border-red-500 text-red-700 bg-red-200 hover:bg-red-500 hover:text-white hover:cursor-pointer'>
-                        <TrashIcon className='size-4' />
-                    </div>}>
-                    <RepartidorEliminar repartidor={repartidor} />
+                <Modal openElement={<IconoEliminar />}>
+                    <Form action={eliminarRepartidor} repartidor={repartidor} labelSubmit={labelEliminar} disabled />
                 </Modal>
             </div>
 

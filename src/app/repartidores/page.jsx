@@ -15,7 +15,7 @@ export default async function PaginaRepartidores() {
 
     return (
         <div>
-            <Link href="/home" className="text-5xl">🏡</Link>
+            <Link href="/" className="text-5xl">🏡</Link>
             <h1 className="text-3xl font-bold mb-4">LISTA DE REPARTIDORES</h1>
 
             <Suspense fallback={<Spinner2 />}>

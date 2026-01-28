@@ -56,12 +56,12 @@ function Pedido({ promesaPedido }) {
                 <h2 className="font-bold text-lg">Pizzas</h2>
                 {pedido.pedidoPizzas.map(pp =>
                     <p key={pp.pizza.id} className="flex justify-between shrink-0">
-                        <span>{pp.pizza.nombre}</span> <span>{pp.pizza.precio}</span>
+                        <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{pp.cantidad * pp.pizza.precio}</span>
                     </p>
                 )}
                 <h3 className="flex justify-between shrink-0 font-bold">
                     <span>TOTAL (€)</span>
-                    <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.pizza.precio, 0).toFixed(2)}</span>
+                    <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + (pp.cantidad * pp.pizza.precio), 0).toFixed(2)}</span>
                 </h3>
             </div>
         </>

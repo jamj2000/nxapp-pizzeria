@@ -1,57 +1,55 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
+const images = [
+    "/images/pizza-01.avif",
+    "/images/pizza-02.avif",
+    "/images/pizza-03.avif",
+    "/images/pizza-04.avif",
+    "/images/pizza-05.avif",
+    "/images/pizza-06.avif",
+    "/images/pizza-07.avif"
+];
 
-export default function Carousel({ images, interval = 3000 }) {
-    const [currentIndex, setCurrentIndex] = useState(0);
+export default function AutoCarousel() {
+    const [index, setIndex] = useState(0);
 
-    const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    };
+    const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
+    const prevSlide = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
 
     useEffect(() => {
-        const autoSlide = setInterval(nextSlide, interval);
-        return () => clearInterval(autoSlide);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentIndex, interval]);
+        const timer = setInterval(() => nextSlide(), 4000); // Cambia cada 4 segundos
+        return () => clearInterval(timer);
+    }, []);
 
     return (
-        <div className="-z-10 relative w-full max-w-3xl mx-auto overflow-hidden rounded-lg">
-            <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                {images.map((src, index) => (
-                    <img key={index} src={src} alt={`Slide ${index}`} className="w-full flex-shrink-0" />
-                ))}
-            </div>
+        <div className="relative w-full h-128 overflow-hidden rounded-xl">
+            {images.map((src, i) => (
+                <img
+                    key={i}
+                    src={src}
+                    alt={`Slide ${i + 1}`}
+                    className={`absolute top-0 left-0 w-full h-full object-cover object-bottom transition-opacity duration-700 ease-in-out ${i === index ? "opacity-100" : "opacity-0"}`}
+                />
+            ))}
 
-            {/* Controles */}
+            {/* Botones de navegación */}
             <button
+                type="button"
                 onClick={prevSlide}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white px-3 py-2 rounded-full"
+                className="rounded-full absolute left-2 top-1/2 transform -translate-y-1/4 bg-black bg-opacity-30 text-white border-none hover:bg-opacity-50"
             >
-                ◀
+                <ChevronLeft />
             </button>
             <button
+                type="button"
                 onClick={nextSlide}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white px-3 py-2 rounded-full"
+                className="rounded-full absolute right-2 top-1/2 transform -translate-y-1/4 bg-black bg-opacity-30 text-white border-none hover:bg-opacity-50"
             >
-                ▶
+                <ChevronRight />
             </button>
-
-            {/* Indicadores */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                {images.map((_, index) => (
-                    <button
-                        key={index}
-                        className={`w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-white/50'}`}
-                        onClick={() => setCurrentIndex(index)}
-                    />
-                ))}
-            </div>
         </div>
     );
 }

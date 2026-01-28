@@ -15,9 +15,9 @@ export default async function PaginaPizza({ params, searchParams }) {
             <div className="h-20">{/* Hueco de separación */}</div>
 
             <Suspense fallback={<Spinner2 />}>
-                <Pizza
-                    promesaPizza={obtenerPizza(id)}
-                />
+
+                <Pizza promesaPizza={obtenerPizza(id)} />
+
             </Suspense>
         </div>
     )
@@ -33,22 +33,21 @@ function Pizza({ promesaPizza }) {
     if (!pizza) notFound()
 
     return (
-        <>
-            <div>
+
+        <div className="grid lg:grid-cols-[300px_1fr] gap-4 place-items-start">
+            <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="h-[200px] w-full lg:h-[600px] object-cover" />
+
+            <div className="flex flex-col justify-center w-full">
                 <p className="text-4xl">{pizza.nombre}</p>
-                <p className="text-4xl text-stone-400">{pizza.precio} €</p>
+                <p className="text-4xl font-bold text-slate-300">{pizza.precio} €</p>
+                <p className="font-bold">Ingredientes</p>
+                {pizza.ingredientes.map(ingrediente =>
+                    <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                )
+                }
             </div>
-            <div className="flex flex-col gap-4 md:flex-row md:gap-10">
-                <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="sm:w-[50%]" />
-                <div>
-                    <p className="font-bold">Ingredientes</p>
-                    {pizza.ingredientes.map(ingrediente =>
-                        <p key={ingrediente.id}>{ingrediente.nombre}</p>
-                    )
-                    }
-                </div>
-            </div>
-        </>
+        </div>
+
     )
 }
 

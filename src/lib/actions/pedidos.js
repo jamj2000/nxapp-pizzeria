@@ -13,9 +13,19 @@ async function insertarPedido(prevState, formData) {
     const pizzasIDs = await prisma.pizza.findMany({
         select: { id: true }
     })
-    // console.log(pizzasIDs);
-    const pizzasIds = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null).map(p => p.id)
-    // console.log(connect);
+
+    // Map over all available pizzas and check if they are in the form data
+    const pizzasConCantidad = pizzasIDs.map(p => {
+        const cantidadStr = formData.get(`pizza${p.id}`)
+        let cantidad = 0
+        if (cantidadStr === 'on') {
+            cantidad = 1 // Backward compatibility for checkboxes
+        } else if (Number(cantidadStr) > 0) {
+            cantidad = Number(cantidadStr)
+        }
+        return { id: p.id, cantidad }
+    }).filter(p => p.cantidad > 0)
+
 
     await prisma.pedido.create({
         data: {
@@ -23,9 +33,9 @@ async function insertarPedido(prevState, formData) {
             clienteId: clienteId,
             repartidorId: repartidorId,
             pedidoPizzas: {
-                create: pizzasIds.map(id => ({
-                    pizzaId: id,
-                    cantidad: 1
+                create: pizzasConCantidad.map(p => ({
+                    pizzaId: p.id,
+                    cantidad: p.cantidad
                 }))
             }
         }
@@ -52,8 +62,17 @@ async function modificarPedido(prevState, formData) {
     })
     // console.log(pizzasIDs);
     // console.log(pizzasIDs);
-    const pizzasIds = pizzasIDs.filter(p => formData.get(`pizza${p.id}`) !== null).map(p => p.id)
-    // console.log(connect);
+    // Map over all available pizzas and check if they are in the form data
+    const pizzasConCantidad = pizzasIDs.map(p => {
+        const cantidadStr = formData.get(`pizza${p.id}`)
+        let cantidad = 0
+        if (cantidadStr === 'on') {
+            cantidad = 1 // Backward compatibility for checkboxes
+        } else if (Number(cantidadStr) > 0) {
+            cantidad = Number(cantidadStr)
+        }
+        return { id: p.id, cantidad }
+    }).filter(p => p.cantidad > 0)
 
     await prisma.pedido.update({
         where: { id },
@@ -63,9 +82,9 @@ async function modificarPedido(prevState, formData) {
             repartidorId: repartidorId,
             pedidoPizzas: {
                 deleteMany: {},
-                create: pizzasIds.map(id => ({
-                    pizzaId: id,
-                    cantidad: 1
+                create: pizzasConCantidad.map(p => ({
+                    pizzaId: p.id,
+                    cantidad: p.cantidad
                 }))
             }
         }

@@ -11,7 +11,7 @@ export default function InputImage({ imgUrl, className }) {
                 onDragOver={dragOverHandler}
                 onDoubleClick={dblclickHandler}
                 title={"Haz doble click o arrastra y suelta aquí otra imagen para cambiar la actual"}
-                alt=""
+                alt="image"
             />
             <input
                 type="file"

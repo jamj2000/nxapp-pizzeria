@@ -23,7 +23,7 @@ function PaginationControls({ hasNextPage, hasPrevPage, total }) {
         <ChevronLeftIcon /> prev page
       </button>
 
-      <div className='flex-grow text-center'>
+      <div className='grow text-center'>
         {page} / {Math.ceil(total / per_page)}
       </div>
 

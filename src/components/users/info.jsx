@@ -2,7 +2,9 @@ import { obtenerUsuarioPorId } from "@/lib/data/users";
 import Modal from "@/components/ui/modal";
 import UserModificar from "@/components/users/modificar";
 import { auth } from "@/auth";
-import { PencilIcon } from "lucide-react";
+import { IconoModificar } from "@/components/ui/icons";
+
+
 
 async function UserInfo() {
 
@@ -17,10 +19,7 @@ async function UserInfo() {
             <div className="flex flex-col gap-1">
                 <div className="flex gap-2 items-center">
                     <p className="font-bold">{usuario.name}</p>
-                    <Modal openElement={
-                        <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
-                            <PencilIcon className='size-4' />
-                        </div>}>
+                    <Modal openElement={<IconoModificar />}>
                         <UserModificar session={session} user={usuario} />
                     </Modal>
                 </div>

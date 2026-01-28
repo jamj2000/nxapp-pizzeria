@@ -1,20 +1,17 @@
 'use client'
 import Modal from "@/components/ui/modal";
-import PizzaVer from "@/components/pizzas/ver";
-import PizzaModificar from "@/components/pizzas/modificar";
-import PizzaEliminar from "@/components/pizzas/eliminar";
-import PizzaInsertar from "@/components/pizzas/insertar";
-import { ArrowUpRightIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { use, useState } from "react";
 import Link from "next/link";
+import { IconoInsertar, IconoModificar, IconoEliminar, IconoVer } from "@/components/ui/icons";
+import { labelInsertar, labelModificar, labelEliminar } from "@/components/ui/labels";
+import { eliminarPizza, insertarPizza, modificarPizza } from "@/lib/actions/pizzas";
+import Form from "@/components/pizzas/form";
 
 
 export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSession }) {
     const ingredientes = use(promesaIngredientes)
     const session = use(promesaSession)
     const dataPizzas = use(promesaPizzas)
-
-    const isAdminSession = session.user?.role === 'ADMIN'
 
     const [propiedad, setPropiedad] = useState('nombre')
     const [orden, setOrden] = useState('')
@@ -35,7 +32,7 @@ export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSess
     )
 
 
-    const admin = session?.user.role === 'ADMIN'
+    const isAdminSession = session?.user.role === 'ADMIN'
 
 
 
@@ -77,11 +74,8 @@ export default function Pizzas({ promesaPizzas, promesaIngredientes, promesaSess
 
             {isAdminSession &&
                 <div className='flex justify-end items-center gap-4 pb-4'>
-                    <Modal openElement={
-                        <PlusIcon size={32}
-                            className='text-green-500 border border-green-500 rounded-full bg-green-200 p-2 cursor-pointer hover:text-white hover:bg-green-500'
-                        />}>
-                        <PizzaInsertar ingredientes={ingredientes} />
+                    <Modal openElement={<IconoInsertar />}>
+                        <Form action={insertarPizza} ingredientes={ingredientes} labelSubmit={labelInsertar} />
                     </Modal>
                 </div>
             }
@@ -107,42 +101,58 @@ function Pizza({ pizza, ingredientes, isAdminSession = false }) {
     return (
         <div className="p-4 mb-4 bg-lime-100 rounded-lg border border-lime-200">
 
-            <Modal openElement={
-                <div className="grid place-content-center cursor-pointer">
-                    <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="py-6" />
-                    <p className="font-bold text-4xl ">{pizza.nombre}</p>
-                    <p className="font-bold text-2xl text-stone-400">{pizza.precio} €</p>
-                </div>
-            }>
 
-                <PizzaVer pizza={pizza} />
-            </Modal>
 
             <div className='flex justify-end items-center gap-1 pt-4'>
                 {isAdminSession &&
-                    <>
-                        <Modal openElement={
-                            <div className='size-8 grid place-content-center rounded-full border border-amber-500 text-amber-700 bg-amber-200 hover:bg-amber-500 hover:text-white hover:cursor-pointer'>
-                                <PencilIcon className='size-4' />
-                            </div>}>
-                            <PizzaModificar pizza={pizza} ingredientes={ingredientes} />
-                        </Modal>
-
-                        <Modal openElement={
-                            <div className='size-8 grid place-content-center rounded-full border border-red-500 text-red-700 bg-red-200 hover:bg-red-500 hover:text-white hover:cursor-pointer'>
-                                <TrashIcon className='size-4' />
-                            </div>}>
-                            <PizzaEliminar pizza={pizza} />
-                        </Modal>
-                    </>
+                    <Modal openElement={<IconoModificar />}>
+                        <Form action={modificarPizza} pizza={pizza} ingredientes={ingredientes} labelSubmit={labelModificar} />
+                    </Modal>
+                }
+                {isAdminSession &&
+                    <Modal openElement={<IconoEliminar />}>
+                        <Form action={eliminarPizza} pizza={pizza} ingredientes={ingredientes} labelSubmit={labelEliminar} disabled />
+                    </Modal>
                 }
                 <Link prefetch href={`/pizzas/${pizza.id}`} className="text-sm font-bold cursor-pointer">
-                    <div className='size-8 grid place-content-center rounded-full border border-blue-500 text-blue-700 bg-blue-200 hover:bg-blue-500 hover:text-white hover:cursor-pointer'>
-                        <ArrowUpRightIcon className='size-4' />
-                    </div>
+                    <IconoVer />
                 </Link>
             </div>
 
+            <Modal openElement={<PizzaCard pizza={pizza} />}>
+                <PizzaInfo pizza={pizza} />
+            </Modal>
+
+        </div >
+    )
+}
+
+
+function PizzaCard({ pizza }) {
+    return (
+        <div className="grid place-content-center cursor-pointer">
+            <p className="font-bold text-4xl ">{pizza.nombre}</p>
+            <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="py-6" />
+            <p className="font-bold text-2xl text-stone-400 text-right">{pizza.precio} €</p>
+        </div>
+    )
+}
+
+
+function PizzaInfo({ pizza }) {
+    return (
+        <div className="grid lg:grid-cols-[300px_1fr] gap-4 place-items-start">
+            <img src={pizza.foto || '/images/default-pizza.avif'} alt='foto' className="h-[200px] w-full lg:h-[600px] object-cover" />
+
+            <div className="flex flex-col justify-center w-full">
+                <p className="text-4xl">{pizza.nombre}</p>
+                <p className="text-4xl font-bold text-slate-300">{pizza.precio} €</p>
+                <p className="font-bold">Ingredientes</p>
+                {pizza.ingredientes.map(ingrediente =>
+                    <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                )
+                }
+            </div>
         </div>
     )
 }

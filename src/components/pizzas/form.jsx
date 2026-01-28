@@ -1,132 +1,87 @@
-
 'use client'
-import { RefreshCwIcon } from "lucide-react"
-import { useActionState, useId, useEffect } from "react"
-import { toast } from "sonner"
+import { RefreshCwIcon } from "lucide-react";
+import { useActionState, useEffect, useId } from "react";
+import { toast } from "sonner";
+import { labelEliminar } from "@/components/ui/labels";
+import InputImage from "@/components/ui/input-image";
+import CheckBox from "@/components/ui/check-box";
 
 
-
-export default function Form({ action, estudiante, gruposIdNombre, asignaturasIdNombre, disabled = false, textSubmit = "Enviar" }) {
+export default function Form({ action, pizza, ingredientes, disabled = false, labelSubmit = labelEliminar }) {
     const formId = useId()
+
     const [state, faction, isPending] = useActionState(action, {})
 
     useEffect(() => {
         if (state.success) {
             toast.success(state.success)
-            document.getElementById(formId).closest('dialog').close()
+            document.getElementById(formId)?.closest('dialog')?.close()
         }
         if (state.error) {
             toast.error(state.error)
         }
-    }, [state])
+    }, [state, formId])
+
 
     return (
-        <form id={formId} action={faction} className="flex flex-col gap-2 border p-4 border-blue-400" >
-            <input type="hidden" name="id" value={estudiante?.id} />
-            <input
-                type="text"
-                name="nombre"
-                placeholder="Nombre"
-                defaultValue={estudiante?.nombre}
-                disabled={disabled}
-            />
-            <input
-                type="text"
-                name="foto"
-                placeholder="Foto"
-                defaultValue={estudiante?.foto}
-                disabled={disabled}
-            />
-            <input
-                type="text"
-                name="tutor_legal"
-                placeholder="Tutor legal"
-                defaultValue={estudiante?.tutor_legal}
-                disabled={disabled}
-            />
-            <input
-                type="date"
-                name="fecha_nacimiento"
-                placeholder="Fecha de nacimiento"
-                defaultValue={estudiante?.fecha_nacimiento?.toISOString().split('T')[0] || '2000-01-01'}
-                disabled={disabled}
-            />
+        <form id={formId} action={faction} className="grid lg:grid-cols-[300px_1fr] gap-4">
+            <input type="hidden" name="id" defaultValue={pizza?.id} />
 
-
-            {/* Select */}
             {disabled
-                ? <p>Grupo: {estudiante?.grupo?.nombre}</p>
-                : <details>
-                    <summary>Grupo ({estudiante?.grupo?.nombre})</summary>
-                    <select className="w-full p-2 border border-blue-400 rounded-md"
-                        name="grupoId"
-                        key={estudiante?.grupoId}
-                        defaultValue={estudiante?.grupoId}
-                        size={4}
-                        disabled={disabled}
-                    >
-                        <option value="">Seleccionar grupo</option>
-                        {gruposIdNombre.map((grupo) => (
-                            <option value={grupo.id} key={grupo.id}>
-                                {grupo.nombre}
-                            </option>
-                        ))}
-                    </select>
-                </details>
+                ? <img src={pizza?.foto || '/images/default-pizza.avif'} alt='foto' className='h-[200px] w-full lg:h-full object-cover' />
+                : <InputImage imgUrl={pizza?.foto || '/images/default-pizza.avif'} className='h-[200px] w-full lg:h-full object-cover' />
             }
 
 
-            {/* Radio */}
-            {/* {disabled
-                ? <p>Grupo: {estudiante?.grupo?.nombre}</p>
-                : <details>
-                    <summary>Grupo ({estudiante?.grupo?.nombre})</summary>
-                    {gruposIdNombre?.map((grupo) => <div key={grupo.id}>
-                        {estudiante?.grupo?.id == grupo.id
-                            ? <input key={`radio-${grupo.id}`} type='radio' name='grupoId' value={grupo.id} defaultChecked />
-                            : <input type='radio' name='grupoId' value={grupo.id} />
-                        }
-                        {grupo.nombre}
-                    </div>)}
-                </details>
-            } */}
+            <div className="p-4 flex flex-col w-full gap-2 bg-gray-100">
+                <button
+                    type="submit"
+                    className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed"
+                    disabled={isPending}
+                >
+                    {isPending
+                        ? <RefreshCwIcon size={20} className="animate-spin" />
+                        : labelSubmit
+                    }
+                </button>
 
+                <input
+                    name="nombre"
+                    className="appearance-none text-4xl bg-white disabled:bg-white"
+                    placeholder="Nombre"
+                    defaultValue={pizza?.nombre}
+                    disabled={disabled}
+                    required
+                />
 
-            {/* Checkbox */}
-            {disabled
-                ? <p>Asignaturas: {estudiante?.asignaturas?.map(a => a.nombre).join(', ')}</p>
-                : <details>
-                    <summary>Asignaturas ({estudiante?.asignaturas?.map(a => a.nombre).join(', ')})</summary>
+                <input
+                    name="precio"
+                    type='number' step={0.01} min={0}
+                    className="text-3xl font-bold text-slate-300"
+                    placeholder="Precio"
+                    defaultValue={pizza?.precio}
+                    disabled={disabled}
+                    required
+                />
 
-                    {asignaturasIdNombre?.map((asignatura) => (
-                        <label key={asignatura.id} className='block'>
-                            <input
-                                type='checkbox'
-                                name={asignatura.id}
-                                value={asignatura.id}
-                                defaultChecked={estudiante?.asignaturas?.some(a => a.id == asignatura.id)}
-                            />
-
-                            {asignatura.nombre}
-                        </label>
-                    ))}
-                </details>
-            }
-
-
-            <button
-                type="submit"
-                className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:cursor-pointer disabled:bg-blue-300 disabled:cursor-not-allowed"
-                disabled={isPending}
-            >
-                {isPending
-                    ? <RefreshCwIcon size={20} className="animate-spin" />
-                    : textSubmit
+                <p className="font-bold">Ingredientes</p>
+                {disabled
+                    ? pizza.ingredientes.map(ingrediente =>
+                        <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                    )
+                    : ingredientes?.map(ingrediente =>
+                        <div key={ingrediente.id}>
+                            <CheckBox
+                                name={ingrediente.id}
+                                defaultChecked={pizza?.ingredientes?.find(i => i.id === ingrediente.id)}
+                                className={"has-checked:bg-green-200 has-checked:text-green-800 px-2 py-1 text-gray-500 rounded-full"}
+                            >
+                                {ingrediente.nombre}
+                            </CheckBox>
+                        </div>
+                    )
                 }
-            </button>
-        </form >
+            </div>
+        </form>
     )
 }
-
-
-

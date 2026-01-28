@@ -13,7 +13,7 @@ export default async function PaginaPizzas() {
 
     return (
         <div>
-            <Link href="/home" className="text-5xl">🏡</Link>
+            <Link href="/" className="text-5xl">🏡</Link>
             <h1 className="text-3xl font-bold mb-4">LISTA DE PIZZAS</h1>
 
 
