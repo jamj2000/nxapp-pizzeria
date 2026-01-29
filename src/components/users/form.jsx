@@ -30,11 +30,12 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
             <form id={formId} action={faction} className="grid lg:grid-cols-[300px_1fr] gap-4">
                 <input type="hidden" name="id" defaultValue={user?.id} />
 
-                <div className="flex flex-col">
-                    <InputAvatar name='image' user={user} />
+                <div className="flex flex-col gap-2">
 
-                    <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario" className='h-[200px] w-full lg:h-full object-contain' />
-
+                    {disabled
+                        ? <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario" className='h-[200px] w-full lg:h-full object-contain' />
+                        : < InputAvatar name='image' user={user} />
+                    }
 
                     {isAdminSession
                         ?
@@ -43,9 +44,9 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                             name={'active'}
                             defaultChecked={user?.active == true}
                             className={"self-center mb-4 text-sm w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
+                            disabled={disabled}
                         />
-                        :
-                        <input type="hidden" name="active" defaultValue={user?.active} />
+                        : <input type="hidden" name="active" defaultValue={user?.active} />
                     }
 
                 </div>
@@ -90,7 +91,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         placeholder='no cambiar contraseña'
                         className="appearance-none text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
-                        required
+                    // required
                     />
                     <input
                         name='address'

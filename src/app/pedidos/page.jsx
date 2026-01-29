@@ -12,7 +12,7 @@ import { obtenerUsuarios } from "@/lib/data/users";
 export default async function PaginaPedidos() {
     const session = await auth()
 
-    const admin = session.user?.role === 'ADMIN'
+    const isAdminSession = session.user?.role === 'ADMIN'
 
 
     return (
@@ -22,7 +22,7 @@ export default async function PaginaPedidos() {
 
             <Suspense fallback={<Spinner2 />}>
                 <Pedidos
-                    promesaPedidos={obtenerPedidos(!admin ? session?.user.id : undefined)}
+                    promesaPedidos={obtenerPedidos(!isAdminSession ? session?.user.id : undefined)}
                     promesaRepartidores={obtenerRepartidores()}
                     promesaPizzas={obtenerPizzas()}
                     promesaClientes={obtenerUsuarios()}
