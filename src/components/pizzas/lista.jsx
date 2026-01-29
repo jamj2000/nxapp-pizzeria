@@ -150,8 +150,7 @@ function PizzaInfo({ pizza }) {
                 <p className="font-bold">Ingredientes</p>
                 {pizza.ingredientes.map(ingrediente =>
                     <p key={ingrediente.id}>{ingrediente.nombre}</p>
-                )
-                }
+                )}
             </div>
         </div>
     )

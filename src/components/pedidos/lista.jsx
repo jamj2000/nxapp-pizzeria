@@ -106,7 +106,7 @@ function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizza
                 </Modal>
             </div>
 
-            <Link href={`/pedidos/${pedido.id}`} className="flex gap-4 font-bold cursor-pointer">
+            <Link href={`/pedidos/${pedido.id}`} className="flex gap-4 font-bold cursor-pointer hover:bg-slate-300 my-2 p-2">
                 <span>Nº {pedido.id}</span>
                 <span>
                     {/* {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
@@ -127,7 +127,7 @@ function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizza
             </Link>
             {isAdminSession &&
                 <details>
-                    <summary>Cliente: {pedido.cliente?.name}</summary>
+                    <summary className="cursor-pointer hover:bg-slate-300 my-2 p-2">Cliente: {pedido.cliente?.name}</summary>
                     <p>Dirección: {pedido.cliente?.address}</p>
                     <p>Teléfono: {pedido.cliente?.phone}</p>
                 </details>

@@ -2,13 +2,12 @@
 
 import Modal from '@/components/ui/modal';
 import UserVer from '@/components/users/ver'
-import UserModificar from '@/components/users/modificar';
-import UserEliminar from '@/components/users/eliminar';
-import UserInsertar from "@/components/users/insertar";
 import ActiveButton from "@/components/ui/active-button";
-import { activeUser, updateActiveUser } from "@/lib/actions/users";
+import { activeUser, deleteUser, editUser, newUser } from "@/lib/actions/users";
 import { use } from "react";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
+import Form from './form';
+import { labelEliminar, labelInsertar, labelModificar } from '../ui/labels';
 
 
 
@@ -23,7 +22,11 @@ export default ({ session, promesaUsuarios }) => {
         <div>
             <div className='flex justify-end items-center gap-4 pb-4'>
                 <Modal openElement={<IconoInsertar />}>
-                    <UserInsertar isAdminSession={isAdminSession} />
+                    <Form
+                        action={newUser}
+                        isAdminSession={isAdminSession}
+                        labelSubmit={labelInsertar}
+                    />
                 </Modal>
             </div>
 
@@ -42,7 +45,7 @@ export default ({ session, promesaUsuarios }) => {
 
 const UserItem = ({ user, isAdminSession }) => {
     return (
-        <div key={user.id} className="p-1 flex justify-between items-center odd:bg-slate-100">
+        <div key={user.id} className="rounded-full p-1 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100">
 
             <div className="flex gap-2 items-center">
                 {isAdminSession &&
@@ -59,11 +62,22 @@ const UserItem = ({ user, isAdminSession }) => {
                 <div className='flex justify-center items-center gap-1'>
 
                     <Modal openElement={<IconoModificar />}>
-                        <UserModificar isAdminSession={isAdminSession} user={user} />
+                        <Form
+                            action={editUser}
+                            isAdminSession={isAdminSession}
+                            user={user}
+                            labelSubmit={labelModificar}
+                        />
                     </Modal>
 
                     <Modal openElement={<IconoEliminar />}>
-                        <UserEliminar user={user} />
+                        <Form
+                            action={deleteUser.bind(null, user)}
+                            isAdminSession={isAdminSession}
+                            user={user}
+                            disabled
+                            labelSubmit={labelEliminar}
+                        />
                     </Modal>
                 </div>
             }

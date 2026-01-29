@@ -67,14 +67,14 @@ export default function Form({ action, pizza, ingredientes, disabled = false, la
                 <p className="font-bold">Ingredientes</p>
                 {disabled
                     ? pizza.ingredientes.map(ingrediente =>
-                        <p key={ingrediente.id}>{ingrediente.nombre}</p>
+                        <p key={ingrediente.id} className="leading-6">{ingrediente.nombre}</p>
                     )
                     : ingredientes?.map(ingrediente =>
                         <div key={ingrediente.id}>
                             <CheckBox
                                 name={ingrediente.id}
                                 defaultChecked={pizza?.ingredientes?.find(i => i.id === ingrediente.id)}
-                                className={"has-checked:bg-green-200 has-checked:text-green-800 px-2 py-1 text-gray-500 rounded-full"}
+                            // className={"has-checked:bg-green-200 has-checked:text-green-800 px-2 py-1 text-gray-500 rounded-full"}
                             >
                                 {ingrediente.nombre}
                             </CheckBox>

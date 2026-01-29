@@ -18,8 +18,7 @@ async function newUser(prevState, formData) {
     const role = formData.get('role');
 
     const user = await obtenerUsuarioPorEmail(email)
-    if (user)
-        return { error: 'Este email ya está registrado.' }
+    if (user) return { error: 'Este email ya está registrado.' }
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -58,9 +57,7 @@ async function editUser(prevState, formData) {
     const role = formData.get('role');
 
     const user = await obtenerUsuarioPorEmail(email)
-    if (user && user.id != id)
-        return { error: 'Este email ya está registrado.' }
-
+    if (user && user.id != id) return { error: 'Este email ya está registrado.' }
 
     let hashedPassword
     if (password)
@@ -88,9 +85,24 @@ async function editUser(prevState, formData) {
 
 }
 
-async function deleteUser(prevState, formData) {
+// async function deleteUser(prevState, formData) {
+//     try {
+//         const id = formData.get('id')
+
+//         await prisma.user.delete({
+//             where: { id },
+//         })
+//         revalidatePath('/dashboard')
+//         return { success: 'Usuario eliminado' }
+//     } catch (error) {
+//         return { error }
+//     }
+
+// }
+
+async function deleteUser(user) {
     try {
-        const id = formData.get('id')
+        const id = user.id
 
         await prisma.user.delete({
             where: { id },
@@ -102,6 +114,7 @@ async function deleteUser(prevState, formData) {
     }
 
 }
+
 
 async function activeUser(user) {
     if (user) {

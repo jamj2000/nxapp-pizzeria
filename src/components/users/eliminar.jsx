@@ -1,7 +1,6 @@
 'use client'
 import { deleteUser } from "@/lib/actions/users";
 import { RefreshCwIcon, TrashIcon, UserRoundIcon } from "lucide-react";
-import { useRouter } from "next/navigation";   // IMPORTANTE: No importar desde next/router
 import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 
@@ -10,14 +9,13 @@ import { toast } from "sonner";
 function UserEliminar({ user }) {
     const formId = useId()
     const [state, action, pending] = useActionState(deleteUser, {})
-    const { refresh } = useRouter()
+
 
 
     useEffect(() => {
         if (state?.success) {
             toast.success(state.success)
             document.getElementById(formId).closest('dialog')?.close() // Si el padre es un dialog, lo cerramos
-            refresh()  // refrescamos página despues de mostrar toast
         }
         if (state?.error) toast.error(state.error)
 

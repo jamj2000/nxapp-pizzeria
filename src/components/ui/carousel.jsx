@@ -39,14 +39,14 @@ export default function AutoCarousel() {
             <button
                 type="button"
                 onClick={prevSlide}
-                className="rounded-full absolute left-2 top-1/2 transform -translate-y-1/4 bg-black bg-opacity-30 text-white border-none hover:bg-opacity-50"
+                className="p-2 rounded-full absolute left-2 top-1/2 transform -translate-y-1/4 bg-black/30 text-white border-none hover:cursor-pointer hover:bg-black/50"
             >
                 <ChevronLeft />
             </button>
             <button
                 type="button"
                 onClick={nextSlide}
-                className="rounded-full absolute right-2 top-1/2 transform -translate-y-1/4 bg-black bg-opacity-30 text-white border-none hover:bg-opacity-50"
+                className="p-2 rounded-full absolute right-2 top-1/2 transform -translate-y-1/4 bg-black/30 text-white border-none hover:cursor-pointer hover:bg-black/50"
             >
                 <ChevronRight />
             </button>

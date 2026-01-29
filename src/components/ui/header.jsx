@@ -1,4 +1,4 @@
-import { BikeIcon, HomeIcon, KeyRoundIcon, LockIcon, MenuIcon, PizzaIcon, ScrollTextIcon, UserRoundIcon, XIcon } from 'lucide-react'
+import { BikeIcon, HomeIcon, KeyRoundIcon, LockIcon, MenuIcon, PizzaIcon, ScrollTextIcon, ShoppingCartIcon, UserRoundIcon, XIcon } from 'lucide-react'
 import { logout } from '@/lib/actions/auth';
 import { auth } from '@/auth';
 import MenuLink from '@/components/ui/menu-link';
@@ -35,29 +35,36 @@ export default async function Header() {
         }
       </div >
 
+      <div className='flex gap-2 items-center' >
+        {/* Sesión */}
+        {session &&
+          <Link prefetch
+            href="/dashboard"
+            className="w-full rounded-full hover:outline hover:outline-slate-600 cursor-pointer" >
+            {session.user.image ? <img src={session.user.image} className='size-10 rounded-full' /> : <UserRoundIcon className='size-10 p-2' />}
+          </Link >
+        }
 
-      {/* Sesión */}
-      < div className='flex gap-2 items-center' >
-        {
-          session
-            ?
-            <div className="flex gap-2 items-center">
-              <Link prefetch
-                href="/dashboard"
-                className="w-full rounded-full hover:outline hover:outline-slate-600 cursor-pointer" >
-                {session.user.image ? <img src={session.user.image} className='size-10 rounded-full' /> : <UserRoundIcon className='size-10 p-2' />}
-              </Link >
 
-              <form className="flex gap-2 items-center">
-                <button formAction={logout} className='bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer'>
-                  <LockIcon /> {/*  Logout */}
-                </button>
-              </form>
-            </div >
-            :
-            <Link href="/auth/login" className="bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer">
-              <KeyRoundIcon />      {/* Login */}
-            </Link>
+        <Link prefetch
+          href="/carrito"
+          className="p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer" >
+          <ShoppingCartIcon />
+        </Link>
+
+
+        {/* Sesión */}
+        {session
+          ?
+          <form className="flex gap-2 items-center">
+            <button formAction={logout} className='bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer'>
+              <LockIcon /> {/*  Logout */}
+            </button>
+          </form>
+          :
+          <Link href="/auth/login" className="bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer">
+            <KeyRoundIcon />      {/* Login */}
+          </Link>
         }
       </div >
     </nav >

@@ -37,7 +37,7 @@ export const config = {
          * - favicon.ico, sitemap.xml, robots.txt (metadata files)
          * - $ (root page)
          */
-        '/((?!api|auth|images|pwa|pizzas|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
+        '/((?!api|auth|images|pwa|pizzas|carrito|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
 
         // "/dashboard",
         // "/pedidos(.*)",

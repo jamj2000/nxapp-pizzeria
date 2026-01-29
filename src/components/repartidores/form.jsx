@@ -22,39 +22,44 @@ export default function Form({ action, repartidor, disabled = false, labelSubmit
     }, [state])
 
     return (
-        <form id={formId} action={faction} className="flex flex-col gap-2 border p-4 border-blue-400" >
+        <form id={formId} action={faction} className="grid lg:grid-cols-[300px_1fr] gap-4" >
             <input type="hidden" name="id" defaultValue={repartidor?.id} />
 
+            <img src={'/images/default-repartidor.jpg'} alt='repartidor' className='h-[200px] w-full lg:h-full object-contain' />
 
-            <button
-                type="submit"
-                className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed"
-                disabled={isPending}
-            >
-                {isPending
-                    ? <RefreshCwIcon size={20} className="animate-spin" />
-                    : labelSubmit
-                }
-            </button>
+            <div className="p-4 flex flex-col w-full gap-2 bg-gray-100">
+
+                <button
+                    type="submit"
+                    className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed"
+                    disabled={isPending}
+                >
+                    {isPending
+                        ? <RefreshCwIcon size={20} className="animate-spin" />
+                        : labelSubmit
+                    }
+                </button>
 
 
 
-            <label>Nombre:
                 <input
                     name='nombre'
                     defaultValue={repartidor?.nombre}
+                    placeholder="Nombre"
+                    className="appearance-none text-4xl bg-white disabled:bg-white"
                     disabled={disabled}
+                    required
                 />
-            </label>
 
-            <label>Teléfono:
                 <input
                     name='telefono'
                     defaultValue={repartidor?.telefono}
+                    placeholder="Teléfono"
+                    className="appearance-none text-2xl bg-white disabled:bg-white"
                     disabled={disabled}
+                    required
                 />
-            </label>
-
+            </div>
 
 
         </form >

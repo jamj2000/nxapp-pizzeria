@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import CheckPizza from "./check-pizza";
 
 
+
 export default function Form({ action, user, pedido, pizzas, disabled = false, labelSubmit = labelDefault }) {
     const formId = useId()
     const [state, faction, isPending] = useActionState(action, {})
@@ -21,6 +22,7 @@ export default function Form({ action, user, pedido, pizzas, disabled = false, l
             toast.error(state.error)
         }
     }, [state])
+
 
     const [fechaActual] = useState(() => {
         const ahora = new Date()
@@ -80,13 +82,5 @@ export default function Form({ action, user, pedido, pizzas, disabled = false, l
         </form>
     )
 }
-
-
-
-
-
-
-
-
 
 
