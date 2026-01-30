@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 
 
 async function insertarPedido(prevState, formData) {
+    const estado = formData.get('estado')
     const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
     const clienteId = formData.get('clienteId')
     const repartidorId = Number(formData.get('repartidorId')) || null
@@ -29,6 +30,7 @@ async function insertarPedido(prevState, formData) {
 
     await prisma.pedido.create({
         data: {
+            estado: estado,
             fecha_hora: fecha_hora,
             clienteId: clienteId,
             repartidorId: repartidorId,
@@ -52,6 +54,7 @@ async function insertarPedido(prevState, formData) {
 
 async function modificarPedido(prevState, formData) {
     const id = Number(formData.get('id'))
+    const estado = formData.get('estado')
     const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
     const clienteId = formData.get('clienteId')
 
@@ -60,8 +63,7 @@ async function modificarPedido(prevState, formData) {
     const pizzasIDs = await prisma.pizza.findMany({
         select: { id: true }
     })
-    // console.log(pizzasIDs);
-    // console.log(pizzasIDs);
+
     // Map over all available pizzas and check if they are in the form data
     const pizzasConCantidad = pizzasIDs.map(p => {
         const cantidadStr = formData.get(`pizza${p.id}`)
@@ -77,6 +79,7 @@ async function modificarPedido(prevState, formData) {
     await prisma.pedido.update({
         where: { id },
         data: {
+            estado: estado,
             fecha_hora: fecha_hora,
             clienteId: clienteId,
             repartidorId: repartidorId,
@@ -113,10 +116,23 @@ async function eliminarPedido(prevState, formData) {
 }
 
 
+async function changeState(pedido) {
+
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+    if (pedido) {
+        await prisma.pedido.update({
+            where: { id: pedido.id },
+            data: { estado: (pedido.estado + 1) % 4 },
+        })
+
+        revalidatePath("/dashboard");
+    }
+}
 
 
 export {
     insertarPedido,
     modificarPedido,
-    eliminarPedido
+    eliminarPedido,
+    changeState
 }

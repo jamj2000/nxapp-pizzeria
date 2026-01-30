@@ -17,6 +17,7 @@ export async function obtenerPedidos(clienteId) {
             }
         }
     })
+    // console.log(`pedidos`, pedidos.map(p => p.pedidoPizzas.map((p) => [p.pedidoId, p.pizzaId, p.pizza.nombre, p.pizza.precio])))
     return pedidos
 }
 

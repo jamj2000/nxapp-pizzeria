@@ -6,6 +6,7 @@ import { use, useState } from "react";
 import Form from "./form";
 import { eliminarPedido, insertarPedido, modificarPedido } from "@/lib/actions/pedidos";
 import { labelEliminar, labelInsertar, labelModificar } from "../ui/labels";
+import Estado from "./estado";
 
 
 
@@ -57,7 +58,7 @@ export default ({
             </div>
             {/* } */}
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
                 {pedidos
                     .sort((a, b) => b.fecha_hora - a.fecha_hora)  // ordenado desde reciente a antiguo
                     .map(pedido =>
@@ -122,9 +123,10 @@ function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizza
                         }).format(pedido.fecha_hora)
                     }
                 </span>
-
-                {/* {new Date(pedido.fecha_hora).toLocaleString()} */}
             </Link>
+
+            <Estado pedido={pedido} editable={isAdminSession} />
+
             {isAdminSession &&
                 <details>
                     <summary className="cursor-pointer hover:bg-slate-300 my-2 p-2">Cliente: {pedido.cliente?.name}</summary>
@@ -136,7 +138,7 @@ function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizza
                 <h2 className="font-bold text-lg">Pizzas</h2>
                 {pedido.pedidoPizzas.map(pp =>
                     <p key={pp.pizza.id} className="flex justify-between shrink-0">
-                        <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{pp.cantidad * pp.pizza.precio}</span>
+                        <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{(pp.cantidad * pp.pizza.precio).toFixed(2)}</span>
                     </p>
                 )}
                 <h3 className="flex justify-between shrink-0 font-bold">

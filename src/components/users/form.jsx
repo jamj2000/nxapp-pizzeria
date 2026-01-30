@@ -1,12 +1,15 @@
 'use client'
 import { deleteUser } from "@/lib/actions/users";
 import { RefreshCwIcon, TrashIcon, UserRoundIcon } from "lucide-react";
-import { useActionState, useEffect, useId } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { labelDefault } from "../ui/labels";
 import CheckBox from "../ui/check-box";
 import InputAvatar from "../ui/input-avatar";
-
+import { LoaderCircleIcon } from "lucide-react";
+import { useFormStatus } from "react-dom";
+import { changeState } from "@/lib/actions/pedidos";
+import Estado from "@/components/pedidos/estado";
 
 
 export default function Form({ action, isAdminSession, user, disabled = false, labelSubmit = labelDefault }) {
@@ -129,25 +132,48 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                 </div>
             </form>
 
-            {/* Mostramos los pedidos si el formulario está deshabilitado */}
-            {disabled &&
-                <div className="text-lg flex flex-col gap-2">
-                    <h2 className="text-xl font-bold mt-4">Pedidos realizados</h2>
-                    {user.pedidos
-                        .map(pedido =>
-                            <p key={pedido.id} className="flex gap-4">
-                                <span>Nº {pedido.id}</span>
-                                <span>
-                                    {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
-                                        dateStyle: "full",
-                                        timeStyle: "long",
-                                        timeZone: "Europe/Madrid",
-                                    }))}
-                                </span>
-                            </p>
-                        )}
-                </div>
-            }
+
+            <div className="text-lg flex flex-col gap-2">
+                <h2 className="text-xl font-bold mt-4">Pedidos realizados</h2>
+
+                {!user?.pedidos?.length
+                    ? <p>No se han realizados pedidos aún</p>
+                    : user?.pedidos?.sort((a, b) => b.id - a.id).map(pedido =>
+
+                        <div key={pedido.id} className="flex gap-4 items-center">
+                            <span>Nº {pedido.id}</span>
+                            <span>{pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
+                                dateStyle: "full",
+                                timeStyle: "long",
+                                timeZone: "Europe/Madrid",
+                            }))}</span>
+
+                            <Estado pedido={pedido} editable={isAdminSession} />
+                        </div>
+                    )}
+            </div >
+
         </>
     )
 }
+
+
+
+
+
+function StateButton({ pedido }) {
+    const { pending } = useFormStatus()
+
+    return (
+        <button
+            disabled={pending}
+            className={`disabled:bg-slate-500 rounded-full flex items-center hover:outline hover:ouline-black`}
+        >
+            {pending
+                ? <LoaderCircleIcon className={`text-white p-1 size-5 animate-spin`} />
+                : <Estado codigo={pedido.estado} />
+            }
+        </button>
+    )
+}
+

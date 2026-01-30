@@ -103,6 +103,8 @@ function UserPedidos({ promesaPedidos }) {
 
     const pedidos = use(promesaPedidos)
 
+    if (pedidos.length == 0) return <p>No se han realizados pedidos aún</p>
+
     return (
         <div>
             {pedidos
@@ -111,7 +113,7 @@ function UserPedidos({ promesaPedidos }) {
                     <Link
                         key={pedido.id}
                         href={`/pedidos/${pedido.id}`}
-                        className="flex gap-4 font-bold cursor-pointer hover:bg-slate-300 my-2 p-2"
+                        className="flex gap-4 font-bold cursor-pointer hover:bg-slate-200 p-1"
                     >
                         <p>Nº {pedido.id}</p>
                         <p>{pedido.fecha_hora.toLocaleString()}</p>

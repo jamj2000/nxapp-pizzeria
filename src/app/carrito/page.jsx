@@ -1,8 +1,8 @@
-
+import Carrito from "@/components/carrito";
 
 export default function CarritoPage() {
-    return (
-        <div>CarritoPage</div>
-    )
+    return <Carrito />
 }
+
+
 
