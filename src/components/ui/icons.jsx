@@ -9,7 +9,7 @@ export const IconoInsertar = () => <PlusIcon size={32}
 />
 
 export const IconoModificar = () => <FilePenLineIcon size={32}
-    className='text-amber-500 border border-amber-500 rounded-full bg-amber-200 p-1 cursor-pointer hover:text-white hover:bg-amber-500'
+    className='text-indigo-500 border border-indigo-500 rounded-full bg-indigo-200 p-1 cursor-pointer hover:text-white hover:bg-indigo-500'
 />
 
 export const IconoEliminar = () => <TrashIcon size={32}

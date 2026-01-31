@@ -8,7 +8,6 @@ import CheckBox from "../ui/check-box";
 import InputAvatar from "../ui/input-avatar";
 import { LoaderCircleIcon } from "lucide-react";
 import { useFormStatus } from "react-dom";
-import { changeState } from "@/lib/actions/pedidos";
 import Estado from "@/components/pedidos/estado";
 
 

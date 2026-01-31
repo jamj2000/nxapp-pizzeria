@@ -1,3 +1,4 @@
+'use client'
 import sortBy from '@/utils/sort';
 import { useState } from 'react';
 

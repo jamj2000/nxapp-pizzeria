@@ -7,7 +7,7 @@ import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/ic
 import { labelEliminar, labelInsertar, labelModificar } from "@/components/ui/labels";
 import { HeadsetIcon } from "lucide-react";
 import { eliminarRepartidor, insertarRepartidor, modificarRepartidor } from "@/lib/actions/repartidores";
-import useRepartidores from "@/hooks/useRepartidores";
+import useRepartidores from "@/components/repartidores/hooks/useRepartidores";
 import Filtro from "./filtro";
 
 
@@ -85,7 +85,7 @@ export default function Repartidores({ promesaRepartidores }) {
                 <Insertar />
             </div>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
                 {repartidoresFiltrados.map(repartidor =>
                     <Item key={repartidor.id} repartidor={repartidor} >
                         <Modificar repartidor={repartidor} />

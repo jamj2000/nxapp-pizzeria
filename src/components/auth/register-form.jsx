@@ -2,8 +2,8 @@
 
 import { useActionState, useEffect } from 'react';
 import { register } from '@/lib/actions/auth'
-import Spinner1 from '@/components/ui/spinner1';
 import { toast } from 'sonner';
+import { Spinner1 } from '@/components/ui/spinners';
 
 
 

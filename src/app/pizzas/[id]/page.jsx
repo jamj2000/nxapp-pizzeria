@@ -1,4 +1,4 @@
-import Spinner2 from "@/components/ui/spinner2";
+import { Spinner2 } from "@/components/ui/spinners";
 import { Suspense } from "react";
 import { obtenerPizza } from "@/lib/data/pizzas";
 import { use } from "react";
@@ -18,8 +18,6 @@ export default async function PaginaPizza({ params, searchParams }) {
     )
 
 }
-
-
 
 
 

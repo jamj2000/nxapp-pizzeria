@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Spinner2 from "@/components/ui/spinner2";
+import { Spinner2 } from "@/components/ui/spinners";
 import BackButton from "@/components/ui/back-button";
 
 import { auth } from "@/auth";

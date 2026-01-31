@@ -1,36 +1,24 @@
 'use client'
 
-import { notFound, usePathname, useRouter } from "next/navigation"
-import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import { IconoAtras, IconoVer } from "../ui/icons"
 import { PlusIcon } from "lucide-react"
+import Link from "next/link"
+import { useStore } from "@/store/cart"
 
 
+function addToCart(pizza) {
+    useStore.getState().addToCart(pizza)
+}
 
-
-
-export const PizzaCard = ({ pizza }) =>
-    <div className="grid place-content-center cursor-pointer gap-2">
-        <div className="font-bold text-2xl ">{pizza.nombre}</div>
-
-        <div className='relative'>
-            <img alt='foto'
-                src={pizza.foto || '/images/default-pizza.avif'}
-            />
-            <PlusIcon size={32}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    alert('Añadir a la cesta')
-                }}
-                className='absolute bottom-2 right-2 text-slate-500 border border-slate-500 rounded-full bg-slate-200 p-1 cursor-pointer hover:text-white hover:bg-slate-500'
-            />
-        </div>
-
-        <div className="flex justify-end font-bold text-2xl text-stone-500">
-            {pizza.precio} €
-        </div>
-    </div>
-
+const IconoAgregar = ({ pizza }) =>
+    <PlusIcon size={32}
+        className='absolute bottom-2 right-2 text-orange-500 border border-orange-500 rounded-full bg-orange-200 p-1 cursor-pointer hover:text-white hover:bg-orange-500'
+        onClick={(e) => {
+            e.stopPropagation()
+            addToCart(pizza)
+        }}
+    />
 
 
 
@@ -60,18 +48,12 @@ export const PizzaInfo = ({ pizza }) => {
                     src={pizza.foto || '/images/default-pizza.avif'}
                     className="h-[200px] w-full lg:h-[600px] object-cover"
                 />
-                <PlusIcon size={32}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        alert('Añadir a la cesta')
-                    }}
-                    className='absolute bottom-2 right-2 text-slate-500 border border-slate-500 rounded-full bg-slate-200 p-1 cursor-pointer hover:text-white hover:bg-slate-500'
-                />
+                <IconoAgregar pizza={pizza} />
             </div>
 
             <div className="flex flex-col justify-center w-full">
                 <p className="text-4xl">{pizza.nombre}</p>
-                <p className="text-4xl font-bold text-slate-300">{pizza.precio} €</p>
+                <p className="text-4xl font-bold text-orange-300">{pizza.precio} €</p>
                 <p className="py-4 font-bold text-xl">Ingredientes</p>
                 {pizza.ingredientes.map(ingrediente =>
                     <div className="text-lg" key={ingrediente.id}>
@@ -83,4 +65,24 @@ export const PizzaInfo = ({ pizza }) => {
         </div>
     )
 }
+
+
+
+
+export const PizzaCard = ({ pizza }) =>
+    <div className="grid place-content-center cursor-pointer gap-2">
+        <div className="font-bold text-2xl ">{pizza.nombre}</div>
+
+        <div className='relative'>
+            <img alt='foto'
+                src={pizza.foto || '/images/default-pizza.avif'}
+            />
+            <IconoAgregar pizza={pizza} />
+        </div>
+
+        <div className="flex justify-end font-bold text-2xl text-stone-500">
+            {pizza.precio} €
+        </div>
+    </div>
+
 

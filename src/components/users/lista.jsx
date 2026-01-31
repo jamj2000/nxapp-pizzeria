@@ -6,7 +6,6 @@ import { use } from "react";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
 import Form from './form';
 import { labelEliminar, labelInsertar, labelModificar } from '../ui/labels';
-import CheckBox from '../ui/check-box';
 import Estado from './estado';
 
 

@@ -7,7 +7,7 @@ import { labelInsertar, labelModificar, labelEliminar } from "@/components/ui/la
 import { eliminarPizza, insertarPizza, modificarPizza } from "@/lib/actions/pizzas";
 import { PizzaInfo, PizzaCard } from "./info";
 import Filtro from "./filtro";
-import usePizzas from "@/hooks/usePizzas";
+import usePizzas from "@/components/pizzas/hooks/usePizzas";
 
 
 export default ({

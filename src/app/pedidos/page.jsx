@@ -1,6 +1,6 @@
 import Pedidos from "@/components/pedidos/lista";
 import Link from "next/link";
-import Spinner2 from "@/components/ui/spinner2";
+import { Spinner2 } from "@/components/ui/spinners";
 import { Suspense } from "react";
 import { auth } from "@/auth";
 import { obtenerPedidos } from "@/lib/data/pedidos";

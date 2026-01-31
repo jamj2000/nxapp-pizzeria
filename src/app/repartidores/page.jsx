@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Repartidores from "@/components/repartidores/lista";
 import Link from "next/link";
-import Spinner2 from "@/components/ui/spinner2";
+import { Spinner2 } from "@/components/ui/spinners";
 import { auth } from "@/auth";
 import { redirect, } from "next/navigation";
 import { obtenerRepartidores } from "@/lib/data/repartidores";

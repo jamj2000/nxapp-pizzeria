@@ -3,6 +3,7 @@ import { logout } from '@/lib/actions/auth';
 import { auth } from '@/auth';
 import MenuLink from '@/components/ui/menu-link';
 import Link from 'next/link'
+import CartWidget from '@/components/carrito/widget';
 
 
 
@@ -47,11 +48,7 @@ export default async function Header() {
         }
 
 
-        <Link prefetch
-          href="/carrito"
-          className="p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer" >
-          <ShoppingCartIcon />
-        </Link>
+        <CartWidget />
 
 
         {/* Sesión */}

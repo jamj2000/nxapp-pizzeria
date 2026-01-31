@@ -15,7 +15,18 @@ export async function obtenerUsuarios() {
 export async function obtenerUsuarioPorId(id) {
     try {
         const user = await prisma.user.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                pedidos: {
+                    include: {
+                        pedidoPizzas: {
+                            include: {
+                                pizza: true
+                            }
+                        }
+                    }
+                }
+            }
         })
         return user
     }

@@ -3,7 +3,7 @@
 import { useActionState, useEffect } from 'react';
 import { login } from '@/lib/actions/auth'
 import { toast } from 'sonner';
-import Spinner1 from '@/components/ui/spinner1';
+import { Spinner1 } from '@/components/ui/spinners';
 
 
 export default () => {

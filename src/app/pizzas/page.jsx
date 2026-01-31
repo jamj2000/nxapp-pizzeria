@@ -1,6 +1,6 @@
 import Pizzas from "@/components/pizzas/lista";
 import Link from "next/link";
-import Spinner2 from "@/components/ui/spinner2";
+import { Spinner2 } from "@/components/ui/spinners";
 import { Suspense } from "react";
 import { obtenerPizzas } from "@/lib/data/pizzas";
 import { obtenerIngredientes } from "@/lib/data/ingredientes";

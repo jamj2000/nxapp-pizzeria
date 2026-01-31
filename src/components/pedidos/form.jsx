@@ -68,16 +68,14 @@ export default function Form({ action, user, pedido, pizzas, disabled = false, l
 
             <p className="font-bold">Pizzas</p>
             <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
-                {
-                    pizzas.map(pizza =>
-                        <CheckPizza
-                            key={pizza.id}
-                            pizza={pizza}
-                            disabled={disabled}
-                            cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
-                        />
-                    )
-                }
+                {pizzas.map(pizza =>
+                    <CheckPizza
+                        key={pizza.id}
+                        pizza={pizza}
+                        disabled={disabled}
+                        cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
+                    />
+                )}
             </div>
         </form>
     )

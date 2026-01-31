@@ -10,7 +10,7 @@ export default function CheckBox({
     children
 }) {
 
-    const defaultClassName = "cursor-pointer has-disabled:cursor-default has-checked:bg-blue-200 has-checked:text-blue-800 px-2 py-1 text-gray-500 border border-gray-300 rounded-md"
+    const defaultClassName = "cursor-pointer has-disabled:cursor-default has-checked:bg-indigo-200 has-checked:text-indigo-800 px-2 py-1 text-gray-500 border border-gray-300 rounded-md"
     const newClassName = twMerge(defaultClassName, className)
 
     return (

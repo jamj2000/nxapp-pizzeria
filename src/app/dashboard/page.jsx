@@ -10,11 +10,10 @@ import { editUser } from "@/lib/actions/users";
 import { labelModificar } from "@/components/ui/labels";
 import Form from "@/components/users/form";
 import Modal from "@/components/ui/modal";
-import Spinner1 from "@/components/ui/spinner1";
-import Spinner2 from "@/components/ui/spinner2";
 import ListaUsuarios from "@/components/users/lista";
 import { obtenerPedidos } from "@/lib/data/pedidos";
 import Link from "next/link";
+import { Spinner1, Spinner2 } from "@/components/ui/spinners";
 
 
 export default async function Dashboard() {
@@ -49,14 +48,14 @@ export default async function Dashboard() {
                 </>
             }
 
-            {session.user.role === 'USER' &&
-                <>
-                    <h1 className="text-xl font-bold mt-15">Pedidos realizados</h1>
-                    <Suspense fallback={<Spinner1 />}>
-                        <UserPedidos promesaPedidos={obtenerPedidos(session.user.id)} />
-                    </Suspense>
-                </>
-            }
+            {/* {session.user.role === 'USER' &&
+                <> */}
+            <h1 className="text-xl font-bold mt-15">Lista de pedidos</h1>
+            <Suspense fallback={<Spinner1 />}>
+                <UserPedidos promesaPedidos={obtenerPedidos(session.user.id)} />
+            </Suspense>
+            {/* </>
+            } */}
 
         </div >
     )
