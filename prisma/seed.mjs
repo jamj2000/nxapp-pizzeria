@@ -1,9 +1,11 @@
 import { PrismaClient } from '@prisma/client';
+import { createId as cuid } from '@paralleldrive/cuid2';
 const prisma = new PrismaClient();
 
 
 const users = [
     {
+        id: cuid(),
         name: "Pepe Viyuela",
         email: "pepe@pepe.es",
         address: "C/ Nueva, 99",
@@ -11,6 +13,7 @@ const users = [
         role: 'USER',
     },
     {
+        id: cuid(),
         name: "Ana Alferez",
         email: "ana@ana.es",
         address: "C/ Ancha, 100",
@@ -18,6 +21,7 @@ const users = [
         role: 'USER',
     },
     {
+        id: cuid(),
         name: "Jose López",
         email: "jose@jose.es",
         address: "Avda. Constitución, 1",
@@ -153,32 +157,32 @@ const pedidos = [
         pedidoPizzas: {
             create: [{ pizzaId: 1, cantidad: 1 }]
         },
-        clienteId: 1,     // cliente --- 1:n ---- pedido
-        repartidorId: 2,  // repartidor --- 1:n ---- pedido
+        clienteId: users[0].id,     // cliente --- 1:n ---- pedido
+        repartidorId: repartidores[0].id,  // repartidor --- 1:n ---- pedido
     },
     {
         fecha_hora: '2024-07-01T21:12:05.000Z',
         pedidoPizzas: {
             create: [{ pizzaId: 1, cantidad: 1 }, { pizzaId: 2, cantidad: 2 }]
         },
-        cliente: 1,       // cliente --- 1:n ---- pedido
-        repartidorId: 2,  // repartidor --- 1:n ---- pedido
+        clienteId: users[1].id,            // cliente --- 1:n ---- pedido
+        repartidorId: repartidores[1].id,  // repartidor --- 1:n ---- pedido
     },
     {
         fecha_hora: '2024-08-01T22:12:05.000Z',
         pedidoPizzas: {
             create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
         },
-        clienteId: 2,     // cliente --- 1:n ---- pedido
-        repartidorId: 2,  // repartidor --- 1:n ---- pedido
+        clienteId: users[2].id,            // cliente --- 1:n ---- pedido
+        repartidorId: repartidores[2].id,  // repartidor --- 1:n ---- pedido
     },
     {
         fecha_hora: '2024-09-01T23:12:05.000Z',
         pedidoPizzas: {
             create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 3, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
         },
-        clienteId: 3,     // cliente --- 1:n ---- pedido
-        repartidorId: 2,  // repartidor --- 1:n ---- pedido
+        clienteId: users[2].id,            // cliente --- 1:n ---- pedido
+        repartidorId: repartidores[2].id,  // repartidor --- 1:n ---- pedido
     },
 ]
 
@@ -231,41 +235,11 @@ const load = async () => {
         console.log(`Ingredientes insertados`);
 
         // Pizzas
-        pizzas.forEach(async pizza => {
-            await prisma.pizza.create({ data: pizza });
-        })
+        await Promise.all(pizzas.map(pizza => prisma.pizza.create({ data: pizza })));
         console.log(`Pizzas insertadas`);
 
         // Pedidos, Repartidores, Users
-        // Obtener usuarios y repartidores de la BBDD para tener sus IDs reales
-        const dbUsers = await prisma.user.findMany();
-        const dbRepartidores = await prisma.repartidor.findMany();
-
-        // Pedidos
-        // Asumiendo que el orden de inserción se mantiene o mapeando por email si fuera necesario.
-        // Aquí usamos el índice - 1 para mapear clienteId: 1 -> index 0
-
-        for (const pedido of pedidos) {
-            // Determinar índice del cliente (default a 0 si no está definido o es inválido)
-            // En los datos 'clienteId' o 'cliente' usan 1, 2, 3...
-            const rawClienteId = pedido.clienteId || pedido.cliente || 1;
-            const userIndex = (typeof rawClienteId === 'number' ? rawClienteId : 1) - 1;
-            const user = dbUsers[userIndex % dbUsers.length];
-
-            // Determinar repartidor (default a random o 1)
-            const repartidor = dbRepartidores[0]; // Usamos el primero por simplicidad o aleatorio
-
-            await prisma.pedido.create({
-                data: {
-                    fecha_hora: pedido.fecha_hora,
-                    pedidoPizzas: pedido.pedidoPizzas, // Esto tiene el nested create correcto
-                    clienteId: user.id,
-                    repartidorId: repartidor.id
-                }
-            })
-        }
-
-        console.log(`Pedidos insertados correctamente`);
+        await Promise.all(pedidos.map(pedido => prisma.pedido.create({ data: pedido })));
 
         console.log(`Pedidos insertados, junto con repartidores y usuarios`);
 
