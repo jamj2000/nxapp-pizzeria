@@ -128,14 +128,6 @@ async function activeUser(user) {
 }
 
 
-async function updateActiveUser(id, isActive) {
-    await prisma.user.update({
-        where: { id },
-        data: { active: isActive },
-    })
-
-    revalidatePath("/dashboard");
-}
 
 
 
@@ -143,6 +135,5 @@ export {
     newUser,
     editUser,
     deleteUser,
-    activeUser,
-    updateActiveUser
+    activeUser
 }

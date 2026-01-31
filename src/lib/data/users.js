@@ -13,10 +13,16 @@ export async function obtenerUsuarios() {
 
 
 export async function obtenerUsuarioPorId(id) {
-    const user = await prisma.user.findUnique({
-        where: { id }
-    });
-    return user
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id }
+        })
+        return user
+    }
+    catch (error) {
+        console.log(error.message.split('\n').pop())
+        throw new Error(error.message.split('\n').pop())
+    }
 }
 
 

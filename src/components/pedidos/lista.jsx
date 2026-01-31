@@ -2,11 +2,13 @@
 import Link from "next/link";
 import Modal from "@/components/ui/modal";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
-import { use, useState } from "react";
+import { use } from "react";
 import Form from "./form";
 import { eliminarPedido, insertarPedido, modificarPedido } from "@/lib/actions/pedidos";
 import { labelEliminar, labelInsertar, labelModificar } from "../ui/labels";
 import Estado from "./estado";
+import usePedidos from "@/hooks/usePedidos";
+import Filtro from "./filtro";
 
 
 
@@ -21,118 +23,95 @@ export default ({
     const pedidos = use(promesaPedidos)
     const repartidores = use(promesaRepartidores)
     const clientes = use(promesaClientes)
+    const pizzas = use(promesaPizzas)
     const session = use(promesaSession)
-    const dataPizzas = use(promesaPizzas)
-
+    const user = session?.user
 
     const isAdminSession = session.user?.role === 'ADMIN'
 
-    const [propiedad, setPropiedad] = useState('nombre')
-    const [orden, setOrden] = useState('')
-    const [buscar, setBuscar] = useState('')
-
-    let pizzas = dataPizzas
-    if (propiedad === 'precio') {
-        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad] - b[propiedad])
-        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad] - a[propiedad])
-    }
-    else {
-        if (orden === 'asc') pizzas = dataPizzas.toSorted((a, b) => a[propiedad].localeCompare(b[propiedad]))
-        if (orden === 'desc') pizzas = dataPizzas.toSorted((a, b) => b[propiedad].localeCompare(a[propiedad]))
-    }
-
-    if (buscar) pizzas = pizzas.filter((pizza) =>
-        pizza.nombre.toLowerCase().includes(buscar.toLowerCase())
-    )
+    const {
+        pedidosFiltrados,
+        propiedad, setPropiedad,
+        orden, setOrden,
+        buscar, setBuscar
+    } = usePedidos(pedidos);
 
 
+    const Insertar = () =>
+        <Modal openElement={<IconoInsertar className="self-end" />}>
+            <Form
+                action={insertarPedido}
+                repartidores={repartidores}
+                clientes={clientes}
+                pizzas={pizzas}
+                user={user}
+                labelSubmit={labelInsertar}
+            />
+        </Modal>
 
 
-    return (
-        <div className="flex flex-col gap-4">
-            {/* {isAdminSession && */}
-            <div className='flex justify-end items-center gap-4 pb-4'>
-                <Modal openElement={<IconoInsertar />}>
-                    <Form action={insertarPedido} user={session?.user} pizzas={pizzas} labelSubmit={labelInsertar} />
-                </Modal>
-            </div>
-            {/* } */}
-
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
-                {pedidos
-                    .sort((a, b) => b.fecha_hora - a.fecha_hora)  // ordenado desde reciente a antiguo
-                    .map(pedido =>
-                        <Pedido
-                            key={pedido.id}
-                            pedido={pedido}
-                            clientes={clientes}
-                            repartidores={repartidores}
-                            pizzas={pizzas}
-                            session={session}
-                            isAdminSession={isAdminSession}
-                        />
-                    )}
-            </div>
-        </div >
-    )
-}
+    const Modificar = ({ pedido }) =>
+        <Modal openElement={<IconoModificar className="self-end" />}>
+            <Form
+                action={modificarPedido}
+                pedido={pedido}
+                repartidores={repartidores}
+                clientes={clientes}
+                pizzas={pizzas}
+                user={user}
+                labelSubmit={labelModificar}
+            />
+        </Modal>
 
 
+    const Eliminar = ({ pedido }) =>
+        <Modal openElement={<IconoEliminar />}>
+            <Form
+                action={eliminarPedido}
+                pedido={pedido}
+                repartidores={repartidores}
+                clientes={clientes}
+                pizzas={pizzas}
+                user={user}
+                labelSubmit={labelEliminar}
+                disabled
+            />
+        </Modal>
 
-function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizzas }) {
-    return (
+
+    const Item = ({ pedido, children }) =>
         <div key={pedido.id} className="max-w-96 p-4 mb-4 bg-indigo-50 rounded-lg border border-indigo-100   ">
-
-
             <div className='flex justify-end items-center gap-1'>
-                <Modal openElement={<IconoModificar />}>
-                    <Form
-                        action={modificarPedido}
-                        user={session?.user}
-                        pedido={pedido}
-                        pizzas={pizzas}
-                        labelSubmit={labelModificar}
-                    />
-                </Modal>
-
-                <Modal openElement={<IconoEliminar />}>
-                    <Form
-                        action={eliminarPedido}
-                        user={session?.user}
-                        pedido={pedido}
-                        pizzas={pizzas}
-                        labelSubmit={labelEliminar}
-                        disabled
-                    />
-                </Modal>
+                {children}
             </div>
+
+            <Estado pedido={pedido} editable={isAdminSession} />
 
             <Link href={`/pedidos/${pedido.id}`} className="flex gap-4 font-bold cursor-pointer hover:bg-slate-300 my-2 p-2">
                 <span>Nº {pedido.id}</span>
                 <span>
-                    {/* {pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
-                                        dateStyle: "full",
-                                        timeStyle: "long",
-                                        timeZone: "Europe/Madrid",
-                                    }))} */}
-                    {
-                        new Intl.DateTimeFormat("es-ES", {
-                            dateStyle: "full",
-                            timeStyle: "long",
-                            timeZone: "Europe/Madrid",
-                        }).format(pedido.fecha_hora)
-                    }
+                    {new Intl.DateTimeFormat("es-ES", {
+                        dateStyle: "full",
+                        timeStyle: "long",
+                        timeZone: "Europe/Madrid",
+                    }).format(pedido.fecha_hora)}
                 </span>
             </Link>
 
-            <Estado pedido={pedido} editable={isAdminSession} />
+
 
             {isAdminSession &&
-                <details>
-                    <summary className="cursor-pointer hover:bg-slate-300 my-2 p-2">Cliente: {pedido.cliente?.name}</summary>
-                    <p>Dirección: {pedido.cliente?.address}</p>
-                    <p>Teléfono: {pedido.cliente?.phone}</p>
-                </details>
+                <>
+                    <details>
+                        <summary className="cursor-pointer hover:bg-slate-300 my-2 p-2">Cliente: {pedido.cliente?.name}</summary>
+                        <p>Dirección: {pedido.cliente?.address}</p>
+                        <p>Teléfono: {pedido.cliente?.phone}</p>
+                    </details>
+                    <details>
+                        <summary className="cursor-pointer hover:bg-slate-300 my-2 p-2">Repartidor: {pedido.repartidor?.nombre}</summary>
+                        <p>Teléfono: {pedido.repartidor?.telefono}</p>
+                    </details>
+                </>
             }
             <div className="pt-5">
                 <h2 className="font-bold text-lg">Pizzas</h2>
@@ -146,8 +125,39 @@ function Pedido({ pedido, session, isAdminSession, clientes, repartidores, pizza
                     <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.cantidad * pp.pizza.precio, 0).toFixed(2)}</span>
                 </h3>
             </div>
-
-
         </div>
+
+
+
+
+    return (
+        <div className="flex flex-col gap-4">
+
+            <Filtro
+                buscar={buscar}
+                setBuscar={setBuscar}
+                propiedad={propiedad}
+                setPropiedad={setPropiedad}
+                orden={orden}
+                setOrden={setOrden}
+            />
+
+            {/* {isAdminSession && */}
+            <div className='flex justify-end items-center gap-4 pb-4'>
+                <Insertar />
+            </div>
+            {/* } */}
+
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+                {pedidosFiltrados.map(pedido =>
+                    <Item key={pedido.id} pedido={pedido}>
+                        {isAdminSession && <Modificar pedido={pedido} />}
+                        {isAdminSession && <Eliminar pedido={pedido} />}
+                    </Item>
+                )}
+            </div>
+
+        </div >
     )
 }
+

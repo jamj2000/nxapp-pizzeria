@@ -14,22 +14,12 @@ const colors = {
     3: 'bg-green-200 text-green-900'
 }
 
+
 const textoEstado = (codigoEstado) => <span className={`${colors[codigoEstado]} text-xs p-1 px-4 rounded-full `}>
     {estados[codigoEstado]}
 </span >
 
 
-
-export default function Estado({ pedido, editable = false }) {
-    if (!editable)
-        return textoEstado(pedido.estado)
-
-    return (
-        <form action={changeState.bind(null, pedido)}>
-            <StateButton pedido={pedido} />
-        </form>
-    )
-}
 
 
 
@@ -48,3 +38,19 @@ function StateButton({ pedido }) {
         </button>
     )
 }
+
+
+export default function Estado({ pedido, editable = false }) {
+    if (!editable)
+        return textoEstado(pedido.estado)
+
+    return (
+        <form action={changeState.bind(null, pedido)}>
+            <StateButton pedido={pedido} />
+        </form>
+    )
+}
+
+
+
+

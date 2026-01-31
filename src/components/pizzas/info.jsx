@@ -1,0 +1,86 @@
+'use client'
+
+import { notFound, usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import { IconoAtras, IconoVer } from "../ui/icons"
+import { PlusIcon } from "lucide-react"
+
+
+
+
+
+export const PizzaCard = ({ pizza }) =>
+    <div className="grid place-content-center cursor-pointer gap-2">
+        <div className="font-bold text-2xl ">{pizza.nombre}</div>
+
+        <div className='relative'>
+            <img alt='foto'
+                src={pizza.foto || '/images/default-pizza.avif'}
+            />
+            <PlusIcon size={32}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    alert('Añadir a la cesta')
+                }}
+                className='absolute bottom-2 right-2 text-slate-500 border border-slate-500 rounded-full bg-slate-200 p-1 cursor-pointer hover:text-white hover:bg-slate-500'
+            />
+        </div>
+
+        <div className="flex justify-end font-bold text-2xl text-stone-500">
+            {pizza.precio} €
+        </div>
+    </div>
+
+
+
+
+export const PizzaInfo = ({ pizza }) => {
+
+    const pathname = usePathname()
+    const { back } = useRouter()
+
+    return (
+        <div className="grid lg:grid-cols-[300px_1fr] gap-4 place-items-start">
+
+            <div className='relative w-full'>
+                {pathname !== `/pizzas`
+                    ? <button
+                        onClick={back}
+                        className="absolute top-2 right-2 text-sm font-bold cursor-pointer">
+                        <IconoAtras />
+                    </button>
+                    : <Link prefetch
+                        href={`/pizzas/${pizza.id}`}
+                        className="absolute top-2 right-2 text-sm font-bold cursor-pointer">
+                        <IconoVer />
+                    </Link>
+                }
+                <img
+                    alt='foto'
+                    src={pizza.foto || '/images/default-pizza.avif'}
+                    className="h-[200px] w-full lg:h-[600px] object-cover"
+                />
+                <PlusIcon size={32}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        alert('Añadir a la cesta')
+                    }}
+                    className='absolute bottom-2 right-2 text-slate-500 border border-slate-500 rounded-full bg-slate-200 p-1 cursor-pointer hover:text-white hover:bg-slate-500'
+                />
+            </div>
+
+            <div className="flex flex-col justify-center w-full">
+                <p className="text-4xl">{pizza.nombre}</p>
+                <p className="text-4xl font-bold text-slate-300">{pizza.precio} €</p>
+                <p className="py-4 font-bold text-xl">Ingredientes</p>
+                {pizza.ingredientes.map(ingrediente =>
+                    <div className="text-lg" key={ingrediente.id}>
+                        <p>{ingrediente.nombre}</p>
+
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+}
+

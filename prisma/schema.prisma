@@ -52,7 +52,6 @@ model Repartidor {
 model Pedido {
   id           Int         @id @default(autoincrement())
   fecha_hora   DateTime
-  // estado       String      @default("PENDIENTE") // "PENDIENTE", "EN REPARTO", "ENTREGADO", "CANCELADO" 
   estado       Int         @default(1) // 0 CANCELADO, 1 PENDIENTE, 2 EN REPARTO, 3 ENTREGADO 
   repartidorId Int?
   repartidor   Repartidor? @relation(fields: [repartidorId], references: [id])

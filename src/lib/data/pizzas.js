@@ -18,10 +18,16 @@ export async function obtenerLotePizzas(offset, limit = 5) {
 
 
 export async function obtenerPizzas() {
-    const pizzas = await prisma.pizza.findMany({
-        include: { ingredientes: true }
-    })
-    return pizzas
+    try {
+        const pizzas = await prisma.pizza.findMany({
+            include: { ingredientes: true }
+        })
+        return pizzas
+    } catch (error) {
+        console.log(error.message.split('\n').pop())
+        throw new Error(error.message.split('\n').pop())
+    }
+
 }
 
 

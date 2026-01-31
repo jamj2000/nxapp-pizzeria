@@ -2,11 +2,11 @@
   "name": "Pizzería",
   "short_name": "pizzería",
   "theme_color": "#ffffff",
-  "background_color": "#dafb6f",
+  "background_color": "#c0daeb",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "description": "Pizzería con las mejores pizzas del mundo",
+  "description": "Pizzería Mamma Mia",
   "icons": [
     {
       "src": "icon-192x192.png",
