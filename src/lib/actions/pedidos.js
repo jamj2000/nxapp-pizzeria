@@ -29,7 +29,7 @@ async function insertarPedido(prevState, formData) {
 
 
     try {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // await new Promise(resolve => setTimeout(resolve, 2000));
         await prisma.pedido.create({
             data: {
                 // estado: estado,
