@@ -39,7 +39,7 @@ export const useStore = create(
             clearCart: () => set({ cart: [] }),
         }),
         {
-            name: 'pizza-cart-storage',
+            name: 'cart-storage',
         }
     )
 )
