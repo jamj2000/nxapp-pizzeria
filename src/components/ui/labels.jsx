@@ -15,3 +15,8 @@ export const labelModificar = <span className="flex gap-2 justify-center items-c
 export const labelEliminar = <span className="flex gap-2 justify-center items-center w-full font-bold bg-red-700 text-white p-2 rounded-md">
     Eliminar
 </span>
+
+export const Label = ({ color, children }) =>
+    <span className={`flex gap-2 justify-center items-center w-full font-bold bg-${color}-700 text-white p-2 rounded-md`}>
+        {children}
+    </span>

@@ -118,10 +118,12 @@ async function deleteUser(user) {
 
 async function activeUser(user) {
     if (user) {
+        console.log('Usuario actualizado', user)
         await prisma.user.update({
             where: { id: user.id },
             data: { active: !user.active },
         })
+
 
         revalidatePath("/dashboard");
     }

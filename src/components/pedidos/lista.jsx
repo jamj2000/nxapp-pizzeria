@@ -9,7 +9,6 @@ import Estado from "@/components/pedidos/estado"
 import Form from "@/components/pedidos/form"
 import Filtro from "@/components/pedidos/filtro"
 import usePedidos from "@/components/pedidos/hooks/usePedidos"
-import Link from "next/link"
 import { TIEMPO_CAMBIO } from "@/lib/constants"
 import { PedidoCard, PedidoInfo } from "./info"
 
@@ -93,32 +92,6 @@ export default ({
             <Modal openElement={<PedidoCard pedido={pedido} />}>
                 <PedidoInfo pedido={pedido} />
             </Modal>
-
-            {/* <Link href={`/pedidos/${pedido.id}`} className="block cursor-pointer hover:bg-indigo-100 my-2 p-2">
-                <div className="flex gap-4 font-bold">
-                    <span>Nº {pedido.id}</span>
-                    <span>
-                        {new Intl.DateTimeFormat("es-ES", {
-                            dateStyle: "full",
-                            timeStyle: "long",
-                            timeZone: "Europe/Madrid",
-                        }).format(pedido.fecha_hora)}
-                    </span>
-                </div>
-                <div className="pt-5">
-                    <h2 className="font-bold text-lg">Pizzas</h2>
-                    {pedido.pedidoPizzas.map(pp =>
-                        <p key={pp.pizza.id} className="flex justify-between shrink-0">
-                            <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{(pp.cantidad * pp.pizza.precio).toFixed(2)}</span>
-                        </p>
-                    )}
-                    <h3 className="flex justify-between shrink-0 font-bold">
-                        <span>TOTAL (€)</span>
-                        <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.cantidad * pp.pizza.precio, 0).toFixed(2)}</span>
-                    </h3>
-                </div>
-            </Link> */}
-
 
             {isAdminSession &&
                 <>

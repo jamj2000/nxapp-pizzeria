@@ -1,7 +1,6 @@
 'use client'
-import { deleteUser } from "@/lib/actions/users";
-import { RefreshCwIcon, TrashIcon, UserRoundIcon } from "lucide-react";
-import { useActionState, useEffect, useId, useState } from "react";
+import { RefreshCwIcon } from "lucide-react";
+import { useActionState, useEffect, useId } from "react";
 import { toast } from "sonner";
 import { labelDefault } from "../ui/labels";
 import CheckBox from "../ui/check-box";
@@ -22,6 +21,10 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
             document.getElementById(formId).closest('dialog')?.close() // Si el padre es un dialog, lo cerramos
         }
         if (state?.error) toast.error(state.error)
+        if (state?.ok) {
+            // toast(<div className="text-4xl flex justify-end text-green-600">🙂 OK</div>, { duration: 800 })
+            document.getElementById(formId).closest('dialog')?.close() // Si el padre es un dialog, lo cerramos
+        }
 
     }, [state])
 
@@ -140,14 +143,17 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                     : user?.pedidos?.sort((a, b) => b.id - a.id).map(pedido =>
 
                         <div key={pedido.id} className="flex gap-4 items-center">
-                            <span>Nº {pedido.id}</span>
-                            <span>{pedido.fecha_hora.toLocaleString(Intl.DateTimeFormat("es-ES", {
-                                dateStyle: "full",
-                                timeStyle: "long",
+                            <span>{pedido.id.toString().padStart(4, '_')}</span>
+                            <span>{pedido.fecha_hora.toLocaleDateString("es-ES", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
                                 timeZone: "Europe/Madrid",
-                            }))}</span>
+                            })}</span>
 
-                            <Estado pedido={pedido} editable={isAdminSession} />
+                            <Estado pedido={pedido} />
                         </div>
                     )}
             </div >

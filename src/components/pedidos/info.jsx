@@ -59,7 +59,8 @@ export const PedidoInfo = ({ pedido }) => {
                     </h3>
                 </div>
 
-                <div>Nombre del repartidor: {pedido?.repartidor?.name}</div>
+                <div>Nombre del repartidor: {pedido?.repartidor?.nombre}</div>
+                <div>Teléfono del repartidor: {pedido?.repartidor?.telefono}</div>
 
             </div>
         </div>

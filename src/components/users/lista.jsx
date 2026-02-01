@@ -5,7 +5,7 @@ import { deleteUser, editUser, newUser } from "@/lib/actions/users";
 import { use } from "react";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
 import Form from './form';
-import { labelEliminar, labelInsertar, labelModificar } from '../ui/labels';
+import { Label, labelEliminar, labelInsertar, labelModificar } from '../ui/labels';
 import Estado from './estado';
 
 
@@ -52,8 +52,8 @@ export default ({ session, promesaUsuarios }) => {
         <Modal openElement={<p className="cursor-pointer">{user.name}</p>}>
             <Form
                 user={user}
-                action={() => { document.querySelector('dialog').close() }}
-                labelSubmit={"Aceptar"}
+                action={() => { return { ok: true } }}
+                labelSubmit={<Label color="green">Aceptar</Label>}
                 isAdminSession={isAdminSession}
                 disabled
             />
@@ -62,7 +62,7 @@ export default ({ session, promesaUsuarios }) => {
 
     const Item = ({ user, children }) => {
         return (
-            <div key={user.id} className="rounded-full p-1 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100">
+            <div key={user.id} className="rounded-full p-1 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
 
                 <div className="flex gap-2 items-center">
                     <Estado user={user} editable={isAdminSession} />

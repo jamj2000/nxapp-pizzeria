@@ -6,9 +6,28 @@ const prisma = new PrismaClient();
 const users = [
     {
         id: cuid(),
+        name: "Eva García",
+        email: "eva@eva.es",
+        address: "C/ Larga, 101",
+        phone: '666123456',
+        image: '/images/avatar-75.png',
+        role: 'USER',
+    },
+    {
+        id: cuid(),
+        name: "Juan Pérez",
+        email: "juan@juan.es",
+        address: "C/ Nueva, 11",
+        phone: '666234567',
+        image: '/images/avatar-76.png',
+        role: 'USER',
+    },
+    {
+        id: cuid(),
         name: "Pepe Viyuela",
         email: "pepe@pepe.es",
         address: "C/ Nueva, 99",
+        phone: '666345678',
         image: '/images/avatar-77.png',
         role: 'USER',
     },
@@ -17,234 +36,217 @@ const users = [
         name: "Ana Alferez",
         email: "ana@ana.es",
         address: "C/ Ancha, 100",
+        phone: '666456789',
         image: '/images/avatar-78.png',
-        role: 'USER',
+        role: 'ADMIN',
     },
     {
         id: cuid(),
         name: "Jose López",
         email: "jose@jose.es",
         address: "Avda. Constitución, 1",
+        phone: '666567890',
         image: '/images/avatar-79.png',
         role: 'ADMIN',
-    }
+    },
+
 ];
 
 
 const repartidores = [
     {
-        id: 1,
-        nombre: 'Juan',
+        nombre: 'Juan Romero',
         telefono: '666111222'
     },
     {
-        id: 2,
-        nombre: 'Pepe',
+        nombre: 'Pepe Jiménez',
         telefono: '666111333'
     },
     {
-        id: 3,
-        nombre: 'Luis',
+        nombre: 'Luis Gómez',
         telefono: '666111444'
     }
 ]
 
 const ingredientes = [
-    {
-        id: 1,
-        nombre: 'Masa', descripcion: ''
-    },
-    {
-        id: 2,
-        nombre: 'Tomate', descripcion: ''
-    },
-    {
-        id: 3,
-        nombre: 'Mozzarella', descripcion: ''
-    },
-    {
-        id: 4,
-        nombre: 'Queso Roquefort', descripcion: ''
-    },
-    {
-        id: 5,
-        nombre: 'Queso Parmesano', descripcion: ''
-    },
-    {
-        id: 6,
-        nombre: 'Pepperoni', descripcion: ''
-    },
-    {
-        id: 7,
-        nombre: 'Salami', descripcion: ''
-    },
-    {
-        id: 8,
-        nombre: 'Jamón', descripcion: ''
-    },
-    {
-        id: 9,
-        nombre: 'Bacón', descripcion: ''
-    },
-    {
-        id: 10,
-        nombre: 'Aceitunas', descripcion: ''
-    },
-    {
-        id: 11,
-        nombre: 'Champiñones', descripcion: ''
-    },
-    {
-        id: 12,
-        nombre: 'Pimientos', descripcion: ''
-    },
-    {
-        id: 13,
-        nombre: 'Atún', descripcion: ''
-    },
-    {
-        id: 14,
-        nombre: 'Piña', descripcion: ''
-    },
-    {
-        id: 15,
-        nombre: 'Albahaca fresca', descripcion: ''
-    },
+    { nombre: 'Masa' },
+    { nombre: 'Tomate' },
+    { nombre: 'Mozzarella' },
+    { nombre: 'Queso Roquefort' },
+    { nombre: 'Queso Parmesano' },
+    { nombre: 'Pepperoni' },
+    { nombre: 'Salami' },
+    { nombre: 'Jamón' },
+    { nombre: 'Bacón' },
+    { nombre: 'Aceitunas' },
+    { nombre: 'Champiñones' },
+    { nombre: 'Pimientos' },
+    { nombre: 'Atún' },
+    { nombre: 'Piña' },
+    { nombre: 'Albahaca fresca' },
 ]
 
 
 // pizzas ---- n:m ---- ingredientes
 const pizzas = [
     {
-        id: 1,
         nombre: 'Mediterránea',
         precio: 10.01,
         ingredientes: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
+            connect: [
+                { nombre: 'Masa' },
+                { nombre: 'Tomate' },
+                { nombre: 'Mozzarella' },
+                { nombre: 'Aceitunas' },
+                { nombre: 'Pimientos' },
+                { nombre: 'Albahaca fresca' },
+            ]
         }
     },
     {
-        id: 2,
         nombre: 'Carbonara',
         precio: 11.02,
         ingredientes: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 5 }, { id: 12 }]
+            connect: [
+                { nombre: 'Masa' },
+                { nombre: 'Tomate' },
+                { nombre: 'Mozzarella' },
+                { nombre: 'Queso Parmesano' },
+                { nombre: 'Pimientos' },
+                { nombre: 'Albahaca fresca' },
+            ]
         }
     },
     {
-        id: 3,
         nombre: 'Peperoni',
         precio: 12.03,
         ingredientes: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 6 }, { id: 15 }]
+            connect: [
+                { nombre: 'Masa' },
+                { nombre: 'Tomate' },
+                { nombre: 'Mozzarella' },
+                { nombre: 'Pepperoni' },
+                { nombre: 'Pimientos' },
+                { nombre: 'Albahaca fresca' },
+            ]
         }
     },
     {
-        id: 4,
         nombre: 'Romana',
         precio: 13.04,
         ingredientes: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 10 }, { id: 12 }, { id: 15 }]
+            connect: [
+                { nombre: 'Masa' },
+                { nombre: 'Tomate' },
+                { nombre: 'Mozzarella' },
+                { nombre: 'Aceitunas' },
+                { nombre: 'Pimientos' },
+                { nombre: 'Albahaca fresca' },
+            ],
         }
     },
 ]
 
-
-// pedidos ---- n:m ---- pizzas
-const pedidos = [
-    {
-        fecha_hora: '2024-06-01T20:00:05.000Z',
-        pedidoPizzas: {
-            create: [{ pizzaId: 1, cantidad: 1 }]
-        },
-        clienteId: users[0].id,     // cliente --- 1:n ---- pedido
-        repartidorId: repartidores[0].id,  // repartidor --- 1:n ---- pedido
-    },
-    {
-        fecha_hora: '2024-07-01T21:12:05.000Z',
-        pedidoPizzas: {
-            create: [{ pizzaId: 1, cantidad: 1 }, { pizzaId: 2, cantidad: 2 }]
-        },
-        clienteId: users[1].id,            // cliente --- 1:n ---- pedido
-        repartidorId: repartidores[1].id,  // repartidor --- 1:n ---- pedido
-    },
-    {
-        fecha_hora: '2024-08-01T22:12:05.000Z',
-        pedidoPizzas: {
-            create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
-        },
-        clienteId: users[2].id,            // cliente --- 1:n ---- pedido
-        repartidorId: repartidores[2].id,  // repartidor --- 1:n ---- pedido
-    },
-    {
-        fecha_hora: '2024-09-01T23:12:05.000Z',
-        pedidoPizzas: {
-            create: [{ pizzaId: 2, cantidad: 1 }, { pizzaId: 3, cantidad: 1 }, { pizzaId: 4, cantidad: 1 }]
-        },
-        clienteId: users[2].id,            // cliente --- 1:n ---- pedido
-        repartidorId: repartidores[2].id,  // repartidor --- 1:n ---- pedido
-    },
-]
-
-
-const pickOne = (array, key) => {
-    const index = Math.floor(Math.random() * array.length)
-    return {
-        where: { [key]: array[index][key] },
-        create: array[index]
-    }
-}
-
-
-
-// Eliminar contenido de las tablas
+// Eliminar contenido de las tablas y reiniciar secuencias
 const resetDatabase = async () => {
-    // Eliminar ingredientes, repartidores, pizzas, pedidos y users
-    await prisma.pedidoPizza.deleteMany();
-    await prisma.ingrediente.deleteMany();
-    await prisma.repartidor.deleteMany();
-    await prisma.pizza.deleteMany();
-    await prisma.pedido.deleteMany();
-    await prisma.user.deleteMany();
+    console.log("Reiniciando base de datos (TRUNCATE)...");
+    // PostgreSQL
+    await prisma.$executeRaw`TRUNCATE TABLE "User", "repartidores", "pizzas", "pedidos", "ingredientes", "pedido_pizzas", "Account" RESTART IDENTITY CASCADE;`;
+
+    // MySQL equivalente (MySQL no soporta TRUNCATE de varias tablas ni CASCADE):
+    /*
+    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 0;`;
+    await prisma.$executeRaw`TRUNCATE TABLE User;`;
+    await prisma.$executeRaw`TRUNCATE TABLE repartidores;`;
+    await prisma.$executeRaw`TRUNCATE TABLE pizzas;`;
+    await prisma.$executeRaw`TRUNCATE TABLE pedidos;`;
+    await prisma.$executeRaw`TRUNCATE TABLE ingredientes;`;
+    await prisma.$executeRaw`TRUNCATE TABLE pedido_pizzas;`;
+    await prisma.$executeRaw`TRUNCATE TABLE Account;`;
+    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 1;`;
+    */
 };
 
 
-const setSequences = async () => {
-    // Las secuencias continuarán en 20
-    await prisma.$executeRaw`ALTER SEQUENCE "ingredientes_id_seq" RESTART WITH 20;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "repartidores_id_seq" RESTART WITH 20;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "pizzas_id_seq" RESTART WITH 20;`;
-    await prisma.$executeRaw`ALTER SEQUENCE "pedidos_id_seq" RESTART WITH 20;`;
-}
-
 const load = async () => {
     try {
-        // reset database
         await resetDatabase();
 
-        // Users
+        // 1. Users (CUIDs generados arriba)
         await prisma.user.createMany({ data: users });
         console.log(`Usuarios insertados`);
 
-        // Repartidores
-        await prisma.repartidor.createMany({ data: repartidores });
+        // 2. Repartidores (Insertamos uno a uno para obtener los IDs reales)
+        const repartidoresInsertados = [];
+        for (const r of repartidores) {
+            const result = await prisma.repartidor.create({ data: r });
+            repartidoresInsertados.push(result);
+        }
         console.log(`Repartidores insertados`);
 
-        // Ingredientes
+        // 3. Ingredientes
         await prisma.ingrediente.createMany({ data: ingredientes });
         console.log(`Ingredientes insertados`);
 
-        // Pizzas
-        await Promise.all(pizzas.map(pizza => prisma.pizza.create({ data: pizza })));
+        // 4. Pizzas (Connect por nombre + Captura IDs)
+        const pizzasInsertadas = [];
+        for (const p of pizzas) {
+            const result = await prisma.pizza.create({ data: p });
+            pizzasInsertadas.push(result);
+        }
         console.log(`Pizzas insertadas`);
 
-        // Pedidos, Repartidores, Users
-        await Promise.all(pedidos.map(pedido => prisma.pedido.create({ data: pedido })));
+        // 5. Pedidos (Reconstruidos con los IDs reales obtenidos arriba)
+        const pedidosParaInsertar = [
+            {
+                fecha_hora: '2024-06-01T20:00:05.000Z',
+                pedidoPizzas: {
+                    create: [{ pizzaId: pizzasInsertadas[0].id, cantidad: 1 }]
+                },
+                clienteId: users[0].id,
+                repartidorId: repartidoresInsertados[0].id,
+            },
+            {
+                fecha_hora: '2024-07-01T21:12:05.000Z',
+                pedidoPizzas: {
+                    create: [
+                        { pizzaId: pizzasInsertadas[0].id, cantidad: 1 },
+                        { pizzaId: pizzasInsertadas[1].id, cantidad: 2 }
+                    ]
+                },
+                clienteId: users[1].id,
+                repartidorId: repartidoresInsertados[1].id,
+            },
+            {
+                fecha_hora: '2024-08-01T22:12:05.000Z',
+                pedidoPizzas: {
+                    create: [
+                        { pizzaId: pizzasInsertadas[1].id, cantidad: 1 },
+                        { pizzaId: pizzasInsertadas[3].id, cantidad: 1 }
+                    ]
+                },
+                clienteId: users[2].id,
+                repartidorId: repartidoresInsertados[2].id,
+            },
+            {
+                fecha_hora: '2024-09-01T23:12:05.000Z',
+                pedidoPizzas: {
+                    create: [
+                        { pizzaId: pizzasInsertadas[1].id, cantidad: 1 },
+                        { pizzaId: pizzasInsertadas[2].id, cantidad: 1 },
+                        { pizzaId: pizzasInsertadas[3].id, cantidad: 1 }
+                    ]
+                },
+                clienteId: users[2].id,
+                repartidorId: repartidoresInsertados[2].id,
+            },
+        ];
 
-        console.log(`Pedidos insertados, junto con repartidores y usuarios`);
+        for (const pedido of pedidosParaInsertar) {
+            await prisma.pedido.create({ data: pedido });
+        }
 
-        // Iniciar próximas secuencias    
-        await setSequences()
+        console.log(`Pedidos insertados correctamente`);
 
     } catch (error) {
         console.error("Error al insertar datos:", error);
@@ -252,6 +254,5 @@ const load = async () => {
         await prisma.$disconnect();
     }
 };
-
 
 load();

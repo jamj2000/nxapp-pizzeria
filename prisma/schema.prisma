@@ -89,7 +89,7 @@ model PedidoPizza {
 
 model Ingrediente {
   id          Int     @id @default(autoincrement())
-  nombre      String
+  nombre      String  @unique
   descripcion String?
   pizzas      Pizza[]
 

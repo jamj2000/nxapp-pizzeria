@@ -5,15 +5,16 @@ import { redirect } from "next/navigation";
 import { Suspense, use } from "react";
 import { obtenerUsuarios } from "@/lib/data/users";
 import { obtenerUsuarioPorId } from "@/lib/data/users";
-import { IconoModificar } from "@/components/ui/icons";
+import { IconoEliminar, IconoModificar } from "@/components/ui/icons";
 import { editUser } from "@/lib/actions/users";
 import { labelModificar } from "@/components/ui/labels";
 import Form from "@/components/users/form";
 import Modal from "@/components/ui/modal";
 import ListaUsuarios from "@/components/users/lista";
 import { obtenerPedidos } from "@/lib/data/pedidos";
-import Link from "next/link";
 import { Spinner1, Spinner2 } from "@/components/ui/spinners";
+import Estado from "@/components/pedidos/estado";
+import { PedidoCard } from "@/components/pedidos/info";
 
 
 export default async function Dashboard() {
@@ -21,6 +22,7 @@ export default async function Dashboard() {
 
     if (!session) redirect('/auth/login')
 
+    const isAdminSession = session.user?.role === 'ADMIN'
 
     return (
         <div>
@@ -39,7 +41,7 @@ export default async function Dashboard() {
 
 
 
-            {session.user.role === 'ADMIN' &&
+            {isAdminSession &&
                 <>
                     <h1 className="text-xl font-bold mt-15">Lista de usuarios</h1>
                     <Suspense fallback={<Spinner1 />}>
@@ -48,14 +50,15 @@ export default async function Dashboard() {
                 </>
             }
 
-            {/* {session.user.role === 'USER' &&
-                <> */}
-            <h1 className="text-xl font-bold mt-15">Lista de pedidos</h1>
+
+            <h1 className="text-xl font-bold mt-15 mb-8">Lista de pedidos</h1>
             <Suspense fallback={<Spinner1 />}>
-                <UserPedidos promesaPedidos={obtenerPedidos(session.user.id)} />
+                {isAdminSession
+                    ? <UserPedidos isAdminSession={isAdminSession} promesaPedidos={obtenerPedidos()} /> // Todos los pedidos
+                    : <UserPedidos isAdminSession={isAdminSession} promesaPedidos={obtenerPedidos(session.user.id)} />
+                }
             </Suspense>
-            {/* </>
-            } */}
+
 
         </div >
     )
@@ -98,25 +101,50 @@ async function UserInfo({ session }) {
 
 
 
-function UserPedidos({ promesaPedidos }) {
-
+function UserPedidos({ isAdminSession, promesaPedidos }) {
     const pedidos = use(promesaPedidos)
 
     if (pedidos.length == 0) return <p>No se han realizados pedidos aún</p>
 
-    return (
-        <div>
-            {pedidos
-                .sort((a, b) => b.fecha_hora - a.fecha_hora)  // ordenado desde reciente a antiguo
-                .map(pedido =>
-                    <Link
-                        key={pedido.id}
-                        href={`/pedidos/${pedido.id}`}
-                        className="flex gap-4 font-bold cursor-pointer hover:bg-slate-200 p-1"
-                    >
-                        <p>Nº {pedido.id}</p>
-                        <p>{pedido.fecha_hora.toLocaleString()}</p>
-                    </Link>)}
-        </div>
-    )
+
+
+    return pedidos
+        .sort((a, b) => b.fecha_hora - a.fecha_hora)  // ordenado desde reciente a antiguo
+        .map(pedido =>
+            <div key={pedido.id} className="relative group font-mono grid grid-cols-[40px_120px_auto_1fr] p-2 items-center gap-4 rounded-full even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
+                <img src={pedido.cliente.image} alt="avatar" className="size-8" />
+
+                <Estado pedido={pedido} editable={isAdminSession} />
+
+                <span>{pedido.id.toString().padStart(4, '_')}</span>
+                <span>{pedido.fecha_hora.toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    timeZone: "Europe/Madrid",
+                })}</span>
+
+                {/* Popover */}
+                <div className="absolute left-10 bottom-20 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
+                    <PedidoCard pedido={pedido} />
+                    <div className="py-4">
+                        <p>Repartidor: {pedido.repartidor?.nombre}</p>
+                        <p>Tfno repartidor: {pedido.repartidor?.telefono}</p>
+                    </div>
+
+                    <Estado pedido={pedido} />
+
+                    <div className="grid grid-cols-[120px_auto] gap-4 mt-4">
+                        <img src={pedido.cliente.image} alt="" className="size-24" />
+                        <div>
+                            <p>Cliente: {pedido.cliente.name}</p>
+                            <p>Dirección: {pedido.cliente.address}</p>
+                            <p>Teléfono: {pedido.cliente.phone}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
 }

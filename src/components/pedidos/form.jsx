@@ -5,10 +5,11 @@ import { RefreshCwIcon } from "lucide-react";
 import { useActionState, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import CheckPizza from "./check-pizza";
+import CheckRadio from "../ui/check-radio";
 
 
 
-export default function Form({ action, user, pedido, pizzas, disabled = false, labelSubmit = labelDefault }) {
+export default function Form({ action, user, pedido, pizzas, repartidores, disabled = false, labelSubmit = labelDefault }) {
     const formId = useId()
     const [state, faction, isPending] = useActionState(action, {})
 
@@ -75,6 +76,21 @@ export default function Form({ action, user, pedido, pizzas, disabled = false, l
                         disabled={disabled}
                         cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
                     />
+                )}
+            </div>
+
+            <p className="font-bold">Repartidor</p>
+            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+                {repartidores.map(repartidor =>
+                    <CheckRadio
+                        key={repartidor.id}
+                        name="repartidorId"
+                        disabled={disabled}
+                        defaultValue={repartidor.id}
+                        defaultChecked={pedido?.repartidorId === repartidor.id}
+                    >
+                        {repartidor.nombre}
+                    </CheckRadio>
                 )}
             </div>
         </form>
