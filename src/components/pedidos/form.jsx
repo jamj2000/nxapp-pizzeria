@@ -13,7 +13,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
     const formId = useId()
     const [state, faction, isPending] = useActionState(action, {})
 
-    const isAdminSession = user?.session.role === 'ADMIN'
+    const isAdminSession = user?.role === 'ADMIN'
 
     useEffect(() => {
         if (state.success) {
@@ -98,7 +98,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
                     </div>
                 </>
             }
-        </form>
+        </form >
     )
 }
 

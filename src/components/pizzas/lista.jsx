@@ -62,7 +62,7 @@ export default ({
         </Modal>
 
     const Item = ({ pizza, children }) =>
-        <div className="flex flex-col max-w-[250px] p-4 mb-4 bg-blue-100 rounded-lg border border-blue-200">
+        <div className="flex flex-col max-w-96 p-4 mb-4 bg-blue-100 rounded-lg border border-blue-200">
             <div className='flex justify-end items-center gap-1 pt-4'>
                 {children}
             </div>
@@ -89,7 +89,7 @@ export default ({
                 {isAdminSession && <Insertar />}
             </div>
 
-            <div className="w-full mx-auto grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+            <div className="w-full mx-auto grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
                 {pizzasFiltradas.map(pizza =>
                     <Item key={pizza.id} pizza={pizza}>
                         <div className='flex justify-end items-center gap-1 pt-4'>

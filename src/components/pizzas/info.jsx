@@ -80,7 +80,7 @@ export const PizzaCard = ({ pizza }) =>
             <IconoAgregar pizza={pizza} />
         </div>
 
-        <div className="flex justify-end font-bold text-2xl text-stone-500">
+        <div className="flex justify-end font-bold text-2xl text-stone-700">
             {pizza.precio} €
         </div>
     </div>
