@@ -92,6 +92,7 @@ const pizzas = [
     {
         nombre: 'Mediterránea',
         precio: 10.01,
+        foto: 'https://res.cloudinary.com/jamj2000/image/upload/v1742904185/pizzeria/mediterranea.avif',
         ingredientes: {
             connect: [
                 { nombre: 'Masa' },
@@ -106,6 +107,7 @@ const pizzas = [
     {
         nombre: 'Carbonara',
         precio: 11.02,
+        foto: 'https://res.cloudinary.com/jamj2000/image/upload/v1744889375/pizzeria/carbonara.avif',
         ingredientes: {
             connect: [
                 { nombre: 'Masa' },
@@ -120,6 +122,7 @@ const pizzas = [
     {
         nombre: 'Peperoni',
         precio: 12.03,
+        foto: 'https://res.cloudinary.com/jamj2000/image/upload/v1744889405/pizzeria/peperoni.avif',
         ingredientes: {
             connect: [
                 { nombre: 'Masa' },
@@ -134,6 +137,7 @@ const pizzas = [
     {
         nombre: 'Romana',
         precio: 13.04,
+        foto: 'https://res.cloudinary.com/jamj2000/image/upload/v1744889419/pizzeria/romana.avif',
         ingredientes: {
             connect: [
                 { nombre: 'Masa' },
@@ -141,6 +145,21 @@ const pizzas = [
                 { nombre: 'Mozzarella' },
                 { nombre: 'Aceitunas' },
                 { nombre: 'Pimientos' },
+                { nombre: 'Albahaca fresca' },
+            ],
+        }
+    },
+    {
+        nombre: 'Margarita',
+        precio: 14.05,
+        foto: 'https://res.cloudinary.com/jamj2000/image/upload/v1743707999/pizzeria/margarita.avif',
+        ingredientes: {
+            connect: [
+                { nombre: 'Masa' },
+                { nombre: 'Tomate' },
+                { nombre: 'Mozzarella' },
+                { nombre: 'Queso Roquefort' },
+                { nombre: 'Queso Parmesano' },
                 { nombre: 'Albahaca fresca' },
             ],
         }

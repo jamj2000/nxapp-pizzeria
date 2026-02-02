@@ -28,7 +28,6 @@ export const config = {
          * Match all request paths except for the ones starting with:
          * - api (API routes)
          * - auth
-         * - home 
          * - pizzas
          * - images (into /public)
          * - pwa (into /public) 
@@ -38,9 +37,5 @@ export const config = {
          * - $ (root page)
          */
         '/((?!api|auth|images|pwa|pizzas|carrito|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
-
-        // "/dashboard",
-        // "/pedidos(.*)",
-        // "/repartidores(.*)"
-    ],
+    ]
 }

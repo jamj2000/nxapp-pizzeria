@@ -13,6 +13,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
     const formId = useId()
     const [state, faction, isPending] = useActionState(action, {})
 
+    const isAdminSession = user?.session.role === 'ADMIN'
 
     useEffect(() => {
         if (state.success) {
@@ -79,20 +80,24 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
                 )}
             </div>
 
-            <p className="font-bold">Repartidor</p>
-            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
-                {repartidores.map(repartidor =>
-                    <CheckRadio
-                        key={repartidor.id}
-                        name="repartidorId"
-                        disabled={disabled}
-                        defaultValue={repartidor.id}
-                        defaultChecked={pedido?.repartidorId === repartidor.id}
-                    >
-                        {repartidor.nombre}
-                    </CheckRadio>
-                )}
-            </div>
+            {isAdminSession &&
+                <>
+                    <p className="font-bold">Repartidor</p>
+                    <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+                        {repartidores.map(repartidor =>
+                            <CheckRadio
+                                key={repartidor.id}
+                                name="repartidorId"
+                                disabled={disabled}
+                                defaultValue={repartidor.id}
+                                defaultChecked={pedido?.repartidorId === repartidor.id}
+                            >
+                                {repartidor.nombre}
+                            </CheckRadio>
+                        )}
+                    </div>
+                </>
+            }
         </form>
     )
 }
