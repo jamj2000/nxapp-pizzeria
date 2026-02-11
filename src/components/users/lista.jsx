@@ -71,9 +71,9 @@ export default ({ session, promesaUsuarios }) => {
         return (
             <div key={user.id} className="rounded-full p-2 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
 
-                <div className="flex gap-2 items-center">
-
+                <div className="relative group flex gap-2 items-center">
                     <Mostrar user={user} />
+                    <Popover user={user} />
                 </div>
 
                 <div className='flex justify-center items-center gap-1'>
@@ -83,6 +83,23 @@ export default ({ session, promesaUsuarios }) => {
             </div>
         )
     }
+
+
+
+    const Popover = ({ user }) =>
+        <div className="absolute left-10 top-4 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
+
+            <div className="grid grid-cols-[60px_auto] items-center  gap-4 border border-slate-300 rounded-md p-2">
+                <img src={user.image} alt="avatar"
+                    className={`size-16 ${!user.active && 'grayscale opacity-30'}`} />
+                <div>
+                    <p>{user.name}</p>
+                    <p>{user.address}</p>
+                    <p>{user.phone}</p>
+                    <p>{user.role}</p>
+                </div>
+            </div>
+        </div>
 
 
 

@@ -135,7 +135,7 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
 
 
 const Popover = ({ pedido }) =>
-    <div className="absolute left-10 bottom-20 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
+    <div className="absolute left-10 bottom-1 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
         <div className="border border-slate-300 rounded-md p-2">
             <PedidoCard pedido={pedido} />
             <Estado pedido={pedido} />
