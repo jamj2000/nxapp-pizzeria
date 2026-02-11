@@ -58,8 +58,6 @@ export default async function Dashboard() {
                     : <UserPedidos isAdminSession={isAdminSession} promesaPedidos={obtenerPedidos(session.user.id)} />
                 }
             </Suspense>
-
-
         </div >
     )
 }
@@ -77,7 +75,7 @@ async function UserInfo({ session }) {
     const isAdminSession = session.user.role === 'ADMIN'
 
     return (
-        <div className="grid md:grid-cols-[160px_auto]">
+        <div className="grid md:grid-cols-[160px_auto] gap-2">
 
             <img src={usuario?.image || '/images/avatar-80.png'} className="size-36" alt="Imagen de usuario" />
 

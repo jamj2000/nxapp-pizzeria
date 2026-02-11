@@ -49,7 +49,14 @@ export default ({ session, promesaUsuarios }) => {
 
 
     const Mostrar = ({ user }) =>
-        <Modal openElement={<p className="cursor-pointer">{user.name}</p>}>
+        <Modal openElement={
+            <div className="cursor-pointer flex gap-2 items-center">
+                <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario"
+                    className={`size-8 ${!user.active && 'grayscale opacity-30'}`}
+                />
+                {user.name}
+            </div>
+        }>
             <Form
                 user={user}
                 action={() => { return { ok: true } }}
@@ -65,9 +72,7 @@ export default ({ session, promesaUsuarios }) => {
             <div key={user.id} className="rounded-full p-2 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
 
                 <div className="flex gap-2 items-center">
-                    <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario"
-                        className={`size-8 ${!user.active && 'grayscale brightness-200'}`}
-                    />
+
                     <Mostrar user={user} />
                 </div>
 

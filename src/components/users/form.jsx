@@ -48,7 +48,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                             key={`active-${user?.active}`}  // Para actualizar VDOM al detectar cambio
                             name={'active'}
                             defaultChecked={user?.active == true}
-                            className={"self-center mb-4 text-sm w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-green-200 has-checked:text-green-800  px-2 py-1 text-gray-500 rounded-full"}
+                            className={"self-center mb-4 text-sm w-fit after:content-['_Cuenta_no_activa'] has-checked:after:content-['_Cuenta_activa'] has-checked:bg-blue-200 has-checked:text-blue-800  px-2 py-1 text-gray-500"}
                             disabled={disabled}
                         />
                         : <input type="hidden" name="active" defaultValue={user?.active} />
