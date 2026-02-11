@@ -52,7 +52,8 @@ async function modificarPizza(prevState, formData) {
     const ingredientes = formData.getAll('ingredientes').map(id => ({ id: Number(id) }))
 
 
-    await prisma.pizza.create({
+    await prisma.pizza.update({
+        where: { id },
         data: {
             nombre,
             precio,
