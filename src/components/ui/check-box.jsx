@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 export default function CheckBox({
     name,
+    value,
     defaultChecked = false,
     disabled = false,
     className,
@@ -18,6 +19,7 @@ export default function CheckBox({
             <input
                 type="checkbox"
                 name={name}
+                value={value}
                 defaultChecked={defaultChecked}
                 disabled={disabled}
                 className='hidden' />

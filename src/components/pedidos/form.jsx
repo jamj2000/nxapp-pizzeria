@@ -69,7 +69,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
             </label>
 
             <p className="font-bold">Pizzas</p>
-            <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+            <div className="grid gap-4  w-full">
                 {pizzas.map(pizza =>
                     <CheckPizza
                         key={pizza.id}
@@ -83,7 +83,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
             {isAdminSession &&
                 <>
                     <p className="font-bold">Repartidor</p>
-                    <div className="grid gap-4 place-items-center grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+                    <div className="grid gap-1">
                         {repartidores.map(repartidor =>
                             <CheckRadio
                                 key={repartidor.id}

@@ -11,24 +11,23 @@ async function insertarPizza(prevState, formData) {
     const precio = Number(formData.get('precio'))
     const file = formData.get('file')
 
-    const ingredientesIDs = await prisma.ingrediente.findMany({
-        select: { id: true }
-    })
-    // console.log(ingredientesIDs);
-    const connect = ingredientesIDs.filter(i => formData.get(i.id) !== null)
-
-
-    // si tenemos nuevo archivo en el input type=file
+    let foto = null
     if (file.size > 0) {
-        const foto = await uploadImage(file)
-        await prisma.pizza.create({
-            data: { nombre, precio, foto, ingredientes: { connect } }
-        })
-    } else {
-        await prisma.pizza.create({
-            data: { nombre, precio, ingredientes: { connect } }
-        })
+        foto = await uploadImage(file)
     }
+
+    // PIZZA - INGREDIENTES (N:M)
+    const ingredientes = formData.getAll('ingredientes').map(id => ({ id: Number(id) }))
+
+
+    await prisma.pizza.create({
+        data: {
+            nombre,
+            precio,
+            foto,
+            ingredientes: { connect: ingredientes }
+        }
+    })
 
 
     revalidatePath('/pizzas')
@@ -44,26 +43,23 @@ async function modificarPizza(prevState, formData) {
     const precio = Number(formData.get('precio'))
     const file = formData.get('file')
 
-    const ingredientesIDs = await prisma.ingrediente.findMany({
-        select: { id: true }
-    })
-    // console.log(ingredientesIDs);
-    const connect = ingredientesIDs.filter(i => formData.get(i.id) !== null)
-    const disconnect = ingredientesIDs.filter(i => formData.get(i.id) === null)
-
-    // si tenemos nuevo archivo en el input type=file
+    let foto = null
     if (file.size > 0) {
-        const foto = await uploadImage(file)
-        await prisma.pizza.update({
-            where: { id },
-            data: { nombre, precio, foto, ingredientes: { connect, disconnect } }
-        })
-    } else {
-        await prisma.pizza.update({
-            where: { id },
-            data: { nombre, precio, ingredientes: { connect, disconnect } }
-        })
+        foto = await uploadImage(file)
     }
+
+    // PIZZA - INGREDIENTES (N:M)
+    const ingredientes = formData.getAll('ingredientes').map(id => ({ id: Number(id) }))
+
+
+    await prisma.pizza.create({
+        data: {
+            nombre,
+            precio,
+            foto,
+            ingredientes: { set: ingredientes }
+        }
+    })
 
     revalidatePath('/pizzas')
     return { success: 'Pizza modificada' }

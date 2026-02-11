@@ -72,7 +72,8 @@ export default function Form({ action, pizza, ingredientes, disabled = false, la
                     : ingredientes?.map(ingrediente =>
                         <div key={ingrediente.id}>
                             <CheckBox
-                                name={ingrediente.id}
+                                name="ingredientes"
+                                value={ingrediente.id}
                                 defaultChecked={pizza?.ingredientes?.find(i => i.id === ingrediente.id)}
                             // className={"has-checked:bg-green-200 has-checked:text-green-800 px-2 py-1 text-gray-500 rounded-full"}
                             >
