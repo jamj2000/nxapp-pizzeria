@@ -8,10 +8,10 @@ const estados = ['CANCELADO', 'PENDIENTE', 'EN REPARTO', 'ENTREGADO']
 
 
 const colors = {
-    0: 'bg-red-200 text-red-900',
-    1: 'bg-orange-200 text-orange-900',
-    2: 'bg-blue-200 text-blue-900',
-    3: 'bg-green-200 text-green-900'
+    0: 'bg-red-200 text-red-900 border border-red-900',
+    1: 'bg-orange-200 text-orange-900 border border-orange-900',
+    2: 'bg-blue-200 text-blue-900 border border-blue-900',
+    3: 'bg-green-200 text-green-900 border border-green-900'
 }
 
 

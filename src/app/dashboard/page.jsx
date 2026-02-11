@@ -15,6 +15,8 @@ import { obtenerPedidos } from "@/lib/data/pedidos";
 import { Spinner1, Spinner2 } from "@/components/ui/spinners";
 import Estado from "@/components/pedidos/estado";
 import { PedidoCard } from "@/components/pedidos/info";
+import Link from 'next/link'
+
 
 
 export default async function Dashboard() {
@@ -51,7 +53,9 @@ export default async function Dashboard() {
             }
 
 
-            <h1 className="text-xl font-bold mt-15 mb-8">Lista de pedidos</h1>
+            <Link href="/pedidos">
+                <h1 className="text-xl font-bold mt-15 mb-8">Lista de pedidos</h1>
+            </Link>
             <Suspense fallback={<Spinner1 />}>
                 {isAdminSession
                     ? <UserPedidos isAdminSession={isAdminSession} promesaPedidos={obtenerPedidos()} /> // Todos los pedidos

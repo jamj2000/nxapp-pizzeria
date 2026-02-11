@@ -17,7 +17,7 @@ function ActiveButton({ user }) {
         >
             {pending
                 ? <LoaderCircleIcon className={`text-white size-8 p-2 rounded-full animate-spin`} />
-                : <UserRoundIcon className={`${user.active ? 'bg-blue-800' : 'bg-slate-300'} text-white size-8 p-2 rounded-full`} />
+                : <UserRoundIcon className={`${user.active ? 'bg-blue-800' : 'bg-slate-300'} text-white size-8 p-2 rounded-full cursor-pointer hover:outline hover:outline-blue-500`} />
             }
 
         </button>
