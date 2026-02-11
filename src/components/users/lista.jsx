@@ -62,11 +62,12 @@ export default ({ session, promesaUsuarios }) => {
 
     const Item = ({ user, children }) => {
         return (
-            <div key={user.id} className="rounded-full p-1 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
+            <div key={user.id} className="rounded-full p-2 flex justify-between items-center even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
 
                 <div className="flex gap-2 items-center">
-                    <Estado user={user} editable={isAdminSession} />
-
+                    <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario"
+                        className={`size-8 ${!user.active && 'grayscale brightness-200'}`}
+                    />
                     <Mostrar user={user} />
                 </div>
 
@@ -91,6 +92,7 @@ export default ({ session, promesaUsuarios }) => {
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map(user =>
                     <Item key={user.id} user={user}>
+                        <Estado user={user} editable={isAdminSession} />
                         <Modificar user={user} />
                         <Eliminar user={user} />
                     </Item>
