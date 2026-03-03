@@ -3,15 +3,13 @@
 Aplicación web con fines didácticos para la gestión de una pizzería de ejemplo.
 
 
-## Diagrama Entidad-Relación simplificado
+## Diagrama Entidad-Relación
 
 
-![ER](public/erd.png)
+![Diagrama ER](public/diagrama-er.png)
 
 
-## Diagrama Entidad-Relación de Prisma
-
-![ER Prisma](public/prisma-erd.png)
+> Diagrama realizado con [Mermaid](https://mermaid.ai)
 
 
 ## Desarrollo
@@ -69,7 +67,7 @@ npm  run  dev
 
 Las credenciales de acceso, tanto rol USER como ADMIN son las siguientes:
 
-Email           | Contraseña   | Rol
-----------------|--------------|------------
-admin@admin.es  | admin        | ADMIN
-user@user.es    | user         | USER
+| Email          | Contraseña | Rol   |
+| -------------- | ---------- | ----- |
+| admin@admin.es | admin      | ADMIN |
+| user@user.es   | user       | USER  |
