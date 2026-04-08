@@ -50,13 +50,14 @@ model Repartidor {
 }
 
 model Pedido {
-  id           Int         @id @default(autoincrement())
-  fecha_hora   DateTime
-  estado       Int         @default(1) // 0 CANCELADO, 1 PENDIENTE, 2 EN REPARTO, 3 ENTREGADO 
-  repartidorId Int?
-  repartidor   Repartidor? @relation(fields: [repartidorId], references: [id])
-  clienteId    String?
-  cliente      User?       @relation(fields: [clienteId], references: [id])
+  id              Int         @id @default(autoincrement())
+  fecha_hora      DateTime
+  estado          Int         @default(1) // 0 CANCELADO, 1 PENDIENTE, 2 EN REPARTO, 3 ENTREGADO
+  repartidorId    Int?
+  repartidor      Repartidor? @relation(fields: [repartidorId], references: [id])
+  clienteId       String?
+  cliente         User?       @relation(fields: [clienteId], references: [id])
+  stripeSessionId String?     @unique
 
   pedidoPizzas PedidoPizza[]
 

@@ -49,7 +49,8 @@ async function insertarPedido(prevState, formData) {
         return { success: 'Pedido registrado correctamente' }
     } catch (error) {
         console.error(error)
-        return { error: 'Error al registrar el pedido' }
+        // return { error: 'Error al registrar el pedido' }
+        return { error: error.message.split('\n').pop() }
     }
 }
 

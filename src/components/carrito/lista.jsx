@@ -1,40 +1,51 @@
 'use client'
 
 import { useStore } from "@/store/cart"
-import { insertarPedido } from "@/lib/actions/pedidos"
-import { useActionState, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import Link from "next/link"
 import { Trash2, Minus, Plus } from "lucide-react"
 import { Spinner3 } from "@/components/ui/spinners"
-import { redirect } from "next/navigation"
-import { MINUTOS } from "@/lib/constants"
 
 export default ({ user }) => {
     const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useStore()
-    const [state, action, isPending] = useActionState(insertarPedido, {})
     const [mounted, setMounted] = useState(false)
+    const [isPending, setIsPending] = useState(false)
 
     useEffect(() => {
         setMounted(true)
     }, [])
 
-    useEffect(() => {
-        if (state.success) {
-            toast.info(`Dispone de ${MINUTOS} minutos para modificar o cancelar el pedido`, { duration: 10000 })
-            toast.success(state.success)
-            clearCart()
-            redirect('/pedidos')
-        }
-        if (state.error) {
-            toast.error(state.error)
-        }
-    }, [state, clearCart])
-
     if (!mounted) return null
 
     const total = cart.reduce((acc, item) => acc + item.precio * item.quantity, 0)
-    const fechaActual = new Date().toISOString()
+
+    async function handleCheckout() {
+        if (!user) return
+
+        setIsPending(true)
+        try {
+            const res = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: cart, userId: user.id }),
+            })
+
+            const data = await res.json()
+
+            if (!res.ok || !data.url) {
+                toast.error(data.error || 'Error al iniciar el pago')
+                return
+            }
+
+            // Redirigir a la página de pago de Stripe
+            window.location.href = data.url
+        } catch (error) {
+            toast.error('Error de conexión. Inténtalo de nuevo.')
+        } finally {
+            setIsPending(false)
+        }
+    }
 
     if (cart.length === 0) {
         return (
@@ -105,27 +116,23 @@ export default ({ user }) => {
 
             {user
                 ?
-                <form action={action} className="flex justify-end">
-                    <input type="hidden" name="clienteId" value={user.id} />
-                    <input type="hidden" name="fecha_hora" value={fechaActual} />
-
-                    {cart.map(item => (
-                        <input
-                            key={item.id}
-                            type="hidden"
-                            name={`pizza${item.id}`}
-                            value={item.quantity}
-                        />
-                    ))}
-
+                <div className="flex justify-end">
                     <button
-                        type="submit"
+                        onClick={handleCheckout}
                         disabled={isPending}
-                        className="w-full h-12 flex items-center justify-center bg-blue-500 text-white cursor-pointer font-bold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full h-12 flex items-center justify-center gap-2 bg-blue-500 text-white cursor-pointer font-bold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isPending ? <Spinner3 /> : 'Tramitar Pedido'}
+                        {isPending ? <Spinner3 /> : (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                                    <line x1="2" x2="22" y1="10" y2="10" />
+                                </svg>
+                                Pagar con Stripe
+                            </>
+                        )}
                     </button>
-                </form>
+                </div>
                 :
                 <div className="bg-orange-100 border-l-4 border-orange-500 p-4 rounded text-right">
                     <p className="text-orange-700">
