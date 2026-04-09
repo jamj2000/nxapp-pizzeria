@@ -1,15 +1,13 @@
-// Borrar. No se usa.
-// Se usa crearSesionPago en lib/actions/checkout.js
+// src/app/actions/checkout.js
+'use server'
 
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-export async function POST(req) {
-    const { items, userId } = await req.json()
-
+export async function crearSesionPago({ items, userId }) {
     if (!items || items.length === 0) {
-        return Response.json({ error: 'El carrito está vacío' }, { status: 400 })
+        throw new Error('El carrito está vacío')
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
@@ -21,7 +19,7 @@ export async function POST(req) {
                 name: item.nombre,
                 ...(item.foto && { images: [item.foto] }),
             },
-            unit_amount: Math.round(item.precio * 100), // Stripe trabaja en céntimos
+            unit_amount: Math.round(item.precio * 100),
         },
         quantity: item.quantity,
     }))
@@ -41,5 +39,5 @@ export async function POST(req) {
         },
     })
 
-    return Response.json({ url: session.url })
+    return session.url
 }

@@ -7,6 +7,9 @@ import Link from "next/link"
 import { Trash2, Minus, Plus } from "lucide-react"
 import { Spinner3 } from "@/components/ui/spinners"
 
+import { crearSesionPago } from '@/lib/actions/checkout'
+
+
 export default ({ user }) => {
     const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useStore()
     const [mounted, setMounted] = useState(false)
@@ -20,32 +23,43 @@ export default ({ user }) => {
 
     const total = cart.reduce((acc, item) => acc + item.precio * item.quantity, 0)
 
+    // async function handleCheckout() {
+    //     if (!user) return
+
+    //     setIsPending(true)
+    //     try {
+    //         const res = await fetch('/api/checkout', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ items: cart, userId: user.id }),
+    //         })
+
+    //         const data = await res.json()
+
+    //         if (!res.ok || !data.url) {
+    //             toast.error(data.error || 'Error al iniciar el pago')
+    //             return
+    //         }
+
+    //         // Redirigir a la página de pago de Stripe
+    //         window.location.href = data.url
+    //     } catch (error) {
+    //         toast.error('Error de conexión. Inténtalo de nuevo.')
+    //     } finally {
+    //         setIsPending(false)
+    //     }
+    // }
+
+
     async function handleCheckout() {
         if (!user) return
-
         setIsPending(true)
-        try {
-            const res = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: cart, userId: user.id }),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok || !data.url) {
-                toast.error(data.error || 'Error al iniciar el pago')
-                return
-            }
-
-            // Redirigir a la página de pago de Stripe
-            window.location.href = data.url
-        } catch (error) {
-            toast.error('Error de conexión. Inténtalo de nuevo.')
-        } finally {
-            setIsPending(false)
-        }
+        const url = await crearSesionPago({ items: cart, userId: user.id })
+        window.location.href = url  // o router.push(url)
+        setIsPending(false)
     }
+
+
 
     if (cart.length === 0) {
         return (

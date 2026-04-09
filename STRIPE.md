@@ -99,3 +99,14 @@ await db.orders.create({
   },
 })
 ```
+
+# Despliegue
+
+El flujo queda así resumido para producción:
+
+En local: necesitas 
+```
+stripe listen --forward-to localhost:3000/api/webhook
+```
+
+En producción (Vercel, etc.): configura el endpoint en el Dashboard de Stripe con la URL real https://tu-dominio.com/api/webhook y actualiza STRIPE_WEBHOOK_SECRET con el secret que te genere.
