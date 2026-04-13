@@ -1,0 +1,31 @@
+sequenceDiagram
+
+
+    participant U as Usuario/Navegador
+    participant C as Checkout Component
+    participant SA as Server Action (lib/actions)
+    participant S as Stripe (Pasarela)
+    participant W as Webhook (API Route)
+    participant DB as Base de Datos (Prisma)
+
+    U->>C: Clic en "Pagar con Stripe"
+    C->>SA: crearSesionPago({ items, userId })
+    SA->>S: stripe.checkout.sessions.create()
+    S-->>SA: session.url
+    SA-->>C: devuelve URL
+    C->>U: window.location.href = URL (Redirección)
+    
+    Note over U, S: El usuario introduce su tarjeta en Stripe
+    
+    rect rgb(240, 240, 240)
+        Note right of S: Proceso en paralelo (Webhook)
+        S-->>W: POST /api/webhook (checkout.session.completed)
+        W->>DB: prisma.pedido.create(...)
+    end
+
+    alt Pago Exitoso
+        S->>U: Redirige a /pago/exito
+        U->>C: clearCart() (Limpia el estado local)
+    else Pago Cancelado
+        S->>U: Redirige a /pago/cancelado
+    end
