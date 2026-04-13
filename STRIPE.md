@@ -127,3 +127,8 @@ stripe listen --forward-to localhost:3000/api/webhook
 > [!IMPORTANT]
 >
 > En producción (Vercel, etc.), configura el endpoint en el Dashboard de Stripe con la URL real https://tu-dominio.com/api/webhook y actualiza la variable de entorno STRIPE_WEBHOOK_SECRET con el secret que te genere.
+
+
+## 6. Diagrama de secuencia
+
+![Sesión de checkout en Stripe](public/checkout-session.png)
