@@ -1,5 +1,6 @@
-// Borrar. No se usa.
-// Se usa crearSesionPago en lib/actions/checkout.js
+// No se usa esta ruta. Se ha sustituido por una acción de servidor.
+// En su lugar se usa la acción de servidor crearSesionPago en lib/actions/checkout.js
+// Se deja disponible para poder hacer checkout directamente desde el frontend si fuera necesario.
 
 import Stripe from 'stripe'
 
@@ -26,6 +27,8 @@ export async function POST(req) {
         quantity: item.quantity,
     }))
 
+    // The Checkout Session object
+    // https://docs.stripe.com/api/checkout/sessions
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,

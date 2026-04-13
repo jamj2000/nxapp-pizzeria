@@ -71,3 +71,8 @@ Las credenciales de acceso, tanto rol USER como ADMIN son las siguientes:
 | -------------- | ---------- | ----- |
 | admin@admin.es | admin      | ADMIN |
 | user@user.es   | user       | USER  |
+
+
+## Stripe
+
+Para ver como se ha implementado el pago con Stripe, ver el archivo [`STRIPE.md`](STRIPE.md)

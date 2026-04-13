@@ -23,6 +23,7 @@ export default ({ user }) => {
 
     const total = cart.reduce((acc, item) => acc + item.precio * item.quantity, 0)
 
+
     // async function handleCheckout() {
     //     if (!user) return
 

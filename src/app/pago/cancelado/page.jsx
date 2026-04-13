@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { XCircle } from 'lucide-react'
+import { XCircleIcon } from 'lucide-react'
 
 export default function PagoCanceladoPage() {
     return (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] gap-6 text-center px-4">
-            <XCircle size={80} className="text-red-400" />
+            <XCircleIcon size={80} className="text-red-400" />
             <h1 className="text-3xl font-bold text-stone-800">Pago cancelado</h1>
             <p className="text-stone-500 max-w-md">
                 Has cancelado el proceso de pago. No te preocupes, tu carrito sigue intacto.

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useStore } from '@/store/cart'
 import Link from 'next/link'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircleIcon } from 'lucide-react'
 
 export default function PagoExitoPage() {
     const { clearCart } = useStore()
@@ -14,7 +14,7 @@ export default function PagoExitoPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] gap-6 text-center px-4">
-            <CheckCircle size={80} className="text-green-500" />
+            <CheckCircleIcon size={80} className="text-green-500" />
             <h1 className="text-3xl font-bold text-stone-800">¡Pago realizado con éxito!</h1>
             <p className="text-stone-500 max-w-md">
                 Tu pedido ha sido confirmado. Lo estamos preparando con mucho cariño 🍕.

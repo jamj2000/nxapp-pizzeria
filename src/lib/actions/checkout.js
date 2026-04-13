@@ -1,4 +1,3 @@
-// src/app/actions/checkout.js
 'use server'
 
 import Stripe from 'stripe'
@@ -24,6 +23,8 @@ export async function crearSesionPago({ items, userId }) {
         quantity: item.quantity,
     }))
 
+    // The Checkout Session object
+    // https://docs.stripe.com/api/checkout/sessions
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,

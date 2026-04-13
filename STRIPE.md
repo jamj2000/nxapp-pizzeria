@@ -1,8 +1,10 @@
-# 🧩 1. Crear endpoint de webhook en Next.js
+# Implementación de pagos con Stripe
 
-En Next.js 13+ (App Router), crea este archivo:
+Los pasos para implementar el pago con Stripe han sido los siguientes:
 
-/app/api/webhook/route.js
+## 1. Crear endpoint de webhook
+
+Crear archivo `src/app/api/webhook/route.js` con el siguiente contenido:
 
 
 ```js
@@ -50,43 +52,57 @@ export async function POST(req) {
 }
 ```
 
-# 🔐 2. Variables de entorno
+## 2. Variables de entorno
 
-En tu .env.local:
+En archivo `.env`:
 
+```
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
+```
 
-# 🧪 3. Probar en local con Stripe CLI
+## 3. Probar en local con Stripe CLI
 
 Instala Stripe CLI y ejecuta:
 
+```sh 
 stripe listen --forward-to localhost:3000/api/webhook
+```
 
 Te dará algo como:
 
+```sh
 whsec_12345
+```
 
-👉 Ese es tu STRIPE_WEBHOOK_SECRET
+Ese es tu **STRIPE_WEBHOOK_SECRET**
 
-# 💳 4. Simular un 
+## 4. Simular un pago
 
+```sh
 stripe trigger checkout.session.completed
+```
 
 Y verás en tu consola:
 
 Pago completado: cs_test_123
-⚠️ Cosas importantes (muy típicos errores)
-❌ NO usar req.json() → rompe la firma
-✅ usar req.text() (Stripe necesita el body crudo)
-✅ verificar siempre la firma (constructEvent)
-❌ no exponer secretos en frontend
-🧠 Flujo completo
-Usuario paga
-Stripe procesa el pago
-Stripe envía webhook a /api/webhook
-Tu backend reacciona automáticamente
-🚀 Bonus: ejemplo típico real
+
+
+**Cosas importantes (muy típicos errores)**
+
+- ❌ NO usar `req.json()` → rompe la firma
+- ✅ usar `req.text()` (Stripe necesita el body crudo)
+- ✅ verificar siempre la firma (constructEvent)
+- ❌ no exponer secretos en frontend
+
+
+**Flujo completo**
+
+1. Usuario paga
+2. Stripe procesa el pago
+3. Stripe envía webhook a /api/webhook
+4. Tu backend reacciona automáticamente
+
 
 Dentro del case 'checkout.session.completed' podrías hacer:
 
@@ -100,13 +116,14 @@ await db.orders.create({
 })
 ```
 
-# Despliegue
+## 5. Despliegue
 
-El flujo queda así resumido para producción:
+En local, para obtener STRIPE_WEBHOOK_SECRET necesitas hacer
 
-En local: necesitas 
-```
+```sh
 stripe listen --forward-to localhost:3000/api/webhook
 ```
 
-En producción (Vercel, etc.): configura el endpoint en el Dashboard de Stripe con la URL real https://tu-dominio.com/api/webhook y actualiza STRIPE_WEBHOOK_SECRET con el secret que te genere.
+> [!IMPORTANT]
+>
+> En producción (Vercel, etc.), configura el endpoint en el Dashboard de Stripe con la URL real https://tu-dominio.com/api/webhook y actualiza la variable de entorno STRIPE_WEBHOOK_SECRET con el secret que te genere.
