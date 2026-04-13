@@ -1,0 +1,75 @@
+---
+config:
+  look: neo
+  theme: redux-color
+---
+erDiagram
+    direction LR
+
+    User {
+        string id PK
+        string name
+        string email UK
+        string password
+        DateTime emailVerified
+        string image
+        string role
+        string address
+        string phone
+        boolean active
+    }
+
+    Account {
+        string id PK
+        string userId FK
+        string type
+        string provider
+        string providerAccountId UK
+        string refresh_token
+        string access_token
+        int expires_at
+        string token_type
+        string scope
+        string id_token
+        string session_state
+    }
+
+    Repartidor {
+        int id PK
+        string nombre
+        string telefono
+    }
+
+    Pedido {
+        int id PK
+        DateTime fecha_hora
+        int estado
+        string stripeSessionId UK
+        int repartidorId FK
+        string clienteId FK
+    }
+
+    Pizza {
+        int id PK
+        string nombre
+        string foto
+        float precio
+    }
+
+    PedidoPizza {
+        int pedidoId PK, FK
+        int pizzaId PK, FK
+        int cantidad
+    }
+
+    Ingrediente {
+        int id PK
+        string nombre UK
+        string descripcion
+    }
+    User ||--o{ Account : tiene
+    User ||--o{ Pedido : realiza
+    Repartidor ||--o{ Pedido : entrega
+    Pedido ||--o{ PedidoPizza : contiene
+    Pizza ||--o{ PedidoPizza : participa
+    Pizza }o--o{ Ingrediente : incluye
