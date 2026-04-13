@@ -56,6 +56,7 @@ export default ({ user }) => {
         if (!user) return
         setIsPending(true)
         const url = await crearSesionPago({ items: cart, userId: user.id })
+        // Redirigir a la página de pago de Stripe
         window.location.href = url  // o router.push(url)
         setIsPending(false)
     }
