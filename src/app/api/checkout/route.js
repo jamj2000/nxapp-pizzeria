@@ -2,12 +2,11 @@
 // En su lugar se usa la acción de servidor crearSesionPago en lib/actions/checkout.js
 // Se deja disponible para poder hacer checkout directamente desde el frontend si fuera necesario.
 
-import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+import stripe from '@/lib/stripe'
+import prisma from '@/lib/prisma'
 
 export async function POST(req) {
-    const { items, userId } = await req.json()
+    const { items, userId, userName, userEmail } = await req.json()
 
     if (!items || items.length === 0) {
         return Response.json({ error: 'El carrito está vacío' }, { status: 400 })
@@ -27,9 +26,14 @@ export async function POST(req) {
         quantity: item.quantity,
     }))
 
-    // The Checkout Session object
-    // https://docs.stripe.com/api/checkout/sessions
-    const session = await stripe.checkout.sessions.create({
+    const user = userId ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { stripeCustomerId: true }
+    }) : null
+
+    // The Checkout Session creation: https://docs.stripe.com/api/checkout/sessions/create
+    // The Checkout Session object:  https://docs.stripe.com/api/checkout/sessions/object
+    const sessionConfig = {
         payment_method_types: ['card'],
         line_items,
         mode: 'payment',
@@ -37,12 +41,22 @@ export async function POST(req) {
         cancel_url: `${baseUrl}/pago/cancelado`,
         metadata: {
             userId: userId || '',
+            userName: userName || '',
             // Guardamos los items como JSON para recrear el pedido en el webhook
             items: JSON.stringify(
                 items.map((item) => ({ id: item.id, cantidad: item.quantity }))
             ),
         },
-    })
+    }
+
+    if (user?.stripeCustomerId) {
+        sessionConfig.customer = user.stripeCustomerId
+    } else {
+        sessionConfig.customer_email = userEmail
+        sessionConfig.customer_creation = 'always'
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig)
 
     return Response.json({ url: session.url })
 }

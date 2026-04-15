@@ -32,7 +32,7 @@ export default ({ user }) => {
     //         const res = await fetch('/api/checkout', {
     //             method: 'POST',
     //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ items: cart, userId: user.id }),
+    //             body: JSON.stringify({ items: cart, userId: user.id, userEmail: user.email, userName: user.name }),
     //         })
 
     //         const data = await res.json()
@@ -55,7 +55,12 @@ export default ({ user }) => {
     async function handleCheckout() {
         if (!user) return
         setIsPending(true)
-        const url = await crearSesionPago({ items: cart, userId: user.id })
+        const url = await crearSesionPago({
+            items: cart,
+            userId: user.id,
+            userEmail: user.email,
+            userName: user.name
+        })
         // Redirigir a la página de pago de Stripe
         window.location.href = url  // o router.push(url)
         setIsPending(false)

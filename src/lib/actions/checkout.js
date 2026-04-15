@@ -1,10 +1,9 @@
 'use server'
+import stripe from '@/lib/stripe'
+import prisma from '@/lib/prisma'
 
-import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
-export async function crearSesionPago({ items, userId }) {
+export async function crearSesionPago({ items, userId, userEmail, userName }) {
     if (!items || items.length === 0) {
         throw new Error('El carrito está vacío')
     }
@@ -23,22 +22,38 @@ export async function crearSesionPago({ items, userId }) {
         quantity: item.quantity,
     }))
 
-    // The Checkout Session object
-    // https://docs.stripe.com/api/checkout/sessions
-    const session = await stripe.checkout.sessions.create({
+    const user = userId ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { stripeCustomerId: true }
+    }) : null
+
+    // The Checkout Session creation: https://docs.stripe.com/api/checkout/sessions/create
+    // The Checkout Session object:  https://docs.stripe.com/api/checkout/sessions/object
+    const sessionConfig = {
         payment_method_types: ['card'],
         line_items,
-        mode: 'payment',
+        mode: 'payment', // payment: pago único, subscription: suscripción
         success_url: `${baseUrl}/pago/exito?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${baseUrl}/pago/cancelado`,
         metadata: {
             userId: userId || '',
+            userName: userName || '',
             // Guardamos los items como JSON para recrear el pedido en el webhook
             items: JSON.stringify(
                 items.map((item) => ({ id: item.id, cantidad: item.quantity }))
             ),
         },
-    })
+    }
 
+    if (user?.stripeCustomerId) {
+        sessionConfig.customer = user.stripeCustomerId
+    } else {
+        sessionConfig.customer_email = userEmail
+        sessionConfig.customer_creation = 'if_required'
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig)
+
+    console.log('✅ Sesión de pago creada:', session)
     return session.url
 }

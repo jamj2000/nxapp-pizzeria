@@ -1,9 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import { createId as cuid } from '@paralleldrive/cuid2';
 import bcrypt from 'bcryptjs'
+import Stripe from "stripe";
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
 const prisma = new PrismaClient();
-
 
 const users = [
     {

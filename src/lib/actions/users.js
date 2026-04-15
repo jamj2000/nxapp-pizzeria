@@ -1,10 +1,10 @@
 'use server'
 import bcrypt from 'bcryptjs'
-import prisma from '@/lib/prisma'
 import { obtenerUsuarioPorEmail } from '@/lib/data/users'
 import { revalidatePath } from 'next/cache'
 
-
+import stripe from '@/lib/stripe'
+import prisma from '@/lib/prisma'
 
 
 async function newUser(prevState, formData) {
@@ -23,6 +23,17 @@ async function newUser(prevState, formData) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
+        const customer = await stripe.customers.create({
+            name,
+            email,
+            phone,
+            address: {
+                line1: address,
+                // city: user.address.city,
+                // country: user.address.country,
+            },
+        })
+
         await prisma.user.create({
             data: {
                 name,
@@ -32,7 +43,8 @@ async function newUser(prevState, formData) {
                 address,
                 phone,
                 image,
-                role
+                role,
+                stripeCustomerId: customer.id,
             }
         })
 
@@ -56,14 +68,32 @@ async function editUser(prevState, formData) {
     const image = formData.get('image');
     const role = formData.get('role');
 
-    const user = await obtenerUsuarioPorEmail(email)
-    if (user && user.id != id) return { error: 'Este email ya está registrado.' }
-
-    let hashedPassword
-    if (password)
-        hashedPassword = await bcrypt.hash(password, 10)
-
     try {
+        // 1. Obtener el usuario existente por ID para asegurar que existe y obtener su stripeCustomerId
+        const existingUser = await prisma.user.findUnique({ where: { id } })
+        if (!existingUser) return { error: 'Usuario no encontrado.' }
+
+        // 2. Si el email ha cambiado, verificar que el nuevo no esté registrado por otro usuario
+        if (email !== existingUser.email) {
+            const userWithNewEmail = await obtenerUsuarioPorEmail(email)
+            if (userWithNewEmail) return { error: 'Este email ya está registrado por otro usuario.' }
+        }
+
+        let hashedPassword
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10)
+        }
+
+        // 3. Actualizar en Stripe si tiene cliente
+        if (existingUser.stripeCustomerId) {
+            await stripe.customers.update(existingUser.stripeCustomerId, {
+                name,
+                email,
+                phone
+            })
+        }
+
+        // 4. Actualizar en Prisma
         await prisma.user.update({
             where: { id },
             data: {
@@ -74,15 +104,16 @@ async function editUser(prevState, formData) {
                 address,
                 phone,
                 image,
-                role
+                role,
             }
         })
+
         revalidatePath('/dashboard')
         return { success: 'Usuario modificado' }
-    } catch (error) {
-        return { error }
-    }
 
+    } catch (error) {
+        return { error: error.message || 'Error al modificar el usuario' }
+    }
 }
 
 // async function deleteUser(prevState, formData) {
@@ -107,6 +138,9 @@ async function deleteUser(user) {
         await prisma.user.delete({
             where: { id },
         })
+
+        await stripe.customers.del(user.stripeCustomerId);
+
         revalidatePath('/dashboard')
         return { success: 'Usuario eliminado' }
     } catch (error) {
