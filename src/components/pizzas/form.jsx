@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { labelEliminar } from "@/components/ui/labels";
 import InputImage from "@/components/ui/input-image";
 import CheckBox from "@/components/ui/check-box";
+import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants";
 
 
 export default function Form({ action, pizza, ingredientes, disabled = false, labelSubmit = labelEliminar }) {
@@ -28,8 +29,8 @@ export default function Form({ action, pizza, ingredientes, disabled = false, la
             <input type="hidden" name="id" defaultValue={pizza?.id} />
 
             {disabled
-                ? <img src={pizza?.foto || '/images/default-pizza.avif'} alt='foto' className='h-[200px] w-full lg:h-full object-cover' />
-                : <InputImage imgUrl={pizza?.foto || '/images/default-pizza.avif'} className='h-[200px] w-full lg:h-full object-cover' />
+                ? <img src={pizza?.foto || DEFAULT_PIZZA_IMAGE} alt='foto' className='h-[200px] w-full lg:h-full object-cover' />
+                : <InputImage imgUrl={pizza?.foto || DEFAULT_PIZZA_IMAGE} className='h-[200px] w-full lg:h-full object-cover' />
             }
 
 

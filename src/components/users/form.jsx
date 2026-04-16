@@ -120,13 +120,13 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         <select
                             key={user?.role}
                             name="role"
-                            defaultValue={user?.role}
+                            defaultValue={user?.role || 'USER'}
                             size={2}
                             className="w-full text-md px-3 py-2 rounded-lg focus:outline-none bg-gray-100"
                             disabled={disabled}
                         >
-                            <option value='USER' className="p-2 text-center text-xl"> USER </option>
-                            <option value='ADMIN' className="p-2 text-center text-xl"> ADMIN </option>
+                            <option value='USER' className="p-2 text-center text-xl checked:bg-blue-600 checked:text-white"> USER </option>
+                            <option value='ADMIN' className="p-2 text-center text-xl checked:bg-blue-600 checked:text-white"> ADMIN </option>
                         </select>
                         :
                         <input type="hidden" name="role" defaultValue={user?.role} />

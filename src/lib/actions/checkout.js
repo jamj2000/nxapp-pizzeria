@@ -22,10 +22,30 @@ export async function crearSesionPago({ items, userId, userEmail, userName }) {
         quantity: item.quantity,
     }))
 
-    const user = userId ? await prisma.user.findUnique({
-        where: { id: userId },
-        select: { stripeCustomerId: true }
-    }) : null
+    let stripeCustomerId = null
+
+    if (userId) {
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { stripeCustomerId: true, email: true, name: true }
+        })
+
+        if (user?.stripeCustomerId) {
+            stripeCustomerId = user.stripeCustomerId
+        } else if (user) {
+            // Si el usuario existe pero no tiene stripeCustomerId, lo creamos
+            const customer = await stripe.customers.create({
+                email: userEmail || user.email,
+                name: userName || user.name,
+            })
+            stripeCustomerId = customer.id
+            // Actualizamos el usuario en la DB
+            await prisma.user.update({
+                where: { id: userId },
+                data: { stripeCustomerId }
+            })
+        }
+    }
 
     // The Checkout Session creation: https://docs.stripe.com/api/checkout/sessions/create
     // The Checkout Session object:  https://docs.stripe.com/api/checkout/sessions/object
@@ -43,10 +63,13 @@ export async function crearSesionPago({ items, userId, userEmail, userName }) {
                 items.map((item) => ({ id: item.id, cantidad: item.quantity }))
             ),
         },
+        payment_intent_data: {
+            description: `Pedido de ${userName || 'Usuario General'} - Pizzería`,
+        }
     }
 
-    if (user?.stripeCustomerId) {
-        sessionConfig.customer = user.stripeCustomerId
+    if (stripeCustomerId) {
+        sessionConfig.customer = stripeCustomerId
     } else {
         sessionConfig.customer_email = userEmail
         sessionConfig.customer_creation = 'if_required'

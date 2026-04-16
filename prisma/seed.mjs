@@ -6,14 +6,16 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
 const prisma = new PrismaClient();
 
+
+
 const users = [
     {
         id: cuid(),
         name: "Eva García",
         email: "eva@eva.es",
-        password: await bcrypt.hash('eva', 10),
-        address: "C/ Larga, 101",
         phone: '666123456',
+        password: 'eva', // Will be hashed inside load
+        address: "C/ Larga, 101",
         image: '/images/avatar-75.png',
         role: 'USER',
     },
@@ -21,9 +23,9 @@ const users = [
         id: cuid(),
         name: "Juan Pérez",
         email: "juan@juan.es",
-        password: await bcrypt.hash('juan', 10),
-        address: "C/ Nueva, 11",
         phone: '666234567',
+        password: 'juan',
+        address: "C/ Nueva, 11",
         image: '/images/avatar-76.png',
         role: 'USER',
     },
@@ -31,9 +33,9 @@ const users = [
         id: cuid(),
         name: "Pepe Viyuela",
         email: "pepe@pepe.es",
-        password: await bcrypt.hash('pepe', 10),
-        address: "C/ Nueva, 99",
         phone: '666345678',
+        password: 'pepe',
+        address: "C/ Nueva, 99",
         image: '/images/avatar-77.png',
         role: 'USER',
     },
@@ -41,9 +43,9 @@ const users = [
         id: cuid(),
         name: "Usuario Normal",
         email: "user@user.es",
-        password: await bcrypt.hash('user', 10),
-        address: "C/ Asia, 100",
         phone: '677345678',
+        password: 'user',
+        address: "C/ Asia, 100",
         image: '/images/avatar-77.png',
         role: 'USER',
     },
@@ -51,9 +53,9 @@ const users = [
         id: cuid(),
         name: "Ana Alferez",
         email: "ana@ana.es",
-        password: await bcrypt.hash('ana', 10),
-        address: "C/ Ancha, 100",
         phone: '666456789',
+        password: 'ana',
+        address: "C/ Ancha, 100",
         image: '/images/avatar-78.png',
         role: 'ADMIN',
     },
@@ -61,9 +63,9 @@ const users = [
         id: cuid(),
         name: "Jose López",
         email: "jose@jose.es",
-        password: await bcrypt.hash('jose', 10),
-        address: "Avda. Constitución, 1",
         phone: '666567890',
+        password: 'jose',
+        address: "Avda. Constitución, 1",
         image: '/images/avatar-79.png',
         role: 'ADMIN',
     },
@@ -71,9 +73,9 @@ const users = [
         id: cuid(),
         name: "Administrador",
         email: "admin@admin.es",
-        password: await bcrypt.hash('admin', 10),
+        phone: '666667890',
+        password: 'admin',
         address: "Avda. Europa, s/n",
-        phone: '666567899',
         image: '/images/avatar-79.png',
         role: 'ADMIN',
     },
@@ -214,16 +216,45 @@ const resetDatabase = async () => {
     */
 };
 
+const resetStripe = async () => {
+    // Eliminar usuarios
+    const customers = await stripe.customers.list();
+    for (const customer of customers.data) {
+        await stripe.customers.del(customer.id);
+        console.log("Eliminado cliente ", customer.id)
+    }
+    console.log(`Usuarios de Stripe eliminados`);
+}
+
 
 const load = async () => {
     try {
+
+        // 0. Reset
+        await resetStripe();
         await resetDatabase();
 
-        // 1. Users (CUIDs generados arriba)
+        // 1. Crear usuarios en Stripe y hashear contraseñas
+        for (const user of users) {
+            const customer = await stripe.customers.create({
+                email: user.email,
+                name: user.name,
+                phone: user.phone,
+                address: {
+                    line1: user.address,
+                },
+            });
+            user.stripeCustomerId = customer.id;
+            user.password = await bcrypt.hash(user.password, 10);
+        }
+        console.log(`Usuarios de Stripe creados y contraseñas hasheadas`);
+
+        // 2. Users (CUIDs generados arriba)
         await prisma.user.createMany({ data: users });
+        console.log(`Usuarios insertados en la base de datos`);
         console.log(`Usuarios insertados`);
 
-        // 2. Repartidores (Insertamos uno a uno para obtener los IDs reales)
+        // 3. Repartidores (Insertamos uno a uno para obtener los IDs reales)
         const repartidoresInsertados = [];
         for (const r of repartidores) {
             const result = await prisma.repartidor.create({ data: r });
@@ -231,11 +262,11 @@ const load = async () => {
         }
         console.log(`Repartidores insertados`);
 
-        // 3. Ingredientes
+        // 4. Ingredientes
         await prisma.ingrediente.createMany({ data: ingredientes });
         console.log(`Ingredientes insertados`);
 
-        // 4. Pizzas (Connect por nombre + Captura IDs)
+        // 5. Pizzas (Connect por nombre + Captura IDs)
         const pizzasInsertadas = [];
         for (const p of pizzas) {
             const result = await prisma.pizza.create({ data: p });
@@ -243,7 +274,7 @@ const load = async () => {
         }
         console.log(`Pizzas insertadas`);
 
-        // 5. Pedidos (Reconstruidos con los IDs reales obtenidos arriba)
+        // 6. Pedidos (Reconstruidos con los IDs reales obtenidos arriba)
         const pedidosParaInsertar = [
             {
                 fecha_hora: '2024-06-01T20:00:05.000Z',

@@ -5,6 +5,7 @@ import { IconoAtras, IconoVer } from "../ui/icons"
 import { PlusIcon } from "lucide-react"
 import Link from "next/link"
 import { useStore } from "@/store/cart"
+import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants"
 
 
 function addToCart(pizza) {
@@ -45,7 +46,7 @@ export const PizzaInfo = ({ pizza }) => {
                 }
                 <img
                     alt='foto'
-                    src={pizza.foto || '/images/default-pizza.avif'}
+                    src={pizza.foto || DEFAULT_PIZZA_IMAGE}
                     className="h-[200px] w-full lg:h-[600px] object-cover"
                 />
                 <IconoAgregar pizza={pizza} />
@@ -75,7 +76,7 @@ export const PizzaCard = ({ pizza }) =>
 
         <div className='relative'>
             <img alt='foto'
-                src={pizza.foto || '/images/default-pizza.avif'}
+                src={pizza.foto || DEFAULT_PIZZA_IMAGE}
             />
             <IconoAgregar pizza={pizza} />
         </div>

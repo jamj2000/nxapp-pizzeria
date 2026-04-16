@@ -1,4 +1,5 @@
 'use client'
+import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants"
 import { MinusIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
 
@@ -17,7 +18,7 @@ export default function CheckPizza({ pizza, cant = 0, disabled = false }) {
             {/* <span className="font-bold text-lg text-center leading-5 h-10 content-center">{pizza.nombre}</span>
             <span className="text-md text-slate-500">{pizza.precio.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span> */}
             <img
-                src={pizza.foto || '/images/default-pizza.avif'}
+                src={pizza.foto || DEFAULT_PIZZA_IMAGE}
                 alt={pizza.nombre}
                 className="size-16 object-cover rounded-md"
             />
@@ -57,7 +58,7 @@ export default function CheckPizza({ pizza, cant = 0, disabled = false }) {
 
       <div key={item.id} className="flex flex-col md:flex-row items-center gap-4 py-1 px-4 even:bg-indigo-100 odd:bg-slate-100">
                         <img
-                            src={item.foto || '/images/default-pizza.avif'}
+                            src={item.foto || DEFAULT_PIZZA_IMAGE}
                             alt={item.nombre}
                             className="size-16 object-cover rounded-md"
                         />

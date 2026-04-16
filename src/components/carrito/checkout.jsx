@@ -8,6 +8,7 @@ import { Trash2, Minus, Plus } from "lucide-react"
 import { Spinner3 } from "@/components/ui/spinners"
 
 import { crearSesionPago } from '@/lib/actions/checkout'
+import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants"
 
 
 export default ({ user }) => {
@@ -87,7 +88,7 @@ export default ({ user }) => {
                 {cart.map((item) => (
                     <div key={item.id} className="flex flex-col md:flex-row items-center gap-4 py-1 px-4 even:bg-indigo-100 odd:bg-slate-100">
                         <img
-                            src={item.foto || '/images/default-pizza.avif'}
+                            src={item.foto || DEFAULT_PIZZA_IMAGE}
                             alt={item.nombre}
                             className="size-16 object-cover rounded-md"
                         />
