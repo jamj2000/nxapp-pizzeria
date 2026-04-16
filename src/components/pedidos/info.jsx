@@ -85,30 +85,29 @@ export const PedidoInfo = ({ pedido }) => {
 
 
 export const PedidoCard = ({ pedido }) =>
-    <Link href={`/pedidos/${pedido.id}`}>
-        <div className="cursor-pointer hover:bg-indigo-100 my-2 p-2">
-            <div className="flex gap-4 font-bold">
-                <span>Nº {pedido.id}</span>
-                <span>
-                    {new Intl.DateTimeFormat("es-ES", {
-                        dateStyle: "full",
-                        timeStyle: "long",
-                        timeZone: "Europe/Madrid",
-                    }).format(pedido.fecha_hora)}
-                </span>
-            </div>
-            <div className="pt-5">
-                <h2 className="font-bold text-lg">Pizzas</h2>
-                {pedido.pedidoPizzas.map(pp =>
-                    <p key={pp.pizza.id} className="flex justify-between shrink-0">
-                        <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{(pp.cantidad * pp.pizza.precio).toFixed(2)}</span>
-                    </p>
-                )}
-                <h3 className="flex justify-between shrink-0 font-bold">
-                    <span>TOTAL (€)</span>
-                    <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.cantidad * pp.pizza.precio, 0).toFixed(2)}</span>
-                </h3>
-            </div>
+    <div className="cursor-pointer hover:bg-indigo-100 my-2 p-2">
+        <div className="flex gap-4 font-bold">
+            <span>Nº {pedido.id}</span>
+            <span>
+                {new Intl.DateTimeFormat("es-ES", {
+                    dateStyle: "full",
+                    timeStyle: "long",
+                    timeZone: "Europe/Madrid",
+                }).format(pedido.fecha_hora)}
+            </span>
         </div>
-    </Link>
+        <div className="pt-5">
+            <h2 className="font-bold text-lg">Pizzas</h2>
+            {pedido.pedidoPizzas.map(pp =>
+                <p key={pp.pizza.id} className="flex justify-between shrink-0">
+                    <span>{pp.cantidad} x {pp.pizza.nombre}</span> <span>{(pp.cantidad * pp.pizza.precio).toFixed(2)}</span>
+                </p>
+            )}
+            <h3 className="flex justify-between shrink-0 font-bold">
+                <span>TOTAL (€)</span>
+                <span>{pedido.pedidoPizzas.reduce((acc, pp) => acc + pp.cantidad * pp.pizza.precio, 0).toFixed(2)}</span>
+            </h3>
+        </div>
+    </div>
+
 

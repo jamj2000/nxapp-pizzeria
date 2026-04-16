@@ -114,21 +114,22 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
         .sort((a, b) => b.fecha_hora - a.fecha_hora)  // ordenado desde reciente a antiguo
         .map(pedido =>
             <div key={pedido.id} className="p-2 flex  justify-between items-center gap-4 rounded-full even:bg-blue-100 odd:bg-slate-100 hover:outline hover:outline-slate-400">
-                <div className="relative group font-mono grid grid-cols-[40px_60px_auto] items-center">
-                    <img src={pedido.cliente.image} alt="avatar" className="size-8" />
+                <Link href={`/pedidos/${pedido.id}`}>
+                    <div className="relative group font-mono grid grid-cols-[40px_60px_auto] items-center">
+                        <img src={pedido.cliente.image} alt="avatar" className="size-8" />
 
-                    <span>{pedido.id.toString().padStart(4, '_')}</span>
-                    <span>{pedido.fecha_hora.toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        timeZone: "Europe/Madrid",
-                    })}</span>
-
-                    <Popover pedido={pedido} />
-                </div>
+                        <span>{pedido.id.toString().padStart(4, '_')}</span>
+                        <span>{pedido.fecha_hora.toLocaleDateString("es-ES", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            timeZone: "Europe/Madrid",
+                        })}</span>
+                        <Popover pedido={pedido} />
+                    </div>
+                </Link>
                 <Estado pedido={pedido} editable={isAdminSession} />
             </div>
         )
@@ -138,7 +139,7 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
 
 
 const Popover = ({ pedido }) =>
-    <div className="absolute left-10 bottom-1 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
+    <div className="absolute left-10 bottom-10 z-50 mt-2 hidden group-hover:block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-2xl p-4 min-w-[320px]">
         <div className="border border-slate-300 rounded-md p-2">
             <PedidoCard pedido={pedido} />
             <Estado pedido={pedido} />
