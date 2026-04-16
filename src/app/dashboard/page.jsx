@@ -130,7 +130,6 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
                     <Popover pedido={pedido} />
                 </div>
                 <Estado pedido={pedido} editable={isAdminSession} />
-
             </div>
         )
 }

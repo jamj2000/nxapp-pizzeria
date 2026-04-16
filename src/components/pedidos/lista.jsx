@@ -2,7 +2,7 @@
 
 import { use } from "react"
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons"
-import { eliminarPedido, insertarPedido, modificarPedido } from "@/lib/actions/pedidos"
+import { eliminar, insertar, modificar } from "@/lib/actions/pedidos"
 import { labelEliminar, labelInsertar, labelModificar } from "@/components/ui/labels"
 import Modal from "@/components/ui/modal"
 import Estado from "@/components/pedidos/estado"
@@ -42,7 +42,7 @@ export default ({
     const Insertar = () =>
         <Modal openElement={<IconoInsertar className="self-end" />}>
             <Form
-                action={insertarPedido}
+                action={insertar}
                 repartidores={repartidores}
                 clientes={clientes}
                 pizzas={pizzas}
@@ -55,7 +55,7 @@ export default ({
     const Modificar = ({ pedido }) =>
         <Modal openElement={<IconoModificar className="self-end" />}>
             <Form
-                action={modificarPedido}
+                action={modificar}
                 pedido={pedido}
                 repartidores={repartidores}
                 clientes={clientes}
@@ -69,7 +69,7 @@ export default ({
     const Eliminar = ({ pedido }) =>
         <Modal openElement={<IconoEliminar />}>
             <Form
-                action={eliminarPedido}
+                action={eliminar}
                 pedido={pedido}
                 repartidores={repartidores}
                 clientes={clientes}

@@ -3,6 +3,7 @@ import stripe from '@/lib/stripe'
 import prisma from '@/lib/prisma'
 
 
+
 export async function crearSesionPago({ items, userId, userEmail, userName }) {
     if (!items || items.length === 0) {
         throw new Error('El carrito está vacío')

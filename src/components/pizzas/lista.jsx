@@ -4,7 +4,7 @@ import Form from "@/components/pizzas/form";
 import { use } from "react";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
 import { labelInsertar, labelModificar, labelEliminar } from "@/components/ui/labels";
-import { eliminarPizza, insertarPizza, modificarPizza } from "@/lib/actions/pizzas";
+import { eliminar, insertar, modificar } from "@/lib/actions/pizzas";
 import { PizzaInfo, PizzaCard } from "./info";
 import Filtro from "./filtro";
 import usePizzas from "@/components/pizzas/hooks/usePizzas";
@@ -34,7 +34,7 @@ export default ({
     const Insertar = () =>
         <Modal openElement={<IconoInsertar className="self-end" />}>
             <Form
-                action={insertarPizza}
+                action={insertar}
                 ingredientes={ingredientes}
                 labelSubmit={labelInsertar}
             />
@@ -43,7 +43,7 @@ export default ({
     const Modificar = ({ pizza }) =>
         <Modal openElement={<IconoModificar className="self-end" />}>
             <Form
-                action={modificarPizza}
+                action={modificar}
                 pizza={pizza}
                 ingredientes={ingredientes}
                 labelSubmit={labelModificar}
@@ -53,7 +53,7 @@ export default ({
     const Eliminar = ({ pizza }) =>
         <Modal openElement={<IconoEliminar />}>
             <Form
-                action={eliminarPizza}
+                action={eliminar}
                 pizza={pizza}
                 ingredientes={ingredientes}
                 labelSubmit={labelEliminar}

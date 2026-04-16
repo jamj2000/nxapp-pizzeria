@@ -6,7 +6,7 @@ import { uploadImage } from "@/lib/actions/images"
 
 
 
-async function insertarPizza(prevState, formData) {
+async function insertar(prevState, formData) {
     const nombre = formData.get('nombre')
     const precio = Number(formData.get('precio'))
     const file = formData.get('file')
@@ -37,7 +37,7 @@ async function insertarPizza(prevState, formData) {
 
 
 
-async function modificarPizza(prevState, formData) {
+async function modificar(prevState, formData) {
     const id = Number(formData.get('id'))
     const nombre = formData.get('nombre')
     const precio = Number(formData.get('precio'))
@@ -68,7 +68,7 @@ async function modificarPizza(prevState, formData) {
 
 
 
-async function eliminarPizza(prevState, formData) {
+async function eliminar(prevState, formData) {
     const id = Number(formData.get('id'))
 
     await prisma.pizza.delete({
@@ -85,8 +85,8 @@ async function eliminarPizza(prevState, formData) {
 
 
 export {
-    insertarPizza,
-    modificarPizza,
-    eliminarPizza
+    insertar,
+    modificar,
+    eliminar
 }
 

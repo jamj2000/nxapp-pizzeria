@@ -6,7 +6,7 @@ import Form from "@/components/repartidores/form";
 import { IconoInsertar, IconoModificar, IconoEliminar } from "@/components/ui/icons";
 import { labelEliminar, labelInsertar, labelModificar } from "@/components/ui/labels";
 import { HeadsetIcon } from "lucide-react";
-import { eliminarRepartidor, insertarRepartidor, modificarRepartidor } from "@/lib/actions/repartidores";
+import { eliminar, insertar, modificar } from "@/lib/actions/repartidores";
 import useRepartidores from "@/components/repartidores/hooks/useRepartidores";
 import Filtro from "./filtro";
 
@@ -26,7 +26,7 @@ export default function Repartidores({ promesaRepartidores }) {
     const Insertar = () =>
         <Modal openElement={<IconoInsertar />}>
             <Form
-                action={insertarRepartidor}
+                action={insertar}
                 labelSubmit={labelInsertar}
             />
         </Modal>
@@ -35,7 +35,7 @@ export default function Repartidores({ promesaRepartidores }) {
     const Modificar = ({ repartidor }) =>
         <Modal openElement={<IconoModificar />}>
             <Form
-                action={modificarRepartidor}
+                action={modificar}
                 repartidor={repartidor}
                 labelSubmit={labelModificar}
             />
@@ -45,7 +45,7 @@ export default function Repartidores({ promesaRepartidores }) {
     const Eliminar = ({ repartidor }) =>
         <Modal openElement={<IconoEliminar />}>
             <Form
-                action={eliminarRepartidor}
+                action={eliminar}
                 repartidor={repartidor}
                 labelSubmit={labelEliminar}
                 disabled

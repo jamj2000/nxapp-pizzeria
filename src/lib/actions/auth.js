@@ -15,26 +15,31 @@ async function register(prevState, formData) {
     const email = formData.get('email')
     const password = formData.get('password')
 
-    // Comprobamos si el usuario ya está registrado
-    const user = await obtenerUsuarioPorEmail(email);
+    try {
+        // Comprobamos si el usuario ya está registrado
+        const user = await obtenerUsuarioPorEmail(email);
 
-    if (user) {
-        return { error: 'El email ya está registrado' }
-    }
-
-    // Encriptamos password 
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    // Guardamos credenciales en base datos
-    await prisma.user.create({
-        data: {
-            name,
-            email,
-            password: hashedPassword
+        if (user) {
+            return { error: 'El email ya está registrado' }
         }
-    })
 
-    return { success: "Registro correcto" }
+        // Encriptamos password 
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        // Guardamos credenciales en base datos
+        await prisma.user.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword
+            }
+        })
+
+        return { success: "Registro correcto" }
+    } catch (error) {
+        console.error("REGISTER_ERROR", error)
+        return { error: "Error al registrar el usuario. Inténtalo de nuevo." }
+    }
 }
 
 
@@ -47,40 +52,52 @@ async function login(prevState, formData) {
     const email = formData.get('email')
     const password = formData.get('password')
 
-    // Comprobamos si el usuario está registrado
-    const user = await obtenerUsuarioPorEmail(email);
+    try {
+        // Comprobamos si el usuario está registrado
+        const user = await obtenerUsuarioPorEmail(email);
 
-    if (!user) {
-        return { error: 'Usuario no registrado.' }
-    }
+        if (!user) {
+            return { error: 'Usuario no registrado.' }
+        }
 
-    // Comprobamos si el usuario está activo 
-    if (!user.active) {
-        return { error: 'Usuario deshabilitado. Consulte al administrador de esta app.' }
-    }
+        // Comprobamos si el usuario está activo 
+        if (!user.active) {
+            return { error: 'Usuario deshabilitado. Consulte al administrador.' }
+        }
 
-    // Comparamos password 
-    let matchPassword = false
+        // Compare password 
+        const matchPassword = user.password
+            ? await bcrypt.compare(password, user.password)
+            : true; // Caso especial si no hay contraseña almacenada
 
-    if (user.password == null)  // Si no hay contraseña almacenada en BD
-        matchPassword = true
-    else
-        matchPassword = await bcrypt.compare(password, user.password)
+        if (!matchPassword) {
+            return { error: 'Credenciales incorrectas.' }
+        }
 
+        await signIn('credentials', {
+            email,
+            password,
+            redirectTo: globalThis.callbackUrl || '/'
+        })
 
-
-    if (user && matchPassword)  // && user.emailVerified
-    {
-        await signIn('credentials',
-            {
-                email, password,
-                redirectTo: globalThis.callbackUrl
-            })
         return { success: "Inicio de sesión correcto" }
-    } else {
-        return { error: 'Credenciales incorrectas.' }
-    }
 
+    } catch (error) {
+        // MUY IMPORTANTE: NextAuth utiliza errores para redireccionar. 
+        // Si detectamos que es una redirección, debemos relanzarla.
+        if (error.type === 'CredentialsSignin') {
+            return { error: 'Credenciales inválidas.' }
+        }
+
+        // Si es un error de redirección (Next.js internals), lo lanzamos
+        if (error.message === 'NEXT_REDIRECT') {
+            throw error
+        }
+
+        console.error("LOGIN_ERROR", error)
+        // Para cualquier otro error inesperado
+        throw error
+    }
 }
 
 
@@ -88,11 +105,7 @@ async function login(prevState, formData) {
 // --------------------------------- LOGOUT ------------------------------------
 
 async function logout() {
-    try {
-        await signOut({ redirectTo: '/' })
-    } catch (error) {
-        throw error
-    }
+    await signOut({ redirectTo: '/' })
 }
 
 

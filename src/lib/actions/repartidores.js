@@ -4,59 +4,68 @@ import { revalidatePath } from 'next/cache'
 
 
 
-async function insertarRepartidor(prevState, formData) {
+
+async function insertar(prevState, formData) {
     const nombre = formData.get('nombre')
     const telefono = formData.get('telefono')
 
-    await prisma.repartidor.create({
-        data: { nombre, telefono }
-    })
-
-    revalidatePath('/repartidores')
-    return { success: 'Repartidor guardado' }
-
-
+    try {
+        await prisma.repartidor.create({
+            data: { nombre, telefono }
+        })
+        revalidatePath('/repartidores')
+        return { success: 'Repartidor guardado' }
+    } catch (error) {
+        console.error("INSERTAR_REPARTIDOR_ERROR", error)
+        return { error: 'Error al guardar el repartidor' }
+    }
 }
 
 
 
-async function modificarRepartidor(prevState, formData) {
+
+
+async function modificar(prevState, formData) {
     const id = Number(formData.get('id'))
     const nombre = formData.get('nombre')
     const telefono = formData.get('telefono')
 
-
-    await prisma.repartidor.update({
-        where: { id },
-        data: { nombre, telefono }
-    })
-
-    revalidatePath('/repartidores')
-    return { success: 'Repartidor modificado' }
-
+    try {
+        await prisma.repartidor.update({
+            where: { id },
+            data: { nombre, telefono }
+        })
+        revalidatePath('/repartidores')
+        return { success: 'Repartidor modificado' }
+    } catch (error) {
+        console.error("MODIFICAR_REPARTIDOR_ERROR", error)
+        return { error: 'Error al modificar el repartidor' }
+    }
 }
 
 
 
-async function eliminarRepartidor(prevState, formData) {
+
+
+async function eliminar(prevState, formData) {
     const id = Number(formData.get('id'))
 
-    await prisma.repartidor.delete({
-        where: {
-            id: id
-        }
-    })
-
-    revalidatePath('/repartidores')
-    return { success: 'Repartidor eliminado' }
-
-
+    try {
+        await prisma.repartidor.delete({
+            where: { id }
+        })
+        revalidatePath('/repartidores')
+        return { success: 'Repartidor eliminado' }
+    } catch (error) {
+        console.error("ELIMINAR_REPARTIDOR_ERROR", error)
+        return { error: 'Error al eliminar el repartidor' }
+    }
 }
 
 
 
 export {
-    insertarRepartidor,
-    modificarRepartidor,
-    eliminarRepartidor
+    insertar,
+    modificar,
+    eliminar
 }

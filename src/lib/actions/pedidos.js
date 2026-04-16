@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 
 
-async function insertarPedido(prevState, formData) {
+async function insertar(prevState, formData) {
     // const estado = formData.get('estado')
     const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
     const clienteId = formData.get('clienteId')
@@ -58,7 +58,7 @@ async function insertarPedido(prevState, formData) {
 
 
 
-async function modificarPedido(prevState, formData) {
+async function modificar(prevState, formData) {
     const id = Number(formData.get('id'))
     // const estado = formData.get('estado')
     const fecha_hora = new Date(formData.get('fecha_hora')).toISOString()
@@ -113,7 +113,7 @@ async function modificarPedido(prevState, formData) {
 
 
 
-async function eliminarPedido(prevState, formData) {
+async function eliminar(prevState, formData) {
     const id = Number(formData.get('id'))
 
     try {
@@ -147,8 +147,8 @@ async function changeState(pedido) {
 
 
 export {
-    insertarPedido,
-    modificarPedido,
-    eliminarPedido,
+    insertar,
+    modificar,
+    eliminar,
     changeState
 }
