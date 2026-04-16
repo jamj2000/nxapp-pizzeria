@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { IconoAtras, IconoVer } from "../ui/icons"
 import { PlusIcon } from "lucide-react"
 import Link from "next/link"
-import { useStore } from "@/store/cart"
+import { useStore } from "@/lib/store/cart"
 import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants"
 
 

@@ -1,5 +1,5 @@
 'use client'
-import sortBy from '@/utils/sort';
+import sortBy from '@/lib/utils/sort';
 import { useState } from 'react';
 
 

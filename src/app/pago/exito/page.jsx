@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useStore } from '@/store/cart'
+import { useStore } from '@/lib/store/cart'
 import Link from 'next/link'
 import { CheckCircleIcon } from 'lucide-react'
 

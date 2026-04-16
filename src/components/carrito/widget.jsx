@@ -1,6 +1,6 @@
 'use client'
 
-import { useStore } from "@/store/cart"
+import { useStore } from "@/lib/store/cart"
 import { ShoppingCartIcon } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"

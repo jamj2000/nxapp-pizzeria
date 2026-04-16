@@ -1,8 +1,10 @@
 'use client'
 
-import { usePathname, useRouter } from "next/navigation"
-import { IconoAtras, IconoVer } from "../ui/icons"
 import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { IconoAtras, IconoVer } from "@/components/ui/icons"
+import { generateInvoicePDF } from "@/lib/utils/invoice-pdf"
+import { FileText } from "lucide-react"
 
 
 
@@ -33,18 +35,31 @@ export const PedidoInfo = ({ pedido }) => {
             </div>
 
             <div>
-                <div className="flex gap-4 text-2xl font-bold">
-                    <span>Nº {pedido.id}</span>
-                    {new Intl.DateTimeFormat("es-ES", {
-                        dateStyle: "full",
-                        timeStyle: "long",
-                        timeZone: "Europe/Madrid",
-                    }).format(pedido.fecha_hora)}
-
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex gap-4 text-2xl font-bold">
+                        <span>Nº {pedido.id}</span>
+                        <span className="text-gray-500 font-normal">
+                            {new Intl.DateTimeFormat("es-ES", {
+                                dateStyle: "full",
+                                timeStyle: "short",
+                                timeZone: "Europe/Madrid",
+                            }).format(pedido.fecha_hora)}
+                        </span>
+                    </div>
+                    <button
+                        onClick={() => generateInvoicePDF(pedido)}
+                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors shadow-md text-sm font-semibold"
+                    >
+                        <FileText size={18} />
+                        Descargar Factura
+                    </button>
                 </div>
-                <div>Nombre del cliente: {pedido?.cliente?.name}</div>
-                <div>Dirección del cliente: {pedido?.cliente?.address}</div>
-                <div>Teléfono del cliente: {pedido?.cliente?.phone}</div>
+
+                <div className="mt-6 space-y-1 text-gray-700">
+                    <p><span className="font-semibold text-gray-900">Cliente:</span> {pedido?.cliente?.name}</p>
+                    <p><span className="font-semibold text-gray-900">Dirección:</span> {pedido?.cliente?.address}</p>
+                    <p><span className="font-semibold text-gray-900">Teléfono:</span> {pedido?.cliente?.phone}</p>
+                </div>
 
                 <div className="py-5 max-w-md">
                     <h2 className="font-bold text-lg">Pizzas</h2>
