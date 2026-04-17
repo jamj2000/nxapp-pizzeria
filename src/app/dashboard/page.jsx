@@ -21,7 +21,6 @@ export const metadata = {
     title: "Pizzería MM - Dashboard",
 }
 
-
 export default async function Dashboard() {
     const session = await auth()
 
