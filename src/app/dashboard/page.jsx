@@ -131,6 +131,7 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
                     </div>
                 </Link>
                 <Estado pedido={pedido} editable={isAdminSession} />
+
             </div>
         )
 }
