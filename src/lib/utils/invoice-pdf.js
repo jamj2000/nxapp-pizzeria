@@ -12,17 +12,17 @@ export const generateInvoicePDF = (pedido) => {
     // Título / Logo
     // Intentar añadir logo si es posible
     try {
-        doc.addImage("/images/logo.png", "PNG", 160, 10, 30, 30);
+        doc.addImage("/images/logo.png", "PNG", 20, 10, 20, 20);
     } catch (e) {
         console.error("No se pudo cargar el logo en el PDF", e);
     }
 
-    doc.text("PIZZERÍA MAMMA MIA", 20, 20);
+    doc.text("PIZZERÍA MAMMA MIA", 50, 20);
 
     doc.setFontSize(10);
     doc.setTextColor(100);
     doc.setFont("helvetica", "normal");
-    doc.text("Factura Proforma / Recibo de Pedido", 20, 28);
+    doc.text("Factura Proforma / Recibo de Pedido", 50, 28);
 
     // Información del Pedido
     doc.setFontSize(12);
