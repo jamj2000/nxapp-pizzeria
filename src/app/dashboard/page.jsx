@@ -22,8 +22,6 @@ export const metadata = {
 }
 
 
-
-
 export default async function Dashboard() {
     const session = await auth()
 
