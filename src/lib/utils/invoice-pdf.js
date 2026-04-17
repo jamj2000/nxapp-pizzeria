@@ -10,6 +10,13 @@ export const generateInvoicePDF = (pedido) => {
     doc.setTextColor(63, 70, 229); // Color indigo-600 aproximado
 
     // Título / Logo
+    // Intentar añadir logo si es posible
+    try {
+        doc.addImage("/images/logo.png", "PNG", 160, 10, 30, 30);
+    } catch (e) {
+        console.error("No se pudo cargar el logo en el PDF", e);
+    }
+
     doc.text("PIZZERÍA MAMMA MIA", 20, 20);
 
     doc.setFontSize(10);
