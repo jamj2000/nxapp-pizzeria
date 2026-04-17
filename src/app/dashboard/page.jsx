@@ -128,6 +128,8 @@ function UserPedidos({ isAdminSession, promesaPedidos }) {
                             timeZone: "Europe/Madrid",
                         })}</span>
                         <Popover pedido={pedido} />
+
+
                     </div>
                 </Link>
                 <Estado pedido={pedido} editable={isAdminSession} />
