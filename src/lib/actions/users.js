@@ -42,7 +42,7 @@ async function newUser(prevState, formData) {
                 active,
                 address,
                 phone,
-                image,
+                image: image || '/images/avatar-80.png',
                 role,
                 stripeCustomerId: customer.id,
             }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useStore } from "@/lib/store/cart"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { toast } from "sonner"
 import Link from "next/link"
 import { Trash2, Minus, Plus } from "lucide-react"
@@ -11,7 +11,8 @@ import { crearSesionPago } from '@/lib/actions/checkout'
 import { DEFAULT_PIZZA_IMAGE } from "@/lib/constants"
 
 
-export default ({ user }) => {
+export default ({ session }) => {
+    const { user } = use(session) || {} // Resolvemos promesa de forma segura
     const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useStore()
     const [mounted, setMounted] = useState(false)
     const [isPending, setIsPending] = useState(false)

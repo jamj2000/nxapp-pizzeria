@@ -6,9 +6,7 @@ import { obtenerPizzas } from "@/lib/data/pizzas";
 import { obtenerIngredientes } from "@/lib/data/ingredientes";
 import { auth } from "@/auth";
 
-export const metadata = {
-    title: "Pizzería MM - Pizzas",
-}
+export const metadata = { title: "Pizzería MM - Pizzas" }
 
 
 

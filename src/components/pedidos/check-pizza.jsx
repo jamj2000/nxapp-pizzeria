@@ -10,7 +10,7 @@ export default function CheckPizza({ pizza, cant = 0, disabled = false }) {
     const [cantidad, setCantidad] = useState(cant)
 
     return (
-        <div className={`flex items-center gap-4 py-1 px-4 even:bg-indigo-100 odd:bg-slate-100 ${cantidad > 0 ? 'bg-lime-100 border-green-500 shadow-md' : 'bg-slate-100 border-slate-300'}`}>
+        <div className={`flex flex-col sm:flex-row items-center gap-3 sm:gap-4 py-3 sm:py-1 px-4 even:bg-indigo-100 odd:bg-slate-100 ${cantidad > 0 ? 'bg-lime-100 border-green-500 shadow-md' : 'bg-slate-100 border-slate-300'}`}>
             {/* <div className={`flex flex-col gap-2 items-center border p-4 rounded-md transition-colors w-full ${cantidad > 0 ? 'bg-lime-100 border-green-500 shadow-md' : 'bg-slate-100 border-slate-300'}`}> */}
 
             <input type="hidden" name={`pizza${pizza.id}`} value={cantidad} />
@@ -22,30 +22,30 @@ export default function CheckPizza({ pizza, cant = 0, disabled = false }) {
                 alt={pizza.nombre}
                 className="size-16 object-cover rounded-md"
             />
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 text-center sm:text-left">
                 <h3 className="text-xl font-bold">{pizza.nombre}</h3>
                 <p className="text-stone-500">{pizza.precio} € / ud.</p>
             </div>
 
             <span className="text-md text-slate-500">{(pizza.precio * cantidad).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span>
 
-            <div className="flex items-center gap-4 mt-2">
+            <div className="flex items-center gap-4 px-2">
                 <button
                     type="button"
                     onClick={() => setCantidad(c => Math.max(0, c - 1))}
                     disabled={cantidad === 0 || disabled}
-                    className="w-6 h-6 rounded-full bg-red-100 text-red-600 border border-red-300 hover:bg-red-200 disabled:opacity-30 disabled:hover:bg-red-100 flex items-center justify-center transition-colors"
+                    className="w-8 h-8 rounded-full bg-red-100 text-red-600 border border-red-300 hover:bg-red-200 disabled:opacity-30 disabled:hover:bg-red-100 flex items-center justify-center transition-colors"
                 >
-                    <MinusIcon size={10} />
+                    <MinusIcon size={14} />
                 </button>
                 <span className="text-2xl font-bold w-8 text-center">{cantidad}</span>
                 <button
                     type="button"
                     onClick={() => setCantidad(c => c + 1)}
                     disabled={disabled}
-                    className="w-6 h-6 rounded-full bg-green-100 text-green-600 border border-green-300 hover:bg-green-200 disabled:opacity-30 disabled:hover:bg-green-100 flex items-center justify-center transition-colors"
+                    className="w-8 h-8 rounded-full bg-green-100 text-green-600 border border-green-300 hover:bg-green-200 disabled:opacity-30 disabled:hover:bg-green-100 flex items-center justify-center transition-colors"
                 >
-                    <PlusIcon size={10} />
+                    <PlusIcon size={14} />
                 </button>
             </div>
 

@@ -74,7 +74,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         name='name'
                         defaultValue={user?.name}
                         placeholder="Nombre"
-                        className="appearance-none text-4xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
+                        className="w-full appearance-none text-3xl md:text-4xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
                         required
                     />
@@ -83,7 +83,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         name='email'
                         defaultValue={user?.email}
                         placeholder="Email"
-                        className="appearance-none text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
+                        className="w-full appearance-none text-xl md:text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
                         required
                     />
@@ -94,7 +94,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         // defaultValue={user?.password}
                         // placeholder="Password"
                         placeholder='no cambiar contraseña'
-                        className="appearance-none text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
+                        className="w-full appearance-none text-xl md:text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
                     // required
                     />
@@ -102,7 +102,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         name='address'
                         defaultValue={user?.address}
                         placeholder="Domicilio"
-                        className="appearance-none text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
+                        className="w-full appearance-none text-xl md:text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
                     />
 
@@ -110,7 +110,7 @@ export default function Form({ action, isAdminSession, user, disabled = false, l
                         name='phone'
                         defaultValue={user?.phone}
                         placeholder="Teléfono"
-                        className="appearance-none text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
+                        className="w-full appearance-none text-xl md:text-2xl bg-white disabled:bg-white focus:outline-none focus:border-blue-400"
                         disabled={disabled}
                     />
 

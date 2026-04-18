@@ -46,7 +46,7 @@ export default function Form({ action, repartidor, disabled = false, labelSubmit
                     name='nombre'
                     defaultValue={repartidor?.nombre}
                     placeholder="Nombre"
-                    className="appearance-none text-4xl bg-white disabled:bg-white"
+                    className="w-full appearance-none text-3xl md:text-4xl bg-white disabled:bg-white"
                     disabled={disabled}
                     required
                 />
@@ -55,7 +55,7 @@ export default function Form({ action, repartidor, disabled = false, labelSubmit
                     name='telefono'
                     defaultValue={repartidor?.telefono}
                     placeholder="Teléfono"
-                    className="appearance-none text-2xl bg-white disabled:bg-white"
+                    className="w-full appearance-none text-xl md:text-2xl bg-white disabled:bg-white"
                     disabled={disabled}
                     required
                 />

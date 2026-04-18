@@ -6,9 +6,9 @@ import { auth } from "@/auth";
 import { redirect, } from "next/navigation";
 import { obtenerRepartidores } from "@/lib/data/repartidores";
 
-export const metadata = {
-    title: "Pizzería MM - Repartidores",
-}
+
+export const metadata = { title: "Pizzería MM - Repartidores" }
+
 
 export default async function PaginaRepartidores() {
     const session = await auth()

@@ -8,9 +8,7 @@ import { obtenerRepartidores } from "@/lib/data/repartidores";
 import { obtenerPizzas } from "@/lib/data/pizzas";
 import { obtenerUsuarios } from "@/lib/data/users";
 
-export const metadata = {
-    title: "Pizzería MM - Pedidos",
-}
+export const metadata = { title: "Pizzería MM - Pedidos" }
 
 
 

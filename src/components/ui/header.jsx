@@ -30,7 +30,7 @@ export default async function Header() {
 
         {/* Menú */}
         <MenuLink label="Inicio" href="/" icon={<HomeIcon />} />
-        <MenuLink label="Pizzas" href="/pizzas" icon={<PizzaIcon />} />
+        <MenuLink label="Pizzas" href="/pizzas" icon={<PizzaIcon className='-scale-x-100' />} />
         <MenuLink label="Pedidos" href="/pedidos" icon={<ScrollTextIcon />} />
         {session?.user.role === 'ADMIN' &&
           <MenuLink label="Repartidores" href="/repartidores" icon={<BikeIcon />} />

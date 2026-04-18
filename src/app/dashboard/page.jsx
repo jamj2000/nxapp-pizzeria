@@ -17,9 +17,7 @@ import Estado from "@/components/pedidos/estado";
 import { PedidoCard } from "@/components/pedidos/info";
 import Link from 'next/link'
 
-export const metadata = {
-    title: "Pizzería MM - Dashboard",
-}
+export const metadata = { title: "Pizzería MM - Dashboard" }
 
 
 export default async function Dashboard() {

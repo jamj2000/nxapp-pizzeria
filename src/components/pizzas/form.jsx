@@ -48,7 +48,7 @@ export default function Form({ action, pizza, ingredientes, disabled = false, la
 
                 <input
                     name="nombre"
-                    className="appearance-none text-4xl bg-white disabled:bg-white"
+                    className="w-full appearance-none text-3xl md:text-4xl bg-white disabled:bg-white"
                     placeholder="Nombre"
                     defaultValue={pizza?.nombre}
                     disabled={disabled}
@@ -58,7 +58,7 @@ export default function Form({ action, pizza, ingredientes, disabled = false, la
                 <input
                     name="precio"
                     type='number' step={0.01} min={0}
-                    className="text-3xl font-bold text-slate-300"
+                    className="w-full text-2xl md:text-3xl font-bold text-slate-300"
                     placeholder="Precio"
                     defaultValue={pizza?.precio}
                     disabled={disabled}

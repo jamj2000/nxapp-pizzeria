@@ -63,22 +63,12 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
                 <input
                     name="fecha_hora"
                     type="datetime-local"
+                    className="w-full"
                     defaultValue={fechaPedido}
                     disabled={disabled}
                 />
             </label>
 
-            <p className="font-bold">Pizzas</p>
-            <div className="grid gap-4  w-full">
-                {pizzas.map(pizza =>
-                    <CheckPizza
-                        key={pizza.id}
-                        pizza={pizza}
-                        disabled={disabled}
-                        cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
-                    />
-                )}
-            </div>
 
             {isAdminSession &&
                 <>
@@ -98,6 +88,20 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
                     </div>
                 </>
             }
+
+            <p className="font-bold">Pizzas</p>
+            <div className="grid gap-4  w-full">
+                {pizzas.map(pizza =>
+                    <CheckPizza
+                        key={pizza.id}
+                        pizza={pizza}
+                        disabled={disabled}
+                        cant={pedidoPizzas?.find(p => p.pizzaId === pizza.id)?.cantidad || 0}
+                    />
+                )}
+            </div>
+
+
         </form >
     )
 }
