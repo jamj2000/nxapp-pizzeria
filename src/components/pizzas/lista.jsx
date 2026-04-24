@@ -32,7 +32,7 @@ export default ({
 
 
     const Insertar = () =>
-        <Modal openElement={<IconoInsertar className="self-end" />}>
+        <Modal trigger={<IconoInsertar className="self-end" />}>
             <Form
                 action={insertar}
                 ingredientes={ingredientes}
@@ -41,7 +41,7 @@ export default ({
         </Modal>
 
     const Modificar = ({ pizza }) =>
-        <Modal openElement={<IconoModificar className="self-end" />}>
+        <Modal trigger={<IconoModificar className="self-end" />}>
             <Form
                 action={modificar}
                 pizza={pizza}
@@ -51,7 +51,7 @@ export default ({
         </Modal>
 
     const Eliminar = ({ pizza }) =>
-        <Modal openElement={<IconoEliminar />}>
+        <Modal trigger={<IconoEliminar />}>
             <Form
                 action={eliminar}
                 pizza={pizza}
@@ -66,7 +66,7 @@ export default ({
             <div className='flex justify-end items-center gap-1 pt-4'>
                 {children}
             </div>
-            <Modal openElement={<PizzaCard pizza={pizza} />}>
+            <Modal trigger={<PizzaCard pizza={pizza} />}>
                 <PizzaInfo pizza={pizza} />
             </Modal>
         </div>

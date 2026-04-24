@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { logout } from "@/lib/actions/auth";
 import { LockIcon } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -23,7 +23,7 @@ export const metadata = { title: "Pizzería MM - Dashboard" }
 export default async function Dashboard() {
     const session = await auth()
 
-    if (!session) redirect('/auth/login')
+    if (!session) redirect('/login')
 
     const isAdminSession = session.user?.role === 'ADMIN'
 
@@ -87,7 +87,7 @@ async function UserInfo({ session }) {
             <div className="flex flex-col gap-1">
                 <div className="flex gap-2 items-center">
                     <p className="font-bold">{usuario.name}</p>
-                    <Modal openElement={<IconoModificar />}>
+                    <Modal trigger={<IconoModificar />}>
                         <Form action={editUser} isAdminSession={isAdminSession} user={usuario} labelSubmit={labelModificar} />
                     </Modal>
                 </div>

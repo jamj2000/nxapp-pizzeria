@@ -1,6 +1,8 @@
-// No se usa esta ruta. Se ha sustituido por una acción de servidor.
-// En su lugar se usa la acción de servidor crearSesionPago en lib/actions/checkout.js
-// Se deja disponible para poder hacer checkout directamente desde el frontend si fuera necesario.
+// Esta ruta no se usa. En su lugar se utiliza la acción de servidor
+// crearSesionPago en lib/actions/checkout.js
+// Se deja disponible la ruta para poder hacer checkout directamente desde el frontend
+// (por ejemplo desde una aplicación móvil, si fuera necesario).
+
 
 import stripe from '@/lib/stripe'
 import prisma from '@/lib/prisma'

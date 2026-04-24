@@ -1,6 +1,6 @@
 import { logout } from "@/lib/actions/auth"
 import { redirect } from "next/navigation"
-import { auth } from "@/auth"
+import { auth } from "@/lib/auth"
 import { Lock } from "lucide-react"
 
 async function page() {
@@ -19,7 +19,7 @@ async function page() {
     )
   }
   else {
-    redirect('/auth/login')
+    redirect('/login')
   }
 }
 

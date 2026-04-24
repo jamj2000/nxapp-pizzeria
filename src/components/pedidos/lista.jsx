@@ -40,7 +40,7 @@ export default ({
 
 
     const Insertar = () =>
-        <Modal openElement={<IconoInsertar className="self-end" />}>
+        <Modal trigger={<IconoInsertar className="self-end" />}>
             <Form
                 action={insertar}
                 repartidores={repartidores}
@@ -53,7 +53,7 @@ export default ({
 
 
     const Modificar = ({ pedido }) =>
-        <Modal openElement={<IconoModificar className="self-end" />}>
+        <Modal trigger={<IconoModificar className="self-end" />}>
             <Form
                 action={modificar}
                 pedido={pedido}
@@ -67,7 +67,7 @@ export default ({
 
 
     const Eliminar = ({ pedido }) =>
-        <Modal openElement={<IconoEliminar />}>
+        <Modal trigger={<IconoEliminar />}>
             <Form
                 action={eliminar}
                 pedido={pedido}
@@ -89,7 +89,7 @@ export default ({
 
             <Estado pedido={pedido} editable={isAdminSession} />
 
-            <Modal openElement={<PedidoCard pedido={pedido} />}>
+            <Modal trigger={<PedidoCard pedido={pedido} />}>
                 <PedidoInfo pedido={pedido} />
             </Modal>
 

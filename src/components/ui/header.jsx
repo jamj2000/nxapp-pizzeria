@@ -1,6 +1,6 @@
 import { BikeIcon, HomeIcon, KeyRoundIcon, LockIcon, MenuIcon, PizzaIcon, ScrollTextIcon, ShoppingCartIcon, UserRoundIcon, XIcon } from 'lucide-react'
 import { logout } from '@/lib/actions/auth';
-import { auth } from '@/auth';
+import { auth } from '@/lib/auth';
 import MenuLink from '@/components/ui/menu-link';
 import Link from 'next/link'
 import CartWidget from '@/components/carrito/widget';
@@ -60,7 +60,7 @@ export default async function Header() {
             </button>
           </form>
           :
-          <Link href="/auth/login" className="bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer">
+          <Link href="/login" className="bg-white flex items-center w-full p-2 rounded-full hover:outline hover:outline-slate-600 cursor-pointer">
             <KeyRoundIcon />      {/* Login */}
           </Link>
         }

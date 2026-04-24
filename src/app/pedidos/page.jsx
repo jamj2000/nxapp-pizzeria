@@ -2,7 +2,7 @@ import Pedidos from "@/components/pedidos/lista";
 import Link from "next/link";
 import { Spinner2 } from "@/components/ui/spinners";
 import { Suspense } from "react";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { obtenerPedidos } from "@/lib/data/pedidos";
 import { obtenerRepartidores } from "@/lib/data/repartidores";
 import { obtenerPizzas } from "@/lib/data/pizzas";

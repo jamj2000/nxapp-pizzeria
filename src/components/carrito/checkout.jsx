@@ -81,6 +81,8 @@ export default ({ session }) => {
         )
     }
 
+    //  Debes <Link href="/login?callbackUrl=%2Fcarrito" className="font-bold underline">iniciar sesión</Link> para tramitar el pedido.
+
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8">Tu Pedido</h1>
@@ -159,7 +161,7 @@ export default ({ session }) => {
                 :
                 <div className="bg-orange-100 border-l-4 border-orange-500 p-4 rounded text-right">
                     <p className="text-orange-700">
-                        Debes <Link href="/auth/login" className="font-bold underline">iniciar sesión</Link> para tramitar el pedido
+                        Debes <Link href="/login?callbackUrl=%2Fcarrito" className="font-bold underline">iniciar sesión</Link> para tramitar el pedido.
                     </p>
                 </div>
             }

@@ -1,6 +1,6 @@
 // Run on edge
 import NextAuth from "next-auth";
-import authConfig from "@/auth.config";
+import authConfig from "@/lib/auth.config";
 
 const { auth } = NextAuth(authConfig);
 
@@ -16,7 +16,7 @@ export default auth((req) => {
 
         const encodedCallbackUrl = encodeURIComponent(callbackUrl);
         return Response.redirect(req.nextUrl.origin
-            + `/auth/login?callbackUrl=${encodedCallbackUrl}`)
+            + `/login?callbackUrl=${encodedCallbackUrl}`)
     }
 
 })
@@ -27,7 +27,7 @@ export const config = {
         /*
          * Match all request paths except for the ones starting with:
          * - api (API routes)
-         * - auth
+         * - register, login, logout
          * - pizzas
          * - images (into /public)
          * - pwa (into /public) 
@@ -36,6 +36,6 @@ export const config = {
          * - favicon.ico, sitemap.xml, robots.txt (metadata files)
          * - $ (root page)
          */
-        '/((?!api|auth|images|pwa|pizzas|carrito|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
+        '/((?!api|register|login|logout|images|pwa|pizzas|carrito|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
     ]
 }

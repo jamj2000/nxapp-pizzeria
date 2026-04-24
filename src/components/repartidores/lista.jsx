@@ -24,7 +24,7 @@ export default function Repartidores({ promesaRepartidores }) {
 
 
     const Insertar = () =>
-        <Modal openElement={<IconoInsertar />}>
+        <Modal trigger={<IconoInsertar />}>
             <Form
                 action={insertar}
                 labelSubmit={labelInsertar}
@@ -33,7 +33,7 @@ export default function Repartidores({ promesaRepartidores }) {
 
 
     const Modificar = ({ repartidor }) =>
-        <Modal openElement={<IconoModificar />}>
+        <Modal trigger={<IconoModificar />}>
             <Form
                 action={modificar}
                 repartidor={repartidor}
@@ -43,7 +43,7 @@ export default function Repartidores({ promesaRepartidores }) {
 
 
     const Eliminar = ({ repartidor }) =>
-        <Modal openElement={<IconoEliminar />}>
+        <Modal trigger={<IconoEliminar />}>
             <Form
                 action={eliminar}
                 repartidor={repartidor}

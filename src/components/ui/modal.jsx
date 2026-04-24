@@ -4,8 +4,8 @@ import { useRef } from 'react'
 
 
 
-const Modal = ({ children, openElement }) => {
-    const dialogRef = useRef(null);
+const Modal = ({ children, trigger }) => {
+    const dialogRef = useRef(null)
 
     const openDialog = () => dialogRef.current?.showModal()
 
@@ -13,13 +13,13 @@ const Modal = ({ children, openElement }) => {
 
     const handleClickOutside = (e) => {
         if (dialogRef.current) {
-            const rect = dialogRef.current.getBoundingClientRect();
+            const rect = dialogRef.current.getBoundingClientRect()
             const isInDialog = (rect.top <= e.clientY
                 && e.clientY <= rect.top + rect.height
                 && rect.left <= e.clientX
-                && e.clientX <= rect.left + rect.width);
+                && e.clientX <= rect.left + rect.width)
             if (!isInDialog) {
-                dialogRef.current.close();
+                dialogRef.current.close()
             }
         }
     }
@@ -28,7 +28,7 @@ const Modal = ({ children, openElement }) => {
     return (
         <>
             <div onClick={openDialog} className='inline-block w-fit'>
-                {openElement}
+                {trigger}
             </div>
 
             <dialog
@@ -45,7 +45,7 @@ const Modal = ({ children, openElement }) => {
 
 
         </>
-    );
-};
+    )
+}
 
-export default Modal;
+export default Modal

@@ -17,7 +17,7 @@ export default ({ session, promesaUsuarios }) => {
     const isAdminSession = session.user?.role === 'ADMIN'
 
     const Insertar = () =>
-        <Modal openElement={<IconoInsertar />}>
+        <Modal trigger={<IconoInsertar />}>
             <Form
                 action={newUser}
                 isAdminSession={isAdminSession}
@@ -26,7 +26,7 @@ export default ({ session, promesaUsuarios }) => {
         </Modal>
 
     const Modificar = ({ user }) =>
-        <Modal openElement={<IconoModificar />}>
+        <Modal trigger={<IconoModificar />}>
             <Form
                 user={user}
                 action={editUser}
@@ -37,7 +37,7 @@ export default ({ session, promesaUsuarios }) => {
 
 
     const Eliminar = ({ user }) =>
-        <Modal openElement={<IconoEliminar />}>
+        <Modal trigger={<IconoEliminar />}>
             <Form
                 user={user}
                 action={deleteUser.bind(null, user)}
@@ -49,7 +49,7 @@ export default ({ session, promesaUsuarios }) => {
 
 
     const Mostrar = ({ user }) =>
-        <Modal openElement={
+        <Modal trigger={
             <div className="cursor-pointer flex gap-2 items-center">
                 <img src={user?.image || '/images/avatar-80.png'} alt="Imagen de usuario"
                     className={`size-8 ${!user.active && 'grayscale opacity-30'}`}

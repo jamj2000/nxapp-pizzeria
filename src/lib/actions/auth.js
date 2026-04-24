@@ -1,7 +1,7 @@
 'use server'
 import bcrypt from 'bcryptjs'
 import prisma from '@/lib/prisma'
-import { signIn, signOut } from '@/auth'
+import { signIn, signOut } from '@/lib/auth'
 import { obtenerUsuarioPorEmail } from '@/lib/data/users'
 
 

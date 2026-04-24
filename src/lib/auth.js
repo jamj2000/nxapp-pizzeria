@@ -2,24 +2,16 @@ import NextAuth from "next-auth"
 import prisma from "@/lib/prisma"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { obtenerUsuarioPorId } from "@/lib/data/users"
-import authConfig from "@/auth.config"
+import authConfig from "@/lib/auth.config"
 
 
 export const options = {
     session: { strategy: 'jwt' },
     adapter: PrismaAdapter(prisma),
     pages: {
-        signIn: '/auth/login',
-        signOut: '/auth/logout',
-        error: '/auth/error'
-    },
-    events: {
-        async linkAccount({ user }) {
-            await prisma.user.update({
-                where: { id: user.id },
-                data: { emailVerified: new Date() }
-            })
-        }
+        signIn: '/login',
+        signOut: '/logout',
+        error: '/error'
     },
     callbacks: {
         async session({ session, token }) {

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import CarritoCompra from "@/components/carrito/checkout";
 import { Spinner1 } from "@/components/ui/spinners";
 import { Suspense } from "react";

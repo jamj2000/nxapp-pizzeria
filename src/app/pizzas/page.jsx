@@ -4,7 +4,7 @@ import { Spinner2 } from "@/components/ui/spinners";
 import { Suspense } from "react";
 import { obtenerPizzas } from "@/lib/data/pizzas";
 import { obtenerIngredientes } from "@/lib/data/ingredientes";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 
 export const metadata = { title: "Pizzería MM - Pizzas" }
 

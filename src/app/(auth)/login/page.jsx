@@ -28,7 +28,7 @@ async function page({ searchParams }) {
         {error && <h3>{errors.get(error)}</h3>}
         <h1 className='text-3xl font-bold py-4'>Iniciar sesión</h1>
         <LoginForm />
-        <Link href='/auth/register' className='text-blue-500 cursor-pointer'>
+        <Link href='/register' className='text-blue-500 cursor-pointer'>
           No tengo cuenta. Quiero crear una.
         </Link>
       </div>
