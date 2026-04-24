@@ -1,9 +1,10 @@
 'use server'
-import bcrypt from 'bcryptjs'
-import prisma from '@/lib/prisma'
+
 import { signIn, signOut } from '@/lib/auth'
 import { obtenerUsuarioPorEmail } from '@/lib/data/users'
-
+import prisma from '@/lib/prisma'
+import stripe from '@/lib/stripe'
+import bcrypt from 'bcryptjs'
 
 
 
@@ -26,14 +27,24 @@ async function register(prevState, formData) {
         // Encriptamos password 
         const hashedPassword = await bcrypt.hash(password, 10)
 
+        // Registrar en Stripe
+        const customer = await stripe.customers.create({
+            name,
+            email,
+        })
+
         // Guardamos credenciales en base datos
         await prisma.user.create({
             data: {
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                image: '/images/avatar-80.png',
+                stripeCustomerId: customer.id
             }
         })
+
+
 
         return { success: "Registro correcto" }
     } catch (error) {
