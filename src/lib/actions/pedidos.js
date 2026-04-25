@@ -11,37 +11,24 @@ async function insertar(prevState, formData) {
     const clienteId = formData.get('clienteId')
     const repartidorId = Number(formData.get('repartidorId')) || null
 
-    const pizzasIDs = await prisma.pizza.findMany({
-        select: { id: true }
-    })
+    const pizzas = formData.getAll('pizzas')
+        .map(pizza => {
+            const { id, cantidad } = JSON.parse(pizza);
+            return { pizzaId: Number(id), cantidad: Number(cantidad) }
+        })
+        .filter(pizza => pizza.cantidad > 0)
 
-    // Map over all available pizzas and check if they are in the form data
-    const pizzasConCantidad = pizzasIDs.map(p => {
-        const cantidadStr = formData.get(`pizza${p.id}`)
-        let cantidad = 0
-        if (cantidadStr === 'on') {
-            cantidad = 1 // Backward compatibility for checkboxes
-        } else if (Number(cantidadStr) > 0) {
-            cantidad = Number(cantidadStr)
-        }
-        return { id: p.id, cantidad }
-    }).filter(p => p.cantidad > 0)
 
 
     try {
         // await new Promise(resolve => setTimeout(resolve, 2000));
         await prisma.pedido.create({
             data: {
-                // estado: estado,
-                fecha_hora: fecha_hora,
-                clienteId: clienteId,
-                repartidorId: repartidorId,
-                pedidoPizzas: {
-                    create: pizzasConCantidad.map(p => ({
-                        pizzaId: p.id,
-                        cantidad: p.cantidad
-                    }))
-                }
+                // estado,
+                fecha_hora,
+                clienteId,
+                repartidorId,
+                pedidoPizzas: { create: pizzas }
             }
         })
 
@@ -66,37 +53,27 @@ async function modificar(prevState, formData) {
 
     const repartidorId = Number(formData.get('repartidorId')) || null
 
-    const pizzasIDs = await prisma.pizza.findMany({
-        select: { id: true }
-    })
+    // console.log(formData.getAll('pizzas'))
 
-    // Map over all available pizzas and check if they are in the form data
-    const pizzasConCantidad = pizzasIDs.map(p => {
-        const cantidadStr = formData.get(`pizza${p.id}`)
-        let cantidad = 0
-        if (cantidadStr === 'on') {
-            cantidad = 1 // Backward compatibility for checkboxes
-        } else if (Number(cantidadStr) > 0) {
-            cantidad = Number(cantidadStr)
-        }
-        return { id: p.id, cantidad }
-    }).filter(p => p.cantidad > 0)
+    const pizzas = formData.getAll('pizzas')
+        .map(pizza => {
+            const { id, cantidad } = JSON.parse(pizza);
+            return { pizzaId: Number(id), cantidad: Number(cantidad) }
+        })
+        .filter(pizza => pizza.cantidad > 0)
 
 
     try {
         await prisma.pedido.update({
             where: { id },
             data: {
-                // estado: estado,
-                fecha_hora: fecha_hora,
-                clienteId: clienteId,
-                repartidorId: repartidorId,
+                // estado,
+                fecha_hora,
+                clienteId,
+                repartidorId,
                 pedidoPizzas: {
                     deleteMany: {},
-                    create: pizzasConCantidad.map(p => ({
-                        pizzaId: p.id,
-                        cantidad: p.cantidad
-                    }))
+                    create: pizzas,
                 }
             }
         })
@@ -118,9 +95,7 @@ async function eliminar(prevState, formData) {
 
     try {
         await prisma.pedido.delete({
-            where: {
-                id: id
-            }
+            where: { id }
         })
 
         revalidatePath('/pedidos')

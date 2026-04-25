@@ -27,7 +27,7 @@ export const config = {
         /*
          * Match all request paths except for the ones starting with:
          * - api (API routes)
-         * - register, login, logout
+         * - register, login, logout, error
          * - pizzas
          * - images (into /public)
          * - pwa (into /public) 

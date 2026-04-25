@@ -36,19 +36,18 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
         ? new Date(pedido?.fecha_hora - pedido?.fecha_hora.getTimezoneOffset() * 60000).toISOString().split('Z')[0]
         : fechaActual
 
-    // const IDs = pedido?.pedidoPizzas.map(pp => pp.pizzaId)
     const pedidoPizzas = pedido?.pedidoPizzas
 
 
     return (
-        <form id={formId} action={faction} className="flex flex-col gap-4" >
+        <form id={formId} action={faction} className="flex flex-col gap-2 text-sm" >
             <input type="hidden" name="id" defaultValue={pedido?.id} />
             <input type='hidden' name="clienteId" defaultValue={user.id} />
             {/* <input type='hidden' name="repartidorId" /> */}
 
             <button
                 type="submit"
-                className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed"
+                className="w-full h-12 flex justify-center items-center rounded-md hover:cursor-pointer hover:opacity-80 disabled:bg-slate-300 disabled:cursor-not-allowed outline-none"
                 disabled={isPending}
             >
                 {isPending
@@ -73,7 +72,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
             {isAdminSession &&
                 <>
                     <p className="font-bold">Repartidor</p>
-                    <div className="grid gap-1">
+                    <div className="grid gap-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                         {repartidores.map(repartidor =>
                             <CheckRadio
                                 key={repartidor.id}
@@ -90,7 +89,7 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
             }
 
             <p className="font-bold">Pizzas</p>
-            <div className="grid gap-4  w-full">
+            <div className="grid gap-1 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {pizzas.map(pizza =>
                     <CheckPizza
                         key={pizza.id}
@@ -100,8 +99,6 @@ export default function Form({ action, user, pedido, pizzas, repartidores, disab
                     />
                 )}
             </div>
-
-
         </form >
     )
 }
